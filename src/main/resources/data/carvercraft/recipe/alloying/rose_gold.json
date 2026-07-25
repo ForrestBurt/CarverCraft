@@ -1,0 +1,15 @@
+{
+  "type": "carvercraft:alloying",
+  "primary": {
+    "ingredient": { "tag": "c:ingots/gold" },
+    "count": 3
+  },
+  "secondary": {
+    "ingredient": { "tag": "c:ingots/copper" }
+  },
+  "result": {
+    "id": "carvercraft:rose_gold_ingot",
+    "count": 4
+  },
+  "time": 350
+}

@@ -1,0 +1,14 @@
+{
+  "type": "carvercraft:alloying",
+  "primary": {
+    "ingredient": { "tag": "c:ingots/silver" }
+  },
+  "secondary": {
+    "ingredient": { "tag": "c:ingots/gold" }
+  },
+  "result": {
+    "id": "carvercraft:electrum_ingot",
+    "count": 2
+  },
+  "time": 300
+}

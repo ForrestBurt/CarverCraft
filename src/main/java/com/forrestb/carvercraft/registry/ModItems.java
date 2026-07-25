@@ -136,6 +136,8 @@ public class ModItems {
             ITEMS.registerSimpleBlockItem("cabbing_machine", ModBlocks.CABBING_MACHINE);
     public static final DeferredItem<BlockItem> FACETING_MACHINE_ITEM =
             ITEMS.registerSimpleBlockItem("faceting_machine", ModBlocks.FACETING_MACHINE);
+    public static final DeferredItem<BlockItem> ALLOYER_ITEM =
+            ITEMS.registerSimpleBlockItem("alloyer", ModBlocks.ALLOYER);
     public static final DeferredItem<BlockItem> CREATIVE_CHARGER_ITEM =
             ITEMS.registerSimpleBlockItem("creative_charger", ModBlocks.CREATIVE_CHARGER);
 }

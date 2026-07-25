@@ -1,6 +1,8 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.recipe.AlloyingRecipe;
+import com.forrestb.carvercraft.recipe.AlloyingRecipeSerializer;
 import com.forrestb.carvercraft.recipe.CabbingRecipe;
 import com.forrestb.carvercraft.recipe.FacetingRecipe;
 import com.forrestb.carvercraft.recipe.LapidaryRecipeSerializer;
@@ -30,6 +32,7 @@ public class ModRecipes {
     public static final Supplier<RecipeType<SawingRecipe>> SAWING_TYPE = type("sawing");
     public static final Supplier<RecipeType<CabbingRecipe>> CABBING_TYPE = type("cabbing");
     public static final Supplier<RecipeType<FacetingRecipe>> FACETING_TYPE = type("faceting");
+    public static final Supplier<RecipeType<AlloyingRecipe>> ALLOYING_TYPE = type("alloying");
 
     public static final Supplier<RecipeSerializer<TumblingRecipe>> TUMBLING_SERIALIZER =
             RECIPE_SERIALIZERS.register("tumbling", () -> new LapidaryRecipeSerializer<>(TumblingRecipe::new));
@@ -39,4 +42,6 @@ public class ModRecipes {
             RECIPE_SERIALIZERS.register("cabbing", () -> new LapidaryRecipeSerializer<>(CabbingRecipe::new));
     public static final Supplier<RecipeSerializer<FacetingRecipe>> FACETING_SERIALIZER =
             RECIPE_SERIALIZERS.register("faceting", () -> new LapidaryRecipeSerializer<>(FacetingRecipe::new));
+    public static final Supplier<RecipeSerializer<AlloyingRecipe>> ALLOYING_SERIALIZER =
+            RECIPE_SERIALIZERS.register("alloying", AlloyingRecipeSerializer::new);
 }

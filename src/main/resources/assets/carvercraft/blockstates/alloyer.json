@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "carvercraft:block/alloyer"
+    },
+    "lit=true": {
+      "model": "carvercraft:block/alloyer_lit"
+    }
+  }
+}

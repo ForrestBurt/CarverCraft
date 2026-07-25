@@ -1,6 +1,7 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.menu.AlloyerMenu;
 import com.forrestb.carvercraft.menu.LapidaryMenu;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -21,4 +22,6 @@ public class ModMenus {
     public static final Supplier<MenuType<LapidaryMenu>> TRIM_SAW = machine("trim_saw");
     public static final Supplier<MenuType<LapidaryMenu>> CABBING_MACHINE = machine("cabbing_machine");
     public static final Supplier<MenuType<LapidaryMenu>> FACETING_MACHINE = machine("faceting_machine");
+    public static final Supplier<MenuType<AlloyerMenu>> ALLOYER =
+            MENUS.register("alloyer", () -> IMenuTypeExtension.create(AlloyerMenu::new));
 }

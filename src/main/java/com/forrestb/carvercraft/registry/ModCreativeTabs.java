@@ -25,6 +25,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.TRIM_SAW.get());
                         output.accept(ModBlocks.CABBING_MACHINE.get());
                         output.accept(ModBlocks.FACETING_MACHINE.get());
+                        output.accept(ModBlocks.ALLOYER.get());
                         output.accept(ModBlocks.CREATIVE_CHARGER.get());
 
                         // Metals and bands

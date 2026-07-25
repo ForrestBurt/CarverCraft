@@ -23,6 +23,8 @@ public class ModCapabilities {
                 ModBlockEntities.CABBING_MACHINE.get(), (be, side) -> be.getInventory());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.FACETING_MACHINE.get(), (be, side) -> be.getInventory());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.ALLOYER.get(), (be, side) -> be.getInventory());
 
         // Energy — the tumbler is passive and returns null.
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
@@ -31,6 +33,8 @@ public class ModCapabilities {
                 ModBlockEntities.CABBING_MACHINE.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntities.FACETING_MACHINE.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
+                ModBlockEntities.ALLOYER.get(), (be, side) -> be.getEnergyStorage());
 
         // Testing block: an infinite source cables can pull from.
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,

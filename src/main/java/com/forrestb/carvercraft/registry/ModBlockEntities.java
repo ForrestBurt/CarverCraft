@@ -1,6 +1,7 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.block.entity.AlloyerBlockEntity;
 import com.forrestb.carvercraft.block.entity.RockTumblerBlockEntity;
 import com.forrestb.carvercraft.block.entity.TrimSawBlockEntity;
 import com.forrestb.carvercraft.block.entity.CabbingMachineBlockEntity;
@@ -32,6 +33,10 @@ public class ModBlockEntities {
             BLOCK_ENTITY_TYPES.register("faceting_machine", () ->
                     BlockEntityType.Builder.of(FacetingMachineBlockEntity::new, ModBlocks.FACETING_MACHINE.get()).build(null));
 
+
+    public static final Supplier<BlockEntityType<AlloyerBlockEntity>> ALLOYER =
+            BLOCK_ENTITY_TYPES.register("alloyer", () ->
+                    BlockEntityType.Builder.of(AlloyerBlockEntity::new, ModBlocks.ALLOYER.get()).build(null));
 
     public static final Supplier<BlockEntityType<CreativeChargerBlockEntity>> CREATIVE_CHARGER =
             BLOCK_ENTITY_TYPES.register("creative_charger", () ->

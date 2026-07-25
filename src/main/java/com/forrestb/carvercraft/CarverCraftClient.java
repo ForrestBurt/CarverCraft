@@ -1,5 +1,6 @@
 package com.forrestb.carvercraft;
 
+import com.forrestb.carvercraft.client.screen.AlloyerScreen;
 import com.forrestb.carvercraft.client.screen.LapidaryScreen;
 import com.forrestb.carvercraft.registry.ModMenus;
 import net.neoforged.api.distmarker.Dist;
@@ -18,5 +19,6 @@ public class CarverCraftClient {
         event.register(ModMenus.TRIM_SAW.get(), LapidaryScreen::new);
         event.register(ModMenus.CABBING_MACHINE.get(), LapidaryScreen::new);
         event.register(ModMenus.FACETING_MACHINE.get(), LapidaryScreen::new);
+        event.register(ModMenus.ALLOYER.get(), AlloyerScreen::new);
     }
 }

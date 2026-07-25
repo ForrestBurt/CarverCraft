@@ -1,6 +1,7 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.block.AlloyerBlock;
 import com.forrestb.carvercraft.block.CabbingMachineBlock;
 import com.forrestb.carvercraft.block.CreativeChargerBlock;
 import com.forrestb.carvercraft.block.FacetingMachineBlock;
@@ -60,6 +61,15 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(3.5F)
                     .sound(SoundType.METAL));
+
+    public static final DeferredBlock<AlloyerBlock> ALLOYER = BLOCKS.registerBlock("alloyer",
+            AlloyerBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.5F)
+                    .sound(SoundType.METAL)
+                    .lightLevel(state -> state.getValue(AlloyerBlock.RUNNING) ? 13 : 0));
 
     /** Testing only — infinite FE, creative tab, no recipe. */
     public static final DeferredBlock<CreativeChargerBlock> CREATIVE_CHARGER = BLOCKS.registerBlock("creative_charger",
