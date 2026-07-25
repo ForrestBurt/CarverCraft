@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:agate_slab",
+    "carvercraft:jasper_slab",
+    "carvercraft:bruneau_jasper_slab",
+    "carvercraft:carnelian_slab",
+    "carvercraft:rose_quartz_slab",
+    "carvercraft:malachite_slab"
+  ]
+}

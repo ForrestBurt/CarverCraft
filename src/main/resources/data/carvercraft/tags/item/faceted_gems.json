@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:faceted_peridot",
+    "carvercraft:faceted_garnet",
+    "carvercraft:faceted_topaz",
+    "carvercraft:ruby",
+    "carvercraft:faceted_sapphire",
+    "carvercraft:faceted_star_garnet",
+    "carvercraft:faceted_diamond",
+    "carvercraft:faceted_emerald",
+    "carvercraft:faceted_amethyst"
+  ]
+}

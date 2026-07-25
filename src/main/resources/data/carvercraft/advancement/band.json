@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:wire",
+  "display": {
+    "icon": {
+      "id": "carvercraft:silver_band"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.band.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.band.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:bands"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

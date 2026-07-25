@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:tumbled",
+  "display": {
+    "icon": {
+      "id": "carvercraft:jasper_trinket"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.trinket.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.trinket.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:trinkets"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

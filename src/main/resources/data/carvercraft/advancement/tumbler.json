@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:root",
+  "display": {
+    "icon": {
+      "id": "carvercraft:rock_tumbler"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.tumbler.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.tumbler.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:rock_tumbler"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

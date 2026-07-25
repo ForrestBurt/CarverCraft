@@ -1,0 +1,40 @@
+{
+  "parent": "carvercraft:diamond_ring",
+  "display": {
+    "icon": {
+      "id": "carvercraft:star_garnet_ring"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.star_garnet.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.star_garnet.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:star_garnet_ring"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  }
+}

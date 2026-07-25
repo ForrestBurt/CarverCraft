@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:slab",
+  "display": {
+    "icon": {
+      "id": "carvercraft:cabbing_machine"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.cabbing.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.cabbing.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:cabbing_machine"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

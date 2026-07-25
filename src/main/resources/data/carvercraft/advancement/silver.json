@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:root",
+  "display": {
+    "icon": {
+      "id": "carvercraft:silver_ingot"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.silver.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.silver.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:silver_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

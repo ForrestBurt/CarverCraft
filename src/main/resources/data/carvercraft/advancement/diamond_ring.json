@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:faceted",
+  "display": {
+    "icon": {
+      "id": "carvercraft:diamond_ring"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.diamond_ring.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.diamond_ring.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:diamond_ring"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

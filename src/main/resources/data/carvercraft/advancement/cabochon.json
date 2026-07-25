@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:polish",
+  "display": {
+    "icon": {
+      "id": "carvercraft:jasper_cabochon"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.cabochon.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.cabochon.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:cabochons"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

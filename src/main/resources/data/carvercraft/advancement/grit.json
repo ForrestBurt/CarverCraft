@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:tumbler",
+  "display": {
+    "icon": {
+      "id": "carvercraft:silicon_carbide_grit"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.grit.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.grit.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:silicon_carbide_grit"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

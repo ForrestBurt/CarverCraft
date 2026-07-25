@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:agate_trinket",
+    "carvercraft:jasper_trinket",
+    "carvercraft:bruneau_jasper_trinket",
+    "carvercraft:carnelian_trinket",
+    "carvercraft:rose_quartz_trinket",
+    "carvercraft:malachite_trinket",
+    "carvercraft:peridot_trinket"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:agate_cabochon",
+    "carvercraft:jasper_cabochon",
+    "carvercraft:bruneau_jasper_cabochon",
+    "carvercraft:carnelian_cabochon",
+    "carvercraft:rose_quartz_cabochon",
+    "carvercraft:malachite_cabochon"
+  ]
+}

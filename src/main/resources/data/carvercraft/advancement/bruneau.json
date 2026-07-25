@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:root",
+  "display": {
+    "icon": {
+      "id": "carvercraft:rough_bruneau_jasper"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.bruneau.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.bruneau.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:rough_bruneau_jasper"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

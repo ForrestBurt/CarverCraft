@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:faceting",
+  "display": {
+    "icon": {
+      "id": "carvercraft:faceted_topaz"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.faceted.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.faceted.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:faceted_gems"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

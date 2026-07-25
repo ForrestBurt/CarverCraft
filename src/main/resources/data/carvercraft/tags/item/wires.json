@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:silver_wire",
+    "carvercraft:sterling_silver_wire",
+    "carvercraft:gold_wire",
+    "carvercraft:electrum_wire",
+    "carvercraft:rose_gold_wire"
+  ]
+}

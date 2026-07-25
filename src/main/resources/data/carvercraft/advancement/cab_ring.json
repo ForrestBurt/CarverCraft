@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:cabochon",
+  "display": {
+    "icon": {
+      "id": "carvercraft:jasper_ring"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.cab_ring.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.cab_ring.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:cabochon_rings"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:agate_ring",
+    "carvercraft:jasper_ring",
+    "carvercraft:bruneau_jasper_ring",
+    "carvercraft:carnelian_ring",
+    "carvercraft:rose_quartz_ring",
+    "carvercraft:malachite_ring"
+  ]
+}

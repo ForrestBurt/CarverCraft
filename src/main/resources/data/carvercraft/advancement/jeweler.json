@@ -1,0 +1,41 @@
+{
+  "parent": "carvercraft:band",
+  "display": {
+    "icon": {
+      "id": "minecraft:emerald"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.jeweler.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.jeweler.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:villager_trade",
+      "conditions": {
+        "item": {
+          "items": [
+            "carvercraft:silicon_carbide_grit",
+            "carvercraft:polishing_compound",
+            "carvercraft:silver_band",
+            "carvercraft:sterling_silver_band",
+            "carvercraft:gold_band",
+            "carvercraft:rose_gold_band",
+            "carvercraft:electrum_band"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

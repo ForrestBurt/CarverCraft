@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:hammer",
+  "display": {
+    "icon": {
+      "id": "carvercraft:silver_wire"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.wire.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.wire.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:wires"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

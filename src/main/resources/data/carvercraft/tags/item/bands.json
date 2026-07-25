@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:silver_band",
+    "carvercraft:sterling_silver_band",
+    "carvercraft:gold_band",
+    "carvercraft:electrum_band",
+    "carvercraft:rose_gold_band"
+  ]
+}

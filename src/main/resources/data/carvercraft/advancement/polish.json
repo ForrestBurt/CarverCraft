@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:cabbing",
+  "display": {
+    "icon": {
+      "id": "carvercraft:polishing_compound"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.polish.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.polish.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:polishing_compound"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

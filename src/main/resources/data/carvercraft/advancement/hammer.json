@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:silver",
+  "display": {
+    "icon": {
+      "id": "carvercraft:jewelers_hammer"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.hammer.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.hammer.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:jewelers_hammer"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

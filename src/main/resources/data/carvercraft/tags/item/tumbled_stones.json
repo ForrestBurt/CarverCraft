@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:tumbled_agate",
+    "carvercraft:tumbled_jasper",
+    "carvercraft:tumbled_bruneau_jasper",
+    "carvercraft:tumbled_carnelian",
+    "carvercraft:tumbled_rose_quartz",
+    "carvercraft:tumbled_malachite",
+    "carvercraft:tumbled_peridot"
+  ]
+}

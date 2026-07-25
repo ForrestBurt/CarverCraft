@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "carvercraft:rough_jasper"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.root.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.root.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/andesite.png"
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:rough_stones"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "carvercraft:faceted",
+  "display": {
+    "icon": {
+      "id": "carvercraft:faceted_star_garnet"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.brilliance.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.brilliance.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:enchanted_item",
+      "conditions": {
+        "item": {
+          "items": "#carvercraft:rings"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

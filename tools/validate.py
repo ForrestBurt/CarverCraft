@@ -211,6 +211,10 @@ def check_data(items, blocks):
     # no matching item (ruby_ring_electrum is a recipe for the plain ruby_ring).
     known_recipe_ids = {f"carvercraft:{p.relative_to(DATA / 'carvercraft/recipe').with_suffix('').as_posix()}"
                         for p in (DATA / "carvercraft/recipe").rglob("*.json")}
+    # Advancement ids, referenced by their children's `parent` field.
+    adv_root = DATA / "carvercraft/advancement"
+    known_advancements = {f"carvercraft:{p.relative_to(adv_root).with_suffix('').as_posix()}"
+                          for p in adv_root.rglob("*.json")} if adv_root.exists() else set()
     # Data component ids the mod defines.
     known_components = set(re.findall(r'COMPONENTS\.register\("([a-z0-9_]+)"',
                                       (JAVA / "registry/ModDataComponents.java").read_text())) \
@@ -232,7 +236,7 @@ def check_data(items, blocks):
             if s.startswith("carvercraft:") and "/" not in s:
                 if (s in known_recipe_types or s in known_enchantments
                         or s in known_recipe_ids or s in known_components
-                        or s == "carvercraft:stone_gem"):
+                        or s in known_advancements or s == "carvercraft:stone_gem"):
                     continue
                 if s not in known:
                     err(f"{path.relative_to(ROOT)}: references '{s}' which is not a registered item/block")
@@ -311,6 +315,61 @@ def check_advancements():
                     err(f"{path.relative_to(ROOT)}: unlocks '{recipe_id}', which has no recipe file")
 
 
+def check_story_advancements(items, blocks):
+    """The visible advancement tab: parents must resolve, every displayed string must
+    have a translation, and every icon must be a real item. A broken parent silently
+    orphans a whole branch off the tab."""
+    story_dir = DATA / "carvercraft/advancement"
+    if not story_dir.exists():
+        return
+    story = {p.stem: json.loads(p.read_text())
+             for p in story_dir.glob("*.json")}       # top level only; recipes/ is separate
+    if not story:
+        return
+
+    lang_path = ASSETS / "lang/en_us.json"
+    lang = json.loads(lang_path.read_text()) if lang_path.exists() else {}
+    known = {f"carvercraft:{n}" for n in items | blocks}
+
+    roots = [n for n, a in story.items() if "parent" not in a]
+    if len(roots) != 1:
+        err(f"advancement tab needs exactly one root, found {len(roots)}: {sorted(roots)}")
+    for name in roots:
+        if "background" not in story[name].get("display", {}):
+            err(f"advancement '{name}' is the root but has no display.background")
+
+    for name, adv in sorted(story.items()):
+        parent = adv.get("parent")
+        if parent is not None:
+            if not parent.startswith("carvercraft:"):
+                continue                                # inheriting a vanilla tab is legal
+            if parent.split(":", 1)[1] not in story:
+                err(f"advancement '{name}': parent '{parent}' does not exist — "
+                    f"its whole branch would vanish from the tab")
+
+        display = adv.get("display", {})
+        for field in ("title", "description"):
+            key = display.get(field, {}).get("translate")
+            if key and key not in lang:
+                err(f"advancement '{name}': {field} key '{key}' has no lang entry")
+        icon = display.get("icon", {}).get("id", "")
+        if icon.startswith("carvercraft:") and icon not in known:
+            err(f"advancement '{name}': icon '{icon}' is not a registered item")
+
+        if not adv.get("criteria"):
+            err(f"advancement '{name}': no criteria — it could never be earned")
+
+    # Item/tag references inside criteria must resolve.
+    for name, adv in sorted(story.items()):
+        for value in iter_json_strings(adv.get("criteria", {})):
+            if value.startswith("#carvercraft:"):
+                tag = DATA / f"carvercraft/tags/item/{value.split(':', 1)[1]}.json"
+                if not tag.exists():
+                    err(f"advancement '{name}': references tag '{value}' which has no file")
+            elif value.startswith("carvercraft:") and value not in known:
+                err(f"advancement '{name}': criteria reference '{value}' is not a registered item")
+
+
 # ------------------------------------------------- 6. template expansion check
 
 def check_templates():
@@ -350,6 +409,7 @@ def main():
     check_assets(items, blocks)
     check_data(items, blocks)
     check_advancements()
+    check_story_advancements(items, blocks)
     check_templates()
 
     for w in warnings:

@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:grit",
+  "display": {
+    "icon": {
+      "id": "carvercraft:tumbled_jasper"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.tumbled.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.tumbled.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:tumbled_stones"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

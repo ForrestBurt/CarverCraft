@@ -1,0 +1,35 @@
+{
+  "parent": "carvercraft:trim_saw",
+  "display": {
+    "icon": {
+      "id": "carvercraft:jasper_slab"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.slab.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.slab.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#carvercraft:slabs"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}

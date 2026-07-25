@@ -1,0 +1,37 @@
+{
+  "parent": "carvercraft:silver",
+  "display": {
+    "icon": {
+      "id": "carvercraft:alloyer"
+    },
+    "title": {
+      "translate": "advancement.carvercraft.alloyer.title"
+    },
+    "description": {
+      "translate": "advancement.carvercraft.alloyer.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "carvercraft:alloyer"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "unlock"
+    ]
+  ]
+}
