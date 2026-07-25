@@ -4,6 +4,7 @@ import com.forrestb.carvercraft.CarverCraft;
 import com.forrestb.carvercraft.block.entity.RockTumblerBlockEntity;
 import com.forrestb.carvercraft.block.entity.TrimSawBlockEntity;
 import com.forrestb.carvercraft.block.entity.CabbingMachineBlockEntity;
+import com.forrestb.carvercraft.block.entity.CreativeChargerBlockEntity;
 import com.forrestb.carvercraft.block.entity.FacetingMachineBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,4 +32,8 @@ public class ModBlockEntities {
             BLOCK_ENTITY_TYPES.register("faceting_machine", () ->
                     BlockEntityType.Builder.of(FacetingMachineBlockEntity::new, ModBlocks.FACETING_MACHINE.get()).build(null));
 
+
+    public static final Supplier<BlockEntityType<CreativeChargerBlockEntity>> CREATIVE_CHARGER =
+            BLOCK_ENTITY_TYPES.register("creative_charger", () ->
+                    BlockEntityType.Builder.of(CreativeChargerBlockEntity::new, ModBlocks.CREATIVE_CHARGER.get()).build(null));
 }

@@ -34,6 +34,13 @@ repositories {
         name = "Curios"
         url = uri("https://maven.theillusivec4.top/")
     }
+
+    // CurseForge maven, for pulling Mekanism into the dev runtime.
+    maven {
+        name = "CurseMaven"
+        url = uri("https://cursemaven.com")
+        content { includeGroup "curse.maven" }
+    }
 }
 
 base {
@@ -128,6 +135,13 @@ dependencies {
     // localRuntime (not runtimeOnly) so we don't publish a hard maven dep.
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     localRuntime "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    // Mekanism, dev runtime only. We need no compile dependency on it: the machines
+    // expose Capabilities.EnergyStorage.BLOCK (Forge Energy) and Mekanism's Universal
+    // Cables speak FE, so interop is already handled by the capability system. This is
+    // purely so cables and generators exist in-game to test against.
+    // If this fails to resolve, comment it out — nothing else depends on it.
+    localRuntime "curse.maven:mekanism-${mekanism_project}:${mekanism_file}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

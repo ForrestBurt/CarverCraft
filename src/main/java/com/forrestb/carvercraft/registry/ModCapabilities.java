@@ -31,5 +31,9 @@ public class ModCapabilities {
                 ModBlockEntities.CABBING_MACHINE.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntities.FACETING_MACHINE.get(), (be, side) -> be.getEnergyStorage());
+
+        // Testing block: an infinite source cables can pull from.
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
+                ModBlockEntities.CREATIVE_CHARGER.get(), (be, side) -> be.getEnergyStorage());
     }
 }

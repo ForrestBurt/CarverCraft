@@ -2,6 +2,7 @@ package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
 import com.forrestb.carvercraft.block.CabbingMachineBlock;
+import com.forrestb.carvercraft.block.CreativeChargerBlock;
 import com.forrestb.carvercraft.block.FacetingMachineBlock;
 import com.forrestb.carvercraft.block.RockTumblerBlock;
 import com.forrestb.carvercraft.block.TrimSawBlock;
@@ -58,5 +59,13 @@ public class ModBlocks {
                     .mapColor(MapColor.METAL)
                     .requiresCorrectToolForDrops()
                     .strength(3.5F)
+                    .sound(SoundType.METAL));
+
+    /** Testing only — infinite FE, creative tab, no recipe. */
+    public static final DeferredBlock<CreativeChargerBlock> CREATIVE_CHARGER = BLOCKS.registerBlock("creative_charger",
+            CreativeChargerBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_YELLOW)
+                    .strength(-1.0F, 3600000.0F)
                     .sound(SoundType.METAL));
 }

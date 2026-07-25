@@ -87,6 +87,23 @@ Project hygiene: MDK example scaffolding stripped. `TEMPLATE_LICENSE.txt` kept o
 **`.github/workflows/build.yml` runs `./gradlew build` on every push** — a free compile
 check. This is the verification step for anything written without a local compiler.
 
+**Power / Mekanism.** No integration code exists or is needed: the machines expose
+`Capabilities.EnergyStorage.BLOCK` (Forge Energy) and Mekanism's Universal Cables speak
+FE, so the capability system handles it. Mekanism is pulled in as `localRuntime` only
+(CurseMaven, project 268560, file id in gradle.properties) purely so cables and
+generators exist in-game to test against — it is not a compile dependency and is not
+published. If it ever fails to resolve, comment that one line out; nothing depends on it.
+
+A **Creative Charger** block (creative tab only, unbreakable, no recipe) pushes 100k FE/t
+into all six neighbours and exposes itself as an infinite source. It exists so the powered
+machines are testable without any power mod at all. Keep it creative-only.
+
+Common-namespace tags now cover silver, the three alloys, and the six faceted gems
+(`c:ingots/*`, `c:gems/*`, `c:ores/silver`, `c:raw_materials/silver`), so materials unify
+with other mods. Full Mekanism 5x ore processing for silver is NOT implemented — that
+would need dust, dirty dust, clump, shard, crystal, and two slurry chemicals per metal,
+which is a project of its own.
+
 TESTING VALUES to dial back: silver count=40/size=12/band -48..80 (release: 6/8/-48..32).
 
 Textures are placeholder programmer art. Next: an Alloyer so alloys stop being plain

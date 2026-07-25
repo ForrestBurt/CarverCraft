@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "#c:ingots/silver"
+    "#c:ingots/silver",
+    "#c:ingots/sterling_silver",
+    "#c:ingots/electrum",
+    "#c:ingots/rose_gold"
   ]
 }
