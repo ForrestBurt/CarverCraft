@@ -4,11 +4,11 @@ import com.forrestb.carvercraft.block.entity.RockTumblerBlockEntity;
 import com.forrestb.carvercraft.registry.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -39,8 +39,6 @@ public class RockTumblerBlock extends BaseEntityBlock {
 
     @Override
     protected RenderShape getRenderShape(BlockState state) {
-        // BaseEntityBlock defaults to INVISIBLE (meant for blocks with custom renderers).
-        // We render the plain JSON model.
         return RenderShape.MODEL;
     }
 
@@ -52,33 +50,26 @@ public class RockTumblerBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
-                                              Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (!RockTumblerBlockEntity.isTumblable(stack)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        }
-        if (!level.isClientSide && level.getBlockEntity(pos) instanceof RockTumblerBlockEntity tumbler) {
-            tumbler.tryInsert(stack, player);
-        }
-        return ItemInteractionResult.SUCCESS;
-    }
-
-    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.getBlockEntity(pos) instanceof RockTumblerBlockEntity tumbler) {
-            if (!level.isClientSide) {
-                tumbler.emptyTo(player);
-            }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+        if (!level.isClientSide && level.getBlockEntity(pos) instanceof MenuProvider menuProvider) {
+            player.openMenu(menuProvider, pos);
         }
-        return InteractionResult.PASS;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
+    // Ambient particles: a little dust puffing off the drum while it runs.
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof RockTumblerBlockEntity tumbler) {
-            tumbler.dropContents();
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (level.getBlockEntity(pos) instanceof RockTumblerBlockEntity tumbler && tumbler.isRunning()) {
+            if (random.nextInt(3) == 0) {
+                double px = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.6;
+                double py = pos.getY() + 0.55 + random.nextDouble() * 0.2;
+                double pz = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.6;
+                level.addParticle(ParticleTypes.POOF, px, py, pz, 0.0, 0.02, 0.0);
+                if (random.nextInt(2) == 0) {
+                    level.addParticle(ParticleTypes.CRIT, px, py, pz, 0.0, 0.0, 0.0);
+                }
+            }
         }
-        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 }
