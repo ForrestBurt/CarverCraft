@@ -51,12 +51,13 @@ steps, the faceting path one expensive machine and one long step.
 
 ## The machines
 
-| Machine | Power | Max hardness | Transform |
-|---|---|---|---|
-| **Rock Tumbler** | none | 7.0 | rough → tumbled |
-| **Trim Saw** | 20 FE/t | 10.0 | rough → slab (opaque) |
-| **Cabbing Machine** | 30 FE/t | 10.0 | slab → cabochon |
-| **Faceting Machine** | 60 FE/t | 10.0 | rough → faceted gem (transparent) |
+| Machine | Power | Max hardness | Transform | Consumes |
+|---|---|---|---|---|
+| **Rock Tumbler** | none | 7.0 | rough → tumbled | grit, 1 per lane cycle |
+| **Trim Saw** | 20 FE/t | 10.0 | rough → slab (opaque) | — |
+| **Cabbing Machine** | 30 FE/t | 10.0 | slab → cabochon | polish, 1 per cabochon |
+| **Faceting Machine** | 60 FE/t | 10.0 | rough → faceted gem (transparent) | — |
+| **Alloyer** | 80 FE/t | n/a | two metals → alloy | — |
 
 The tumbler is the only hardness gate, and it's a real one: silicon carbide grit in a
 rubber barrel tops out around quartz. You genuinely cannot tumble a sapphire. Everything
@@ -66,6 +67,19 @@ gates are cost and power, not hardness.
 The faceting machine is deliberately the expensive one. It is also the only machine
 that accepts vanilla diamonds, emeralds, and amethyst.
 
+## Shop supplies
+
+The tumbler and the cabbing machine consume what the real machines consume.
+**Silicon carbide grit** is 2 sand + any coal → 4 — the Acheson process, which really is
+just quartz sand and carbon in an electric furnace. **Polishing compound** is jeweler's
+rouge, red iron oxide: raw iron ground fine with grit, 1 + 1 → 4. The saw and the
+faceting machine consume nothing; diamond blades and charged laps wear on a scale no
+per-cut item models honestly.
+
+Grit is charged when a lane's clock leaves zero — into the barrel at the start of the
+tumble, like the real thing — so running lanes finish even if the supply slot runs dry
+mid-cycle.
+
 ## Stone roster
 
 ### Opaque — sawn and cabbed
@@ -74,9 +88,16 @@ that accepts vanilla diamonds, emeralds, and amethyst.
 |---|---|---|---|---|
 | Agate | 7.0 | basalt | yes | +2 armor |
 | Jasper | 7.0 | andesite | yes | +4 max health |
+| **Bruneau Jasper** | 7.0 | tuff, rare | yes | +2 safe fall distance |
 | Carnelian | 7.0 | tuff | yes | +attack speed |
 | Rose Quartz | 7.0 | granite | yes | +4 absorption |
 | Malachite | 4.0 | copper ore | yes | +2 armor toughness |
+
+**Bruneau jasper** is the mod's second Idaho signature: picture jasper from the Bruneau
+river canyon, porcelain tan with landscape banding. It forms in rhyolitic volcanics, so
+tuff is the closest vanilla host — a geology judgment call, open to veto. The canyon
+stone takes the edge off the canyon: longer safe falls. One modifier only; two belongs
+to the star garnet.
 
 ### Transparent — sawn and faceted
 
@@ -111,17 +132,26 @@ jasper's comes from a cabochon, sapphire's from a faceted gem.
 
 ## Alloys
 
-Real jeweller's alloys at roughly real ratios.
+Real jeweller's alloys at real ratios, melted in the Alloyer — order-agnostic across
+its two slots, and the silver side takes any `c:ingots/silver`, so other mods' silver
+melts fine.
 
-| Alloy | Recipe |
+| Alloy | Melt |
 |---|---|
-| Sterling Silver | 7 silver + 1 copper |
-| Electrum | silver + gold |
-| Rose Gold | 3 gold + 1 copper |
+| Sterling Silver | 7 silver + 1 copper → 8 |
+| Electrum | 1 silver + 1 gold → 2 |
+| Rose Gold | 3 gold + 1 copper → 4 |
+
+## Enchantments
+
+**Brilliance I–III** — a better polish returns more light: the ring's inherent effect
+grows 15% per level. Defined entirely in JSON (`data/carvercraft/enchantment/`), rolls
+at the enchanting table on `#carvercraft:rings`. Future jewelry enchantments should
+follow the same pattern: datapack definition, and code only where a Curios slot makes
+vanilla's effect plumbing unreachable.
 
 ## Not yet built
 
-- An Alloyer/Crucible so alloys stop being plain crafting
-- Grit and polishing compound as consumables
-- Data-driven jewelry enchantments
-- Bruneau jasper as a distinct jasper variety
+- Mekanism 5x ore processing for silver (dust, dirty dust, clump, shard, crystal, slurries)
+- More enchantments on the Brilliance pattern
+- Real textures — everything is programmer art from the generators in `tools/`

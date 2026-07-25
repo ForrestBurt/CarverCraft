@@ -71,8 +71,14 @@ Verified in-game: silver ore and worldgen, rough stones dropping from host rock,
 four-lane machine GUI, Curios rings with working attribute modifiers.
 
 Written but not yet play-tested: the four-machine refactor (Rock Tumbler, Trim Saw,
-Cabbing Machine, Faceting Machine), the 11-stone roster, alloys, trinkets, the creative
-charger, and Mekanism in the dev runtime.
+Cabbing Machine, Faceting Machine), the 12-stone roster (Bruneau jasper included), the
+Alloyer and its alloying recipes, the grit/polish consumable economy, the Brilliance
+enchantment, trinkets, the creative charger, and Mekanism in the dev runtime.
+
+Run `python3 tools/validate.py` before every commit — it cross-references registry
+symbols, models, textures, lang, recipes, loot modifiers, and the Curios/Brilliance
+ring tags. It exists because the creative tab once survived a refactor with fourteen
+stale symbols and nothing noticed until CI.
 
 ## 6. Architecture worth knowing before editing
 
@@ -101,8 +107,10 @@ These all cost real debugging to find. Several look like bugs and are not.
    unobtainable.
 4. **`RingItem.getAttributeModifiers` returns a `Multimap`, and that is correct for 1.21.1.**
    Curios moved to `ItemAttributeModifiers` in 1.21.4+. Do not "fix" this.
-5. **`loadAdditional` force-resizes the item handler to 8 slots.** That's deliberate —
-   machines saved by older builds would otherwise shrink it and blow up lane indexing.
+5. **`loadAdditional` force-resizes the item handler to `SLOT_COUNT` (now 9: 8 lane
+   slots + the shared consumable slot).** That's deliberate — machines saved by older
+   builds would otherwise size it differently and blow up lane indexing. If slots are
+   ever added again, bump the constant; never remove the resize.
 6. **`LapidaryMenu` reads the block pos exactly once** from the network buffer, via a private
    delegating constructor. Reading it twice desyncs the packet.
 7. **GUI sheets must stay 256×256.** The default `blit` overload assumes that size; a taller
@@ -117,18 +125,15 @@ These all cost real debugging to find. Several look like bugs and are not.
 1. **Revert the testing values before any release.** Silver worldgen is cranked to
    `count=40, size=12, band -48..80`; release values are `6 / 8 / -48..32`. Flagged in
    `CLAUDE.md`.
-2. **Play-test the four-machine chain** end to end, including the diamond ring.
-3. **An Alloyer / Crucible machine** so sterling silver, electrum, and rose gold stop being
-   plain crafting recipes.
-4. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
+2. **Play-test the whole chain** end to end: the four lapidary machines (now with grit
+   and polish in the consumable slot), the Alloyer melting the three alloys, the
+   diamond ring, Bruneau jasper from tuff, and Brilliance at the enchanting table.
+3. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
    and two slurry chemicals. A project of its own, not a few recipe files.
-5. **Data-driven jewelry enchantments.** 1.21 made enchantments datapack-driven, so custom
-   ring enchantments are mostly JSON.
-6. **Grit and polishing compound** as consumables, which would give the tumbler and cabbing
-   machine an economy.
-7. **Bruneau jasper** as a distinct jasper variety. Forms about an hour from Boise and is
-   world-famous; the flavor is free and earned.
-8. **Real textures.** Everything is programmer art generated with Pillow.
+4. **More jewelry enchantments** on the Brilliance pattern: datapack JSON first, code
+   only where the Curios slot makes vanilla's effect plumbing unreachable.
+5. **Real textures.** Everything is programmer art generated with Pillow; the newer
+   sets have their generators committed under `tools/`.
 
 ## 9. Working style that produced this
 

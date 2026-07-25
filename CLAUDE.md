@@ -42,14 +42,29 @@ the same jasper can leave a tumbler as a baroque pebble or a cabbing machine as 
 sanded cabochon, and those are not the same object. This came from the developer, who cabs
 rocks; the earlier hardness-tier draft was wrong and was replaced.
 
-**Four machines, three finishes:**
+**Five machines, three finishes and a melt:**
 
-| Machine | Power | Max hardness | Transform |
-|---|---|---|---|
-| Rock Tumbler | none | 7.0 | rough -> tumbled |
-| Trim Saw | 20 FE/t | 10.0 | rough -> slab (opaque only) |
-| Cabbing Machine | 30 FE/t | 10.0 | slab -> cabochon |
-| Faceting Machine | 60 FE/t | 10.0 | rough -> faceted gem (transparent) |
+| Machine | Power | Max hardness | Transform | Consumes |
+|---|---|---|---|---|
+| Rock Tumbler | none | 7.0 | rough -> tumbled | 1 grit / lane cycle |
+| Trim Saw | 20 FE/t | 10.0 | rough -> slab (opaque only) | — |
+| Cabbing Machine | 30 FE/t | 10.0 | slab -> cabochon | 1 polishing compound / cabochon |
+| Faceting Machine | 60 FE/t | 10.0 | rough -> faceted gem (transparent) | — |
+| Alloyer | 80 FE/t | n/a | two metals -> alloy, at ratio | — |
+
+The **Alloyer** is deliberately NOT an AbstractLapidaryBlockEntity subclass: lanes are
+one-in-one-out with an implicit count of one, and an alloy is a *ratio* (7 Ag + 1 Cu).
+It has its own block entity, menu, screen, and a `carvercraft:alloying` recipe type
+whose two CountedIngredients match in either slot order and use `c:` ingot tags.
+Sterling silver, electrum, and rose gold are alloying recipes now — their crafting-grid
+recipes are gone. Counts gate *running*, not matching: a short stack parks the clock.
+
+**Consumables.** Silicon carbide grit (2 sand + coal -> 4; the Acheson process) feeds
+the tumbler; polishing compound (raw iron + grit -> 4; jeweler's rouge) feeds the
+cabbing machine. One shared slot 8 in the lapidary handler, charged when a lane's
+clock leaves zero — grit goes in the barrel at the *start* of a tumble, so a supply
+drought lets running lanes finish. Machines that declare no consumable (saw, faceting)
+never expose the slot. The tumbler is intentionally no longer free to run.
 
 Tumbled -> trinket (silver band, weak). Cabochon -> ring (sterling band). Faceted -> ring
 (gold band, strongest). Opaque and transparent stone sets are disjoint, so `X_ring` is
@@ -60,12 +75,32 @@ and amethyst, and faceted diamond is the best ring in the mod.
 loot modifiers, four-lane machine GUI, Curios rings. `RingItem implements ICurioItem`
 returning `Multimap<Holder<Attribute>, AttributeModifier>` is correct for 1.21.1.
 
-**Not yet compiled:** the four-machine refactor. `AbstractLapidaryBlockEntity` holds all
-lane/tick/recipe-cache/energy/menu logic, so a machine is a ~50-line subclass declaring
-its recipe type, hardness cap, and FE cost. `LapidaryMachineBlock`, one `LapidaryMenu`,
-one `LapidaryScreen` (texture read off the block entity). Four recipe types share one
-generic `LapidaryRecipeSerializer`. All machines expose ItemHandler; powered ones expose
-EnergyStorage, so Mekanism/IE cables and hoppers work with no glue code.
+**Compiles at CI, not yet play-tested:** the four-machine refactor, and everything from
+the Alloyer session on top of it (Alloyer, grit/polish economy, Bruneau jasper,
+Brilliance). `AbstractLapidaryBlockEntity` holds all lane/tick/recipe-cache/energy/menu
+logic, so a lapidary machine is a ~50-line subclass declaring its recipe type, hardness
+cap, FE cost, and (optionally) its consumable. `LapidaryMachineBlock`, one
+`LapidaryMenu`, one `LapidaryScreen` (texture read off the block entity). Four lapidary
+recipe types share one generic `LapidaryRecipeSerializer`; alloying has its own. All
+machines expose ItemHandler; powered ones expose EnergyStorage, so Mekanism/IE cables
+and hoppers work with no glue code.
+
+**Validate before committing:** `python3 tools/validate.py` — it catches stale registry
+symbols (the class of bug that broke the creative tab after the refactor), missing
+models/textures/lang, recipes naming nonexistent items, unwired loot modifiers, and
+rings missing from the Curios or Brilliance tags. It is not a compiler; CI still is.
+
+**Bruneau jasper** is in: full opaque chain, drops from tuff at 0.012 (rhyolitic
+volcanics; tuff is the closest vanilla host — geology call open to veto). Ring is safe
+fall distance +2 (trinket +1), single modifier, textures derived from jasper's by
+palette remap plus scenery banding (`tools/gen_bruneau_textures.py`).
+
+**Brilliance I–III** (`data/carvercraft/enchantment/brilliance.json`) is the first
+jewelry enchantment: +15% ring effect per level. Datapack-defined, rolls at the
+enchanting table on `#carvercraft:rings`. The one code bridge: vanilla applies
+enchantment effects only in vanilla equipment slots, so `RingItem` reads its own
+Brilliance level and scales the modifiers it already reported. Its Multimap signature
+is unchanged.
 
 Design decisions to hold:
 - **Never facet an opaque stone or cab a transparent one.** That is the whole point.
@@ -81,8 +116,15 @@ Design decisions to hold:
   malachite, peridot. Garnet, topaz, ruby, sapphire, and star garnet cannot.
 - The original `ruby` item is preserved as the faceted end of the ruby chain.
 - Star garnet is the endgame: Idaho's state gem, drawn with its asterism, rarest drop,
-  only ring with two modifiers.
+  only ring with two modifiers. (Bruneau jasper's ring is one modifier. Keep it so.)
 - **Do not reintroduce** the circular progress ring or batch processing.
+- **The lapidary handler is 9 slots now** (8 lanes + shared consumable). The
+  `loadAdditional` force-resize targets `SLOT_COUNT` and its purpose is unchanged:
+  never let saved NBT dictate handler size. Growing an old 8-slot save to 9 leaves the
+  consumable slot empty; nothing shifts. If slots are ever added again, bump the
+  constant — do not "simplify" the resize away.
+- GUI sheets stay 256×256, including the Alloyer's (spliced from the trim saw's by
+  `tools/gen_alloyer_textures.py` so the visual language stays identical).
 
 Project hygiene: MDK example scaffolding stripped. `TEMPLATE_LICENSE.txt` kept on purpose.
 
@@ -108,5 +150,6 @@ which is a project of its own.
 
 TESTING VALUES to dial back: silver count=40/size=12/band -48..80 (release: 6/8/-48..32).
 
-Textures are placeholder programmer art. Next: an Alloyer so alloys stop being plain
-crafting, grit/polish as consumables, data-driven jewelry enchantments, Bruneau jasper.
+Textures are placeholder programmer art (generators for the newer sets live in
+`tools/`). Next: play-test the whole chain in-game, then Mekanism 5x silver
+processing, more enchantments on the Brilliance pattern, real textures.
