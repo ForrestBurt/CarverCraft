@@ -1,0 +1,141 @@
+# HANDOFF
+
+How to pick up CarverCraft in a new chat, in Cowork, or in Claude Code.
+
+**Repo:** https://github.com/ForrestBurt/CarverCraft (public)
+
+---
+
+## 1. Read these first, in this order
+
+| File | What it is |
+|---|---|
+| `CLAUDE.md` | The project brain. Current state, locked decisions, and *why*. Read all of it. |
+| `DESIGN.md` | The material and tier design. Read before touching recipes, machines, or stones. |
+| `README.md` | Player-facing description of what the mod does. |
+
+`CLAUDE.md` is loaded automatically by Claude Code. In a web chat, paste it or point at the repo.
+
+## 2. What this is
+
+A lapidary and jewelry mod for **Minecraft 1.21.1 / NeoForge 21.1.242**, built from the
+NeoForge MDK with ModDevGradle. Java 21. Mod id `carvercraft`, package
+`com.forrestb.carvercraft`.
+
+Find rough stone in the world, finish it three different ways, set it in metal, wear it.
+The organizing idea is Metallurgy's — a broad material roster in tiers — but the tier axis
+is **finish quality** (tumbled / cabbed / faceted), and every material and process is real.
+
+Dependencies: **Curios API** (required, provides ring slots) and **Mekanism**
+(dev runtime only, so there's something to test power against).
+
+## 3. How to work on it
+
+### Claude Code or Cowork (preferred)
+Direct file access. Open the repo, edit in place, run `./gradlew build` locally. `CLAUDE.md`
+is picked up automatically by Claude Code. For a Java/Gradle project Claude Code is the more
+natural fit; Cowork can drive it as a tool.
+
+### Web chat (the loop that built this)
+Claude can't reach a local disk, so:
+
+1. You push to GitHub.
+2. Claude clones the public repo and works there.
+3. Claude hands back a **git bundle**.
+4. You pull it:
+   ```
+   git pull ~/Downloads/<bundle-name>.bundle main
+   ```
+5. You push again. Repeat.
+
+Bundles contain the **complete history**, not a diff, so they're safe to pull out of order
+or skip. If you've already got the commits, the pull just fast-forwards.
+
+## 4. How to verify — this matters
+
+**`.github/workflows/build.yml` runs `./gradlew build` on every push.**
+
+Most of this code was written without a compiler available. Push, then open the repo's
+**Actions** tab. Green check means it compiles; red X gives the exact javac error to paste
+back. This is faster than a local Gradle sync and it is the standard verification step.
+
+Assume anything recently written is **compile-unverified until CI says otherwise.**
+
+Testing power in-game: place a **Creative Charger** (creative tab, unbreakable, no recipe)
+against a machine. It pushes 100k FE/t into all six neighbours. Use it before blaming your
+machines on Mekanism — it isolates them from a 200-block dependency.
+
+## 5. Current state
+
+Verified in-game: silver ore and worldgen, rough stones dropping from host rock, the
+four-lane machine GUI, Curios rings with working attribute modifiers.
+
+Written but not yet play-tested: the four-machine refactor (Rock Tumbler, Trim Saw,
+Cabbing Machine, Faceting Machine), the 11-stone roster, alloys, trinkets, the creative
+charger, and Mekanism in the dev runtime.
+
+## 6. Architecture worth knowing before editing
+
+- `AbstractLapidaryBlockEntity` holds **all** machine logic: four independent lanes,
+  ticking, recipe resolution and caching, energy, saving, menu. A new machine is a ~50-line
+  subclass declaring its recipe type, hardness cap, and FE cost. Add machines there, not by
+  copying an existing one.
+- `LapidaryMachineBlock`, one `LapidaryMenu`, one `LapidaryScreen` do the same job for
+  blocks and UI. The screen reads its background texture off the block entity.
+- Four recipe types (`tumbling`, `sawing`, `cabbing`, `faceting`) share one generic
+  `LapidaryRecipeSerializer`. Recipes carry `time` and `hardness`.
+- Adding a stone: register items in `ModItems`, draw textures, add models, lang, a loot
+  modifier, and recipe JSON. **No machine code changes.**
+
+## 7. Landmines — read before "improving" anything
+
+These all cost real debugging to find. Several look like bugs and are not.
+
+1. **Never facet an opaque stone or cab a transparent one.** That constraint is the design.
+   Jasper has nothing for facets to do; cabbing a diamond throws away its value.
+2. **There is no slab in the faceting path, deliberately.** Slabbing is a cabbing workflow.
+   Faceting rough is preformed and dopped, never sawn into sheets. Don't symmetrize the two
+   paths back together.
+3. **The tumbler is the only hardness gate (7.0).** Everything downstream runs to 10 because
+   a diamond blade cuts anything. An earlier draft capped the saw at 8 and made corundum
+   unobtainable.
+4. **`RingItem.getAttributeModifiers` returns a `Multimap`, and that is correct for 1.21.1.**
+   Curios moved to `ItemAttributeModifiers` in 1.21.4+. Do not "fix" this.
+5. **`loadAdditional` force-resizes the item handler to 8 slots.** That's deliberate —
+   machines saved by older builds would otherwise shrink it and blow up lane indexing.
+6. **`LapidaryMenu` reads the block pos exactly once** from the network buffer, via a private
+   delegating constructor. Reading it twice desyncs the packet.
+7. **GUI sheets must stay 256×256.** The default `blit` overload assumes that size; a taller
+   sheet silently mis-samples every coordinate.
+8. **Do not reintroduce** the circular progress ring (it mis-rendered and overlapped a slot)
+   or batch processing (lanes are independent for good reasons).
+9. **`TEMPLATE_LICENSE.txt` stays.** It's the MDK's own MIT notice and the gradle scaffolding
+   is still template-derived.
+
+## 8. Known-unfinished, roughly in priority order
+
+1. **Revert the testing values before any release.** Silver worldgen is cranked to
+   `count=40, size=12, band -48..80`; release values are `6 / 8 / -48..32`. Flagged in
+   `CLAUDE.md`.
+2. **Play-test the four-machine chain** end to end, including the diamond ring.
+3. **An Alloyer / Crucible machine** so sterling silver, electrum, and rose gold stop being
+   plain crafting recipes.
+4. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
+   and two slurry chemicals. A project of its own, not a few recipe files.
+5. **Data-driven jewelry enchantments.** 1.21 made enchantments datapack-driven, so custom
+   ring enchantments are mostly JSON.
+6. **Grit and polishing compound** as consumables, which would give the tumbler and cabbing
+   machine an economy.
+7. **Bruneau jasper** as a distinct jasper variety. Forms about an hour from Boise and is
+   world-famous; the flavor is free and earned.
+8. **Real textures.** Everything is programmer art generated with Pillow.
+
+## 9. Working style that produced this
+
+- Small, runnable steps. The client should boot cleanly after every change.
+- Validate content cross-references with a script before committing — every item having a
+  model, texture, lang key, and no orphans. This has caught real breakage repeatedly.
+- Explain load-bearing Minecraft/Java idioms (capabilities, client/server siding, registries,
+  the event bus) briefly; skip general engineering explanation.
+- When a design decision gets made in chat, write it into `CLAUDE.md` with the reasoning.
+  The reasoning is the part no codebase scan can recover.

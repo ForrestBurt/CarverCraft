@@ -46,6 +46,12 @@ Requires JDK 21. The jar lands in `build/libs/`.
 - Data-driven jewelry enchantments
 - Star garnet and Bruneau jasper
 
+## Contributing / picking this up
+
+See `HANDOFF.md` for project orientation, the verification workflow, and the design
+constraints that are load-bearing. `CLAUDE.md` holds current state and decisions;
+`DESIGN.md` holds the material and tier design.
+
 ## License
 
 All Rights Reserved. The project was generated from the NeoForge MDK; see `TEMPLATE_LICENSE.txt` for the template's own license.

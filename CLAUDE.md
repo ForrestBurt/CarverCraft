@@ -33,6 +33,8 @@ A gem pipeline from geology to magic: find and tumble rough gems → cut them �
 ## Developer context
 Experienced infrastructure engineer (Linux/HPC, strong git/CLI), newer to Java, Gradle, and Minecraft modding specifically. When a Java-ecosystem or Minecraft-specific idiom is load-bearing (capabilities, client/server siding, registries, the event bus), briefly explain the why. Skip explanations of general engineering concepts.
 
+See HANDOFF.md for how to pick this project up cold in a new chat, Cowork, or Claude Code.
+
 ## Current state
 
 See DESIGN.md for the full tier tree. **The tier axis is finish quality, not hardness** —
