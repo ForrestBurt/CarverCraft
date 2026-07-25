@@ -12,21 +12,14 @@ public class RockTumblerScreen extends AbstractContainerScreen<RockTumblerMenu> 
     private static final ResourceLocation TEXTURE =
             ResourceLocation.fromNamespaceAndPath(CarverCraft.MODID, "textures/gui/rock_tumbler.png");
 
-    private static final int RING_SIZE = 24;
-    // Where the ring sits on the panel.
-    private static final int RING_X = 99;
-    private static final int RING_Y = 34;
-
-    // 16 pre-rendered fill frames baked into the sheet, laid out in a 3-wide grid.
-    private static final int FRAMES = 16;
-    private static final int FRAME_ORIGIN_U = 176;
-    private static final int FRAME_ORIGIN_V = 24;
-    private static final int FRAME_COLS = 3;
+    // The filled arrow sprite lives to the right of the panel in the sheet.
+    private static final int ARROW_U = 176;
+    private static final int ARROW_V = 0;
 
     public RockTumblerScreen(RockTumblerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageHeight = 190;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
@@ -36,13 +29,22 @@ public class RockTumblerScreen extends AbstractContainerScreen<RockTumblerMenu> 
         int y = (height - imageHeight) / 2;
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        float fraction = menu.getProgressFraction();
-        if (fraction > 0f) {
-            // Pick the frame whose fill best matches the current fraction.
-            int frame = Math.min(FRAMES - 1, Math.max(0, Math.round(fraction * FRAMES) - 1));
-            int u = FRAME_ORIGIN_U + (frame % FRAME_COLS) * RING_SIZE;
-            int v = FRAME_ORIGIN_V + (frame / FRAME_COLS) * RING_SIZE;
-            guiGraphics.blit(TEXTURE, x + RING_X, y + RING_Y, u, v, RING_SIZE, RING_SIZE);
+        // One arrow per lane, revealed left-to-right by width. No trig, no overlap.
+        for (int lane = 0; lane < RockTumblerMenu.LANES; lane++) {
+            float fraction = menu.getLaneProgress(lane);
+            if (fraction <= 0f) {
+                continue;
+            }
+            int filled = Math.max(1, Math.round(RockTumblerMenu.ARROW_W * fraction));
+            int arrowY = y + RockTumblerMenu.ROW_Y[lane] + 1;
+            guiGraphics.blit(
+                    TEXTURE,
+                    x + RockTumblerMenu.ARROW_X,
+                    arrowY,
+                    ARROW_U,
+                    ARROW_V,
+                    filled,
+                    RockTumblerMenu.ARROW_H);
         }
     }
 

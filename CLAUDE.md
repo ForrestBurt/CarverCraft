@@ -34,4 +34,12 @@ A gem pipeline from geology to magic: find and tumble rough gems → cut them �
 Experienced infrastructure engineer (Linux/HPC, strong git/CLI), newer to Java, Gradle, and Minecraft modding specifically. When a Java-ecosystem or Minecraft-specific idiom is load-bearing (capabilities, client/server siding, registries, the event bus), briefly explain the why. Skip explanations of general engineering concepts.
 
 ## Current state
-v0.1 + Rock Tumbler GUI implemented. Silver ore + worldgen (TESTING VALUES: count=40, size=12, band -48..80 — dial back to count=6/size=8/band -48..32 before release), smelting, rough gem drops via GLM, polished gems. Rock Tumbler now has a furnace-style GUI: 2x2 input slots, a circular progress ring synced via ContainerData, ambient POOF/CRIT particles while running, grumbling sound every 30 ticks, chime on batch completion. Batch time is 60s (was 180s). Right-click opens the menu; breaking still drops contents. Particle fix: block now has a RUNNING blockstate (vanilla LIT) that the ticker flips, so client-side animateTick actually fires POOF/CRIT particles. Ring is now a true clockwise radial sweep via 16 pre-baked frames in the sheet (256x256). GUI verified working in-game as of this pass (menu/slots/sync/shift-click/polished output all confirmed by user). Next: v0.2 (Curios + rings).
+v0.1 + Rock Tumbler redesigned as **four independent lanes**. Each lane is furnace-shaped: input slot -> horizontal progress arrow -> output slot, with its own clock. Lanes never batch together; dropping a gem in lane 3 does not touch lane 1. Output slots are output-only (mayPlace=false); a lane stalls if its output is full or holds a different gem. GUI is 176x190 with the player inventory moved down.
+
+Design note: the earlier single-batch 2x2 + circular progress ring was replaced. The ring had two bugs (bottom-up reveal instead of a sweep, and it overlapped the 4th slot); horizontal furnace-style arrows are trivially correct (left-to-right width reveal) and the per-lane model fixes batching. Do not reintroduce the ring.
+
+Particles work via a RUNNING blockstate (vanilla LIT) that the ticker flips when any lane is active — block states sync to the client for free, which is why animateTick fires. ContainerData syncs the 4 lane clocks + shared batch length to the open screen.
+
+TESTING VALUES to dial back before release: silver count=40/size=12/band -48..80 (release: 6/8/-48..32); TICKS_PER_GEM=30s.
+
+Not compile-verified in CI. Textures are placeholder programmer art. Next: v0.2 (Curios + rings).
