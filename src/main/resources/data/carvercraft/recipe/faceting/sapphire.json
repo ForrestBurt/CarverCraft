@@ -1,12 +1,12 @@
 {
   "type": "carvercraft:faceting",
   "ingredient": {
-    "item": "carvercraft:sapphire_slab"
+    "item": "carvercraft:rough_sapphire"
   },
   "result": {
     "id": "carvercraft:faceted_sapphire",
     "count": 1
   },
-  "time": 1230,
+  "time": 1722,
   "hardness": 9.0
 }

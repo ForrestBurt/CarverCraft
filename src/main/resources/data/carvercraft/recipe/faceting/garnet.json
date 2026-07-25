@@ -1,12 +1,12 @@
 {
   "type": "carvercraft:faceting",
   "ingredient": {
-    "item": "carvercraft:garnet_slab"
+    "item": "carvercraft:rough_garnet"
   },
   "result": {
     "id": "carvercraft:faceted_garnet",
     "count": 1
   },
-  "time": 1125,
+  "time": 1575,
   "hardness": 7.5
 }

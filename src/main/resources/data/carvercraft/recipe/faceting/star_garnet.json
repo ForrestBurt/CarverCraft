@@ -1,12 +1,12 @@
 {
   "type": "carvercraft:faceting",
   "ingredient": {
-    "item": "carvercraft:star_garnet_slab"
+    "item": "carvercraft:rough_star_garnet"
   },
   "result": {
     "id": "carvercraft:faceted_star_garnet",
     "count": 1
   },
-  "time": 1125,
+  "time": 1575,
   "hardness": 7.5
 }

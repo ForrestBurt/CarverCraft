@@ -45,9 +45,9 @@ rocks; the earlier hardness-tier draft was wrong and was replaced.
 | Machine | Power | Max hardness | Transform |
 |---|---|---|---|
 | Rock Tumbler | none | 7.0 | rough -> tumbled |
-| Trim Saw | 20 FE/t | 10.0 | rough -> slab |
-| Cabbing Machine | 30 FE/t | 10.0 | slab -> cabochon (opaque) |
-| Faceting Machine | 60 FE/t | 10.0 | slab -> faceted gem (transparent) |
+| Trim Saw | 20 FE/t | 10.0 | rough -> slab (opaque only) |
+| Cabbing Machine | 30 FE/t | 10.0 | slab -> cabochon |
+| Faceting Machine | 60 FE/t | 10.0 | rough -> faceted gem (transparent) |
 
 Tumbled -> trinket (silver band, weak). Cabochon -> ring (sterling band). Faceted -> ring
 (gold band, strongest). Opaque and transparent stone sets are disjoint, so `X_ring` is
@@ -67,6 +67,11 @@ EnergyStorage, so Mekanism/IE cables and hoppers work with no glue code.
 
 Design decisions to hold:
 - **Never facet an opaque stone or cab a transparent one.** That is the whole point.
+- **There is no slab in the faceting path.** Slabbing is a cabbing workflow — you slice a
+  nodule to trim flat-backed, domed blanks. Faceting rough is preformed and dopped, never
+  sawn into sheets; diamond is cleaved/laser-sawn then bruted, emerald is too included to
+  risk. Transparent stones go from rough straight into the faceting machine. Do not
+  reintroduce transparent slabs.
 - The tumbler is the only hardness gate (7.0). Everything downstream runs to 10 because a
   diamond blade cuts anything; those gates are cost and power. An earlier draft capped the
   saw at 8, which made corundum unobtainable.

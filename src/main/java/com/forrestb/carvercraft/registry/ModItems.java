@@ -58,24 +58,18 @@ public class ModItems {
 
     // --- Transparent stones: rough -> slab -> faceted -----------------------
     public static final DeferredItem<Item> ROUGH_PERIDOT = simple("rough_peridot");
-    public static final DeferredItem<Item> PERIDOT_SLAB = simple("peridot_slab");
     public static final DeferredItem<Item> TUMBLED_PERIDOT = simple("tumbled_peridot");
     public static final DeferredItem<Item> FACETED_PERIDOT = simple("faceted_peridot");
     public static final DeferredItem<Item> ROUGH_GARNET = simple("rough_garnet");
-    public static final DeferredItem<Item> GARNET_SLAB = simple("garnet_slab");
     public static final DeferredItem<Item> FACETED_GARNET = simple("faceted_garnet");
     public static final DeferredItem<Item> ROUGH_TOPAZ = simple("rough_topaz");
-    public static final DeferredItem<Item> TOPAZ_SLAB = simple("topaz_slab");
     public static final DeferredItem<Item> FACETED_TOPAZ = simple("faceted_topaz");
     public static final DeferredItem<Item> ROUGH_RUBY = simple("rough_ruby");
-    public static final DeferredItem<Item> RUBY_SLAB = simple("ruby_slab");
     // The first item this mod ever had, kept as the faceted end of the ruby chain.
     public static final DeferredItem<Item> RUBY = simple("ruby");
     public static final DeferredItem<Item> ROUGH_SAPPHIRE = simple("rough_sapphire");
-    public static final DeferredItem<Item> SAPPHIRE_SLAB = simple("sapphire_slab");
     public static final DeferredItem<Item> FACETED_SAPPHIRE = simple("faceted_sapphire");
     public static final DeferredItem<Item> ROUGH_STAR_GARNET = simple("rough_star_garnet");
-    public static final DeferredItem<Item> STAR_GARNET_SLAB = simple("star_garnet_slab");
     public static final DeferredItem<Item> FACETED_STAR_GARNET = simple("faceted_star_garnet");
 
     // --- Vanilla gems, faceting machine only --------------------------------

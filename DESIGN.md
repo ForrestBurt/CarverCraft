@@ -33,20 +33,30 @@ so the facets return light instead of scattering it. The most expensive machine 
 the best gear, and it's the only thing that will do anything worthwhile with a diamond.
 
 ```
-rough gem --[Trim Saw]--> slab --[Faceting Machine]--> faceted gem --> ring
+rough gem --[Faceting Machine]--> faceted gem --> ring
 ```
 
-You would never facet jasper. It's opaque — there's nothing for the facets to do.
-You would never cab a diamond either; you'd be throwing away most of its value.
+**Note there is no slab in the faceting path, and that is deliberate.** Slabbing is a
+cabbing workflow: you slice a nodule into flat sheets so you can trace and trim cabochon
+blanks with a flat back and a domed top. A faceter never wants a slice — the goal is to
+preserve as much weight and clarity from the crystal as possible, so faceting rough gets
+preformed on a lap and dopped, not sawn into sheets. Diamond is cleaved or laser-sawn
+along the grain and then bruted round; emerald is so included that the step cut is named
+for the compromise. Neither goes anywhere near a slab saw.
+
+You would never facet jasper either. It's opaque — there's nothing for the facets to do.
+
+The result is an honest asymmetry: the cabbing path uses two cheap machines and more
+steps, the faceting path one expensive machine and one long step.
 
 ## The machines
 
 | Machine | Power | Max hardness | Transform |
 |---|---|---|---|
 | **Rock Tumbler** | none | 7.0 | rough → tumbled |
-| **Trim Saw** | 20 FE/t | 10.0 | rough → slab |
+| **Trim Saw** | 20 FE/t | 10.0 | rough → slab (opaque) |
 | **Cabbing Machine** | 30 FE/t | 10.0 | slab → cabochon |
-| **Faceting Machine** | 60 FE/t | 10.0 | slab → faceted gem |
+| **Faceting Machine** | 60 FE/t | 10.0 | rough → faceted gem (transparent) |
 
 The tumbler is the only hardness gate, and it's a real one: silicon carbide grit in a
 rubber barrel tops out around quartz. You genuinely cannot tumble a sapphire. Everything

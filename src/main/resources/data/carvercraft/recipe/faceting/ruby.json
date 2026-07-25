@@ -1,12 +1,12 @@
 {
   "type": "carvercraft:faceting",
   "ingredient": {
-    "item": "carvercraft:ruby_slab"
+    "item": "carvercraft:rough_ruby"
   },
   "result": {
     "id": "carvercraft:ruby",
     "count": 1
   },
-  "time": 1230,
+  "time": 1722,
   "hardness": 9.0
 }
