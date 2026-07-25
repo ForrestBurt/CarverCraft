@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "carvercraft:item/peridot_ring"
+    "layer0": "carvercraft:item/peridot_ring_band",
+    "layer1": "carvercraft:item/peridot_ring_stone"
   }
 }

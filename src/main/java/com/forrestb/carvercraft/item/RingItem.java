@@ -47,6 +47,22 @@ public class RingItem extends Item implements ICurioItem {
     private static final int ELECTRUM_ENCHANTABILITY = 32;
     private static final int ROSE_GOLD_ENCHANTABILITY = 26;
 
+    // Tints multiplied over a faceted ring's band layer. Each is its metal ramp's
+    // brightest entry, which is what the band layer was normalised against — so the
+    // default gold case reproduces the original texture exactly.
+    public static final int TINT_GOLD = 0xFAE296;
+    public static final int TINT_ELECTRUM = 0xF0E8B4;
+    public static final int TINT_ROSE_GOLD = 0xF4CCBC;
+
+    /** Colour for a faceted ring's band layer, from whatever metal it was set in. */
+    public static int bandTint(ItemStack stack) {
+        return switch (stack.getOrDefault(ModDataComponents.BAND.get(), "")) {
+            case BAND_ELECTRUM -> TINT_ELECTRUM;
+            case BAND_ROSE_GOLD -> TINT_ROSE_GOLD;
+            default -> TINT_GOLD;
+        };
+    }
+
     /** One attribute grant. */
     public record Bonus(Holder<Attribute> attribute, double amount, AttributeModifier.Operation operation) {
         public static Bonus of(Holder<Attribute> attribute, double amount) {
