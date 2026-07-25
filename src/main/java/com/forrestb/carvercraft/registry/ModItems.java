@@ -2,6 +2,7 @@ package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
 import com.forrestb.carvercraft.item.ConsumableItem;
+import com.forrestb.carvercraft.item.JewelerHammerItem;
 import com.forrestb.carvercraft.item.RingItem;
 import com.forrestb.carvercraft.item.RingItem.Bonus;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -42,6 +43,20 @@ public class ModItems {
     public static final DeferredItem<Item> STERLING_SILVER_INGOT = simple("sterling_silver_ingot");
     public static final DeferredItem<Item> ELECTRUM_INGOT = simple("electrum_ingot");
     public static final DeferredItem<Item> ROSE_GOLD_INGOT = simple("rose_gold_ingot");
+
+    // --- The bench --------------------------------------------------------
+    // Draws ingots into wire. Stays in the grid, one point more worn per craft.
+    public static final DeferredItem<Item> JEWELERS_HAMMER = ITEMS.register("jewelers_hammer",
+            () -> new JewelerHammerItem(new Item.Properties().stacksTo(1).durability(256)));
+
+    // Jewelry stock. Every band is drawn from wire, never struck from ingots —
+    // that keeps the four-ingot ring pattern (modded Minecraft's most contested
+    // shape) out of this mod entirely.
+    public static final DeferredItem<Item> SILVER_WIRE = simple("silver_wire");
+    public static final DeferredItem<Item> STERLING_SILVER_WIRE = simple("sterling_silver_wire");
+    public static final DeferredItem<Item> GOLD_WIRE = simple("gold_wire");
+    public static final DeferredItem<Item> ELECTRUM_WIRE = simple("electrum_wire");
+    public static final DeferredItem<Item> ROSE_GOLD_WIRE = simple("rose_gold_wire");
 
     // Blank bands, one per finish tier.
     public static final DeferredItem<Item> SILVER_BAND = simple("silver_band");

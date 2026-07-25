@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "carvercraft:jewelers_hammer"
+    },
+    {
+      "item": "carvercraft:rose_gold_ingot"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "carvercraft:rose_gold_wire"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "carvercraft:item/jewelers_hammer"
+  }
+}

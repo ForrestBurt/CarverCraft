@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "S": {
-      "item": "carvercraft:silver_ingot"
+    "W": {
+      "item": "carvercraft:silver_wire"
     }
   },
   "pattern": [
-    " S ",
-    "S S",
-    " S "
+    " W ",
+    "W W",
+    " W "
   ],
   "result": {
     "count": 1,

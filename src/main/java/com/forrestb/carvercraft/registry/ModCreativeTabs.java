@@ -34,6 +34,13 @@ public class ModCreativeTabs {
                         output.accept(ModItems.STERLING_SILVER_INGOT.get());
                         output.accept(ModItems.ELECTRUM_INGOT.get());
                         output.accept(ModItems.ROSE_GOLD_INGOT.get());
+                        // The bench: hammer, wire stock, then bands
+                        output.accept(ModItems.JEWELERS_HAMMER.get());
+                        output.accept(ModItems.SILVER_WIRE.get());
+                        output.accept(ModItems.STERLING_SILVER_WIRE.get());
+                        output.accept(ModItems.GOLD_WIRE.get());
+                        output.accept(ModItems.ELECTRUM_WIRE.get());
+                        output.accept(ModItems.ROSE_GOLD_WIRE.get());
                         output.accept(ModItems.SILVER_BAND.get());
                         output.accept(ModItems.STERLING_SILVER_BAND.get());
                         output.accept(ModItems.GOLD_BAND.get());
