@@ -1,10 +1,8 @@
 {
   "itemGroup.carvercraft": "CarverCraft",
-
   "block.carvercraft.silver_ore": "Silver Ore",
   "block.carvercraft.deepslate_silver_ore": "Deepslate Silver Ore",
   "block.carvercraft.rock_tumbler": "Rock Tumbler",
-
   "item.carvercraft.raw_silver": "Raw Silver",
   "item.carvercraft.silver_ingot": "Silver Ingot",
   "item.carvercraft.ruby": "Ruby",
@@ -14,12 +12,17 @@
   "item.carvercraft.polished_jasper": "Polished Jasper",
   "item.carvercraft.polished_garnet": "Polished Garnet",
   "item.carvercraft.polished_agate": "Polished Agate",
-
   "examplemod.configuration.title": "CarverCraft Configs",
   "examplemod.configuration.section.examplemod.common.toml": "CarverCraft Configs",
   "examplemod.configuration.section.examplemod.common.toml.title": "CarverCraft Configs",
   "examplemod.configuration.items": "Item List",
   "examplemod.configuration.logDirtBlock": "Log Dirt Block",
   "examplemod.configuration.magicNumberIntroduction": "Magic Number Text",
-  "examplemod.configuration.magicNumber": "Magic Number"
+  "examplemod.configuration.magicNumber": "Magic Number",
+  "item.carvercraft.silver_ring": "Silver Ring",
+  "item.carvercraft.jasper_ring": "Jasper Ring",
+  "item.carvercraft.garnet_ring": "Garnet Ring",
+  "item.carvercraft.agate_ring": "Agate Ring",
+  "item.carvercraft.ruby_ring": "Ruby Ring",
+  "curios.identifier.ring": "Ring"
 }

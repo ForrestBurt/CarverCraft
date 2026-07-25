@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:silver_ring",
+    "carvercraft:jasper_ring",
+    "carvercraft:garnet_ring",
+    "carvercraft:agate_ring",
+    "carvercraft:ruby_ring"
+  ]
+}

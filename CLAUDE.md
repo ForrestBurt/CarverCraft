@@ -34,12 +34,16 @@ A gem pipeline from geology to magic: find and tumble rough gems → cut them �
 Experienced infrastructure engineer (Linux/HPC, strong git/CLI), newer to Java, Gradle, and Minecraft modding specifically. When a Java-ecosystem or Minecraft-specific idiom is load-bearing (capabilities, client/server siding, registries, the event bus), briefly explain the why. Skip explanations of general engineering concepts.
 
 ## Current state
-v0.1 + Rock Tumbler redesigned as **four independent lanes**. Each lane is furnace-shaped: input slot -> horizontal progress arrow -> output slot, with its own clock. Lanes never batch together; dropping a gem in lane 3 does not touch lane 1. Output slots are output-only (mayPlace=false); a lane stalls if its output is full or holds a different gem. GUI is 176x190 with the player inventory moved down.
+**v0.1 complete and verified in-game.** Silver ore + worldgen + smelting, rough gems from andesite/granite/basalt via GLM, and the Rock Tumbler as **four independent lanes** (input slot -> horizontal progress arrow -> output slot, each on its own clock). Output slots are take-only; a lane stalls if its output is full or mismatched. Particles fire off a RUNNING blockstate (vanilla LIT) the ticker flips. GUI is 176x190.
 
-Design note: the earlier single-batch 2x2 + circular progress ring was replaced. The ring had two bugs (bottom-up reveal instead of a sweep, and it overlapped the 4th slot); horizontal furnace-style arrows are trivially correct (left-to-right width reveal) and the per-lane model fixes batching. Do not reintroduce the ring.
+Design notes worth keeping:
+- The tumbler was originally a single 2x2 batch with a circular progress ring. The ring had two bugs (bottom-up reveal instead of a sweep; it overlapped the 4th slot) and batching was the wrong model. Horizontal furnace arrows + per-lane clocks replaced both. **Do not reintroduce the ring or batch processing.**
+- `loadAdditional` force-resizes the item handler to 8 slots so tumblers saved by the old 4-slot build don't shrink it and blow up lane indexing.
 
-Particles work via a RUNNING blockstate (vanilla LIT) that the ticker flips when any lane is active — block states sync to the client for free, which is why animateTick fires. ContainerData syncs the 4 lane clocks + shared batch length to the open screen.
+**v0.2 written but NOT yet compiled** (first build with a third-party dependency): Curios API 9.5.1+1.21.1 via maven.theillusivec4.top, `compileOnly` for the `:api` classifier and `localRuntime` for the full jar, following the template's own JEI idiom. Two ring slots granted to players via datapack (`curios/slots/ring.json` + `curios/entities/player.json`), items bound through the vanilla tag `data/curios/tags/item/ring.json`. `RingItem implements ICurioItem` and returns a `Multimap<Holder<Attribute>, AttributeModifier>` from `getAttributeModifiers(SlotContext, ResourceLocation, ItemStack)` — that signature is the single most likely thing to need adjusting, since Curios moved from Multimap to ItemAttributeModifiers in 1.21.4+ and this targets 1.21.1.
+
+Rings: silver band (crafting base, no effect) + jasper (+4 max health), garnet (+1 attack damage), agate (+2 armor), ruby (+1 luck). Craft the band from 4 silver ingots in a diamond, then shapeless band + polished gem.
 
 TESTING VALUES to dial back before release: silver count=40/size=12/band -48..80 (release: 6/8/-48..32); TICKS_PER_GEM=30s.
 
-Not compile-verified in CI. Textures are placeholder programmer art. Next: v0.2 (Curios + rings).
+Textures are placeholder programmer art throughout. Next after rings compile: v0.3 (Trim Saw + Faceting Station, FE + recipes) or data-driven jewelry enchantments.

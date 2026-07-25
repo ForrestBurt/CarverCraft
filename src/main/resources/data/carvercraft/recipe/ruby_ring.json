@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:silver_ring"
+    },
+    {
+      "item": "carvercraft:ruby"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:ruby_ring"
+  }
+}

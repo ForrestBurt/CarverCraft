@@ -30,5 +30,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.ROUGH_AGATE.get());
                         output.accept(ModItems.POLISHED_AGATE.get());
                         output.accept(ModItems.RUBY.get());
+                        output.accept(ModItems.SILVER_RING.get());
+                        output.accept(ModItems.JASPER_RING.get());
+                        output.accept(ModItems.GARNET_RING.get());
+                        output.accept(ModItems.AGATE_RING.get());
+                        output.accept(ModItems.RUBY_RING.get());
                     }).build());
 }
