@@ -207,6 +207,15 @@ def check_data(items, blocks):
     # Datapack enchantments are ids too — the JSON file IS the enchantment.
     known_enchantments = {f"carvercraft:{p.stem}"
                           for p in (DATA / "carvercraft/enchantment").glob("*.json")}
+    # So are recipe ids: advancements name the recipe they unlock, which often has
+    # no matching item (ruby_ring_electrum is a recipe for the plain ruby_ring).
+    known_recipe_ids = {f"carvercraft:{p.relative_to(DATA / 'carvercraft/recipe').with_suffix('').as_posix()}"
+                        for p in (DATA / "carvercraft/recipe").rglob("*.json")}
+    # Data component ids the mod defines.
+    known_components = set(re.findall(r'COMPONENTS\.register\("([a-z0-9_]+)"',
+                                      (JAVA / "registry/ModDataComponents.java").read_text())) \
+        if (JAVA / "registry/ModDataComponents.java").exists() else set()
+    known_components = {f"carvercraft:{c}" for c in known_components}
 
     for path in sorted((DATA).rglob("*.json")):
         try:
@@ -221,7 +230,9 @@ def check_data(items, blocks):
         # Any carvercraft: item id used anywhere in data must exist.
         for s in iter_json_strings(data):
             if s.startswith("carvercraft:") and "/" not in s:
-                if s in known_recipe_types or s in known_enchantments or s == "carvercraft:stone_gem":
+                if (s in known_recipe_types or s in known_enchantments
+                        or s in known_recipe_ids or s in known_components
+                        or s == "carvercraft:stone_gem"):
                     continue
                 if s not in known:
                     err(f"{path.relative_to(ROOT)}: references '{s}' which is not a registered item/block")
@@ -267,7 +278,40 @@ def collect_recipe_types():
     return set(re.findall(r'type\("([a-z0-9_]+)"\)', text))
 
 
-# ------------------------------------------------- 5. template expansion check
+# --------------------------------------- 5. recipe-book advancement coverage
+
+def check_advancements():
+    """Every crafting-table recipe needs an unlock advancement, or it never shows
+    up in the recipe book and the player has to already know it."""
+    recipe_dir = DATA / "carvercraft/recipe"
+    adv_dir = DATA / "carvercraft/advancement/recipes"
+    if not recipe_dir.exists():
+        return
+    for path in sorted(recipe_dir.rglob("*.json")):
+        data = json.loads(path.read_text())
+        if not str(data.get("type", "")).startswith("minecraft:crafting_"):
+            continue
+        rel = path.relative_to(recipe_dir).with_suffix("")
+        adv = adv_dir / f"{rel}.json"
+        if not adv.exists():
+            err(f"crafting recipe '{rel}' has no recipe-book advancement at "
+                f"data/carvercraft/advancement/recipes/{rel}.json")
+            continue
+        rewarded = json.loads(adv.read_text()).get("rewards", {}).get("recipes", [])
+        expected = f"carvercraft:{rel.as_posix()}"
+        if expected not in rewarded:
+            err(f"{adv.relative_to(ROOT)}: rewards {rewarded}, expected to unlock '{expected}'")
+
+    # And no advancement should point at a recipe that no longer exists.
+    if adv_dir.exists():
+        for path in sorted(adv_dir.rglob("*.json")):
+            for recipe_id in json.loads(path.read_text()).get("rewards", {}).get("recipes", []):
+                target = recipe_dir / f"{recipe_id.split(':', 1)[1]}.json"
+                if not target.exists():
+                    err(f"{path.relative_to(ROOT)}: unlocks '{recipe_id}', which has no recipe file")
+
+
+# ------------------------------------------------- 6. template expansion check
 
 def check_templates():
     """Every ${token} in src/main/templates must be a key build.gradle expands.
@@ -305,6 +349,7 @@ def main():
         err("failed to parse any registered items out of ModItems.java — validator regexes need updating")
     check_assets(items, blocks)
     check_data(items, blocks)
+    check_advancements()
     check_templates()
 
     for w in warnings:
