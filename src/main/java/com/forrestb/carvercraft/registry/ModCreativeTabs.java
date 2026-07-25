@@ -37,6 +37,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SILVER_BAND.get());
                         output.accept(ModItems.STERLING_SILVER_BAND.get());
                         output.accept(ModItems.GOLD_BAND.get());
+                        output.accept(ModItems.ELECTRUM_BAND.get());
+                        output.accept(ModItems.ROSE_GOLD_BAND.get());
 
                         // Shop supplies
                         output.accept(ModItems.SILICON_CARBIDE_GRIT.get());

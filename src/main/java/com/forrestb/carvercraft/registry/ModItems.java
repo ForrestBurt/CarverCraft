@@ -19,15 +19,21 @@ public class ModItems {
     }
 
     // Jewelry wears like armor when its wearer is hit (see JewelryWearHandler).
-    // Durability follows the band, not the stone: thin silver wire, solid sterling,
-    // heavy gold work.
-    public static final int TRINKET_DURABILITY = 150;
-    public static final int STERLING_RING_DURABILITY = 250;
-    public static final int GOLD_RING_DURABILITY = 350;
+    // Durability and enchantability follow the band and track the real metals:
+    // fine silver is soft wire, sterling is work-hardened, pure gold is soft but
+    // noble. Electrum and rose gold arrive as data components on gold-tier rings
+    // (see RingItem.BAND) — electrum enchants best and wears fastest, rose gold
+    // is the hardest gold alloy there is.
+    public static final int TRINKET_DURABILITY = 120;
+    public static final int STERLING_RING_DURABILITY = 280;
+    public static final int GOLD_RING_DURABILITY = 160;
+    public static final int SILVER_ENCHANTABILITY = 15;
+    public static final int STERLING_ENCHANTABILITY = 18;
+    public static final int GOLD_ENCHANTABILITY = 22;
 
-    private static DeferredItem<Item> ring(String name, int durability, Bonus... bonuses) {
+    private static DeferredItem<Item> ring(String name, int durability, int enchantability, Bonus... bonuses) {
         return ITEMS.register(name, () -> new RingItem(
-                new Item.Properties().stacksTo(1).durability(durability), bonuses));
+                new Item.Properties().stacksTo(1).durability(durability), enchantability, bonuses));
     }
 
     // --- Metals ------------------------------------------------------------
@@ -41,6 +47,10 @@ public class ModItems {
     public static final DeferredItem<Item> SILVER_BAND = simple("silver_band");
     public static final DeferredItem<Item> STERLING_SILVER_BAND = simple("sterling_silver_band");
     public static final DeferredItem<Item> GOLD_BAND = simple("gold_band");
+    // Gold-tier alternatives, made in the Alloyer. Electrum is the enchanter's
+    // band; rose gold is the wearer's.
+    public static final DeferredItem<Item> ELECTRUM_BAND = simple("electrum_band");
+    public static final DeferredItem<Item> ROSE_GOLD_BAND = simple("rose_gold_band");
 
     // --- Shop supplies -------------------------------------------------------
     // Silicon carbide grit: sand and coal, the Acheson process in a crafting grid.
@@ -102,55 +112,55 @@ public class ModItems {
     public static final DeferredItem<Item> FACETED_AMETHYST = simple("faceted_amethyst");
 
     // --- Trinkets: tumbled stones, the weak tier ----------------------------
-    public static final DeferredItem<Item> AGATE_TRINKET = ring("agate_trinket", TRINKET_DURABILITY,
-            Bonus.of(Attributes.ARMOR, 1.0D));
-    public static final DeferredItem<Item> JASPER_TRINKET = ring("jasper_trinket", TRINKET_DURABILITY,
-            Bonus.of(Attributes.MAX_HEALTH, 2.0D));
+    public static final DeferredItem<Item> AGATE_TRINKET = ring("agate_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            Bonus.of(Attributes.ARMOR, 0.5D));
+    public static final DeferredItem<Item> JASPER_TRINKET = ring("jasper_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            Bonus.of(Attributes.MAX_HEALTH, 1.0D));
     // The canyon stone softens the canyon's hazard: longer safe falls.
-    public static final DeferredItem<Item> BRUNEAU_JASPER_TRINKET = ring("bruneau_jasper_trinket", TRINKET_DURABILITY,
-            Bonus.of(Attributes.SAFE_FALL_DISTANCE, 1.0D));
-    public static final DeferredItem<Item> CARNELIAN_TRINKET = ring("carnelian_trinket", TRINKET_DURABILITY,
-            Bonus.of(Attributes.ATTACK_SPEED, 0.1D));
-    public static final DeferredItem<Item> ROSE_QUARTZ_TRINKET = ring("rose_quartz_trinket", TRINKET_DURABILITY,
-            Bonus.of(Attributes.MAX_ABSORPTION, 2.0D));
-    public static final DeferredItem<Item> MALACHITE_TRINKET = ring("malachite_trinket", TRINKET_DURABILITY,
-            Bonus.of(Attributes.ARMOR_TOUGHNESS, 1.0D));
-    public static final DeferredItem<Item> PERIDOT_TRINKET = ring("peridot_trinket", TRINKET_DURABILITY,
-            new Bonus(Attributes.MOVEMENT_SPEED, 0.05D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+    public static final DeferredItem<Item> BRUNEAU_JASPER_TRINKET = ring("bruneau_jasper_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            Bonus.of(Attributes.SAFE_FALL_DISTANCE, 0.5D));
+    public static final DeferredItem<Item> CARNELIAN_TRINKET = ring("carnelian_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            Bonus.of(Attributes.ATTACK_SPEED, 0.05D));
+    public static final DeferredItem<Item> ROSE_QUARTZ_TRINKET = ring("rose_quartz_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            Bonus.of(Attributes.MAX_ABSORPTION, 1.0D));
+    public static final DeferredItem<Item> MALACHITE_TRINKET = ring("malachite_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            Bonus.of(Attributes.ARMOR_TOUGHNESS, 0.5D));
+    public static final DeferredItem<Item> PERIDOT_TRINKET = ring("peridot_trinket", TRINKET_DURABILITY, SILVER_ENCHANTABILITY,
+            new Bonus(Attributes.MOVEMENT_SPEED, 0.025D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     // --- Rings: cabochons (opaque) and faceted gems (transparent) -----------
-    public static final DeferredItem<Item> AGATE_RING = ring("agate_ring", STERLING_RING_DURABILITY,
-            Bonus.of(Attributes.ARMOR, 2.0D));
-    public static final DeferredItem<Item> JASPER_RING = ring("jasper_ring", STERLING_RING_DURABILITY,
-            Bonus.of(Attributes.MAX_HEALTH, 4.0D));
-    public static final DeferredItem<Item> BRUNEAU_JASPER_RING = ring("bruneau_jasper_ring", STERLING_RING_DURABILITY,
-            Bonus.of(Attributes.SAFE_FALL_DISTANCE, 2.0D));
-    public static final DeferredItem<Item> CARNELIAN_RING = ring("carnelian_ring", STERLING_RING_DURABILITY,
-            Bonus.of(Attributes.ATTACK_SPEED, 0.2D));
-    public static final DeferredItem<Item> ROSE_QUARTZ_RING = ring("rose_quartz_ring", STERLING_RING_DURABILITY,
-            Bonus.of(Attributes.MAX_ABSORPTION, 4.0D));
-    public static final DeferredItem<Item> MALACHITE_RING = ring("malachite_ring", STERLING_RING_DURABILITY,
-            Bonus.of(Attributes.ARMOR_TOUGHNESS, 2.0D));
-    public static final DeferredItem<Item> PERIDOT_RING = ring("peridot_ring", GOLD_RING_DURABILITY,
-            new Bonus(Attributes.MOVEMENT_SPEED, 0.10D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-    public static final DeferredItem<Item> GARNET_RING = ring("garnet_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.ATTACK_DAMAGE, 1.5D));
-    public static final DeferredItem<Item> TOPAZ_RING = ring("topaz_ring", GOLD_RING_DURABILITY,
+    public static final DeferredItem<Item> AGATE_RING = ring("agate_ring", STERLING_RING_DURABILITY, STERLING_ENCHANTABILITY,
+            Bonus.of(Attributes.ARMOR, 1.0D));
+    public static final DeferredItem<Item> JASPER_RING = ring("jasper_ring", STERLING_RING_DURABILITY, STERLING_ENCHANTABILITY,
+            Bonus.of(Attributes.MAX_HEALTH, 2.0D));
+    public static final DeferredItem<Item> BRUNEAU_JASPER_RING = ring("bruneau_jasper_ring", STERLING_RING_DURABILITY, STERLING_ENCHANTABILITY,
+            Bonus.of(Attributes.SAFE_FALL_DISTANCE, 1.0D));
+    public static final DeferredItem<Item> CARNELIAN_RING = ring("carnelian_ring", STERLING_RING_DURABILITY, STERLING_ENCHANTABILITY,
+            Bonus.of(Attributes.ATTACK_SPEED, 0.1D));
+    public static final DeferredItem<Item> ROSE_QUARTZ_RING = ring("rose_quartz_ring", STERLING_RING_DURABILITY, STERLING_ENCHANTABILITY,
+            Bonus.of(Attributes.MAX_ABSORPTION, 2.0D));
+    public static final DeferredItem<Item> MALACHITE_RING = ring("malachite_ring", STERLING_RING_DURABILITY, STERLING_ENCHANTABILITY,
+            Bonus.of(Attributes.ARMOR_TOUGHNESS, 1.0D));
+    public static final DeferredItem<Item> PERIDOT_RING = ring("peridot_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            new Bonus(Attributes.MOVEMENT_SPEED, 0.05D, AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+    public static final DeferredItem<Item> GARNET_RING = ring("garnet_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.ATTACK_DAMAGE, 0.75D));
+    public static final DeferredItem<Item> TOPAZ_RING = ring("topaz_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.LUCK, 0.5D));
+    public static final DeferredItem<Item> RUBY_RING = ring("ruby_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.ATTACK_DAMAGE, 1.25D));
+    public static final DeferredItem<Item> SAPPHIRE_RING = ring("sapphire_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.KNOCKBACK_RESISTANCE, 0.1D));
+    public static final DeferredItem<Item> STAR_GARNET_RING = ring("star_garnet_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.MAX_HEALTH, 2.0D),
             Bonus.of(Attributes.LUCK, 1.0D));
-    public static final DeferredItem<Item> RUBY_RING = ring("ruby_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.ATTACK_DAMAGE, 2.5D));
-    public static final DeferredItem<Item> SAPPHIRE_RING = ring("sapphire_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.KNOCKBACK_RESISTANCE, 0.2D));
-    public static final DeferredItem<Item> STAR_GARNET_RING = ring("star_garnet_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.MAX_HEALTH, 4.0D),
-            Bonus.of(Attributes.LUCK, 2.0D));
-    public static final DeferredItem<Item> DIAMOND_RING = ring("diamond_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.ARMOR, 3.0D),
-            Bonus.of(Attributes.ARMOR_TOUGHNESS, 2.0D));
-    public static final DeferredItem<Item> EMERALD_RING = ring("emerald_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.LUCK, 2.0D));
-    public static final DeferredItem<Item> AMETHYST_RING = ring("amethyst_ring", GOLD_RING_DURABILITY,
-            Bonus.of(Attributes.MAX_ABSORPTION, 6.0D));
+    public static final DeferredItem<Item> DIAMOND_RING = ring("diamond_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.ARMOR, 1.5D),
+            Bonus.of(Attributes.ARMOR_TOUGHNESS, 1.0D));
+    public static final DeferredItem<Item> EMERALD_RING = ring("emerald_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.LUCK, 1.0D));
+    public static final DeferredItem<Item> AMETHYST_RING = ring("amethyst_ring", GOLD_RING_DURABILITY, GOLD_ENCHANTABILITY,
+            Bonus.of(Attributes.MAX_ABSORPTION, 3.0D));
 
     // --- Block items -------------------------------------------------------
     public static final DeferredItem<BlockItem> SILVER_ORE_ITEM =

@@ -1,16 +1,20 @@
 package com.forrestb.carvercraft.item;
 
+import com.forrestb.carvercraft.registry.ModDataComponents;
 import com.forrestb.carvercraft.registry.ModEnchantments;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import top.theillusivec4.curios.api.SlotContext;
@@ -36,6 +40,13 @@ public class RingItem extends Item implements ICurioItem {
     /** Effect growth per level of Brilliance: I +15%, II +30%, III +45%. */
     private static final double BRILLIANCE_PER_LEVEL = 0.15D;
 
+    // Alternative band metals, stored in the BAND data component by the crafting
+    // recipe. Electrum is the enchanter's metal; rose gold the hardest gold alloy.
+    public static final String BAND_ELECTRUM = "electrum";
+    public static final String BAND_ROSE_GOLD = "rose_gold";
+    private static final int ELECTRUM_ENCHANTABILITY = 32;
+    private static final int ROSE_GOLD_ENCHANTABILITY = 26;
+
     /** One attribute grant. */
     public record Bonus(Holder<Attribute> attribute, double amount, AttributeModifier.Operation operation) {
         public static Bonus of(Holder<Attribute> attribute, double amount) {
@@ -44,9 +55,11 @@ public class RingItem extends Item implements ICurioItem {
     }
 
     private final List<Bonus> bonuses;
+    private final int enchantability;
 
-    public RingItem(Properties properties, Bonus... bonuses) {
+    public RingItem(Properties properties, int enchantability, Bonus... bonuses) {
         super(properties);
+        this.enchantability = enchantability;
         this.bonuses = List.of(bonuses);
     }
 
@@ -82,9 +95,35 @@ public class RingItem extends Item implements ICurioItem {
         return true;
     }
 
-    /** Silverwork enchants about like gold armor does. */
+    /** The tier's base metal: silver 15, sterling 18, gold 22. */
     @Override
     public int getEnchantmentValue() {
-        return 18;
+        return enchantability;
+    }
+
+    /**
+     * Stack-sensitive enchantability (NeoForge hook the enchanting table consults):
+     * an electrum or rose gold setting overrides the tier's base metal.
+     */
+    @Override
+    public int getEnchantmentValue(ItemStack stack) {
+        String band = stack.getOrDefault(ModDataComponents.BAND.get(), "");
+        return switch (band) {
+            case BAND_ELECTRUM -> ELECTRUM_ENCHANTABILITY;
+            case BAND_ROSE_GOLD -> ROSE_GOLD_ENCHANTABILITY;
+            default -> enchantability;
+        };
+    }
+
+    /** Name the metal when it isn't the tier default. */
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context,
+                                List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        String band = stack.getOrDefault(ModDataComponents.BAND.get(), "");
+        if (!band.isEmpty()) {
+            tooltipComponents.add(Component.translatable("tooltip.carvercraft.band." + band)
+                    .withStyle(ChatFormatting.GRAY));
+        }
     }
 }

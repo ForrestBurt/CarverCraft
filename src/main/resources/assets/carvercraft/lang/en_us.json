@@ -16,6 +16,8 @@
   "item.carvercraft.silver_band": "Silver Band",
   "item.carvercraft.sterling_silver_band": "Sterling Silver Band",
   "item.carvercraft.gold_band": "Gold Band",
+  "item.carvercraft.electrum_band": "Electrum Band",
+  "item.carvercraft.rose_gold_band": "Rose Gold Band",
   "item.carvercraft.silicon_carbide_grit": "Silicon Carbide Grit",
   "item.carvercraft.silicon_carbide_grit.tooltip": "Charges the Rock Tumbler, one per cycle",
   "item.carvercraft.polishing_compound": "Polishing Compound",
@@ -83,5 +85,7 @@
   "item.carvercraft.emerald_ring": "Emerald Ring",
   "item.carvercraft.amethyst_ring": "Amethyst Ring",
   "block.carvercraft.creative_charger": "Creative Charger",
-  "enchantment.carvercraft.brilliance": "Brilliance"
+  "enchantment.carvercraft.brilliance": "Brilliance",
+  "tooltip.carvercraft.band.electrum": "Set in electrum — eager to take enchantment, quick to wear",
+  "tooltip.carvercraft.band.rose_gold": "Set in rose gold — the hardest gold there is"
 }
