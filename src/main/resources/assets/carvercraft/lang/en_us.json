@@ -82,5 +82,6 @@
   "item.carvercraft.diamond_ring": "Diamond Ring",
   "item.carvercraft.emerald_ring": "Emerald Ring",
   "item.carvercraft.amethyst_ring": "Amethyst Ring",
-  "block.carvercraft.creative_charger": "Creative Charger"
+  "block.carvercraft.creative_charger": "Creative Charger",
+  "enchantment.carvercraft.brilliance": "Brilliance"
 }

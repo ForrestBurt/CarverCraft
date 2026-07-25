@@ -204,6 +204,9 @@ def iter_json_strings(node):
 def check_data(items, blocks):
     known = all_mod_item_ids(items, blocks)
     known_recipe_types = {"carvercraft:" + t for t in collect_recipe_types()}
+    # Datapack enchantments are ids too — the JSON file IS the enchantment.
+    known_enchantments = {f"carvercraft:{p.stem}"
+                          for p in (DATA / "carvercraft/enchantment").glob("*.json")}
 
     for path in sorted((DATA).rglob("*.json")):
         try:
@@ -218,7 +221,7 @@ def check_data(items, blocks):
         # Any carvercraft: item id used anywhere in data must exist.
         for s in iter_json_strings(data):
             if s.startswith("carvercraft:") and "/" not in s:
-                if s in known_recipe_types or s == "carvercraft:stone_gem":
+                if s in known_recipe_types or s in known_enchantments or s == "carvercraft:stone_gem":
                     continue
                 if s not in known:
                     err(f"{path.relative_to(ROOT)}: references '{s}' which is not a registered item/block")
@@ -239,6 +242,13 @@ def check_data(items, blocks):
         tagged = {v.split(":", 1)[1] for v in json.loads(curios_tag.read_text())["values"]}
     for missing in sorted(ring_names - tagged):
         err(f"ring item '{missing}' is not in data/curios/tags/item/ring.json — it can't be equipped")
+
+    # ...and in the mod's own rings tag, or Brilliance can't roll on it.
+    rings_tag = DATA / "carvercraft/tags/item/rings.json"
+    if rings_tag.exists():
+        in_rings = {v.split(":", 1)[1] for v in json.loads(rings_tag.read_text())["values"]}
+        for missing in sorted(ring_names - in_rings):
+            err(f"ring item '{missing}' is not in data/carvercraft/tags/item/rings.json — Brilliance can't apply")
 
     # Global loot modifiers: list and files must agree.
     glm = DATA / "neoforge/loot_modifiers/global_loot_modifiers.json"

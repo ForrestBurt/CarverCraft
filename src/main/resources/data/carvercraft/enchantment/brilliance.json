@@ -1,0 +1,18 @@
+{
+  "description": {
+    "translate": "enchantment.carvercraft.brilliance"
+  },
+  "supported_items": "#carvercraft:rings",
+  "weight": 2,
+  "max_level": 3,
+  "min_cost": {
+    "base": 8,
+    "per_level_above_first": 11
+  },
+  "max_cost": {
+    "base": 30,
+    "per_level_above_first": 11
+  },
+  "anvil_cost": 4,
+  "slots": []
+}
