@@ -1,31 +1,21 @@
 package com.forrestb.carvercraft;
 
-import net.minecraft.client.Minecraft;
+import com.forrestb.carvercraft.client.screen.RockTumblerScreen;
+import com.forrestb.carvercraft.registry.ModMenus;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
-// This class will not load on dedicated servers. Accessing client side code from here is safe.
-@Mod(value = CarverCraft.MODID, dist = Dist.CLIENT)
-// You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-@EventBusSubscriber(modid = CarverCraft.MODID, value = Dist.CLIENT)
+/**
+ * Client-only setup. Never loaded on a dedicated server, so touching client
+ * classes from here is safe.
+ */
+@EventBusSubscriber(modid = CarverCraft.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class CarverCraftClient {
-    public CarverCraftClient(ModContainer container) {
-        // Allows NeoForge to create a config screen for this mod's configs.
-        // The config screen is accessed by going to the Mods screen > clicking on your mod > clicking on config.
-        // Do not forget to add translations for your config options to the en_us.json file.
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-    }
 
     @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
-        // Some client setup code
-        CarverCraft.LOGGER.info("HELLO FROM CLIENT SETUP");
-        CarverCraft.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+    static void onRegisterScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenus.ROCK_TUMBLER.get(), RockTumblerScreen::new);
     }
 }

@@ -48,4 +48,8 @@ Design notes worth keeping:
 
 TESTING VALUES to dial back before release: silver count=40/size=12/band -48..80 (release: 6/8/-48..32). Tumbling times are also short for testing.
 
+Project hygiene: the NeoForge MDK example scaffolding has been stripped — no `Config.java` (the dirt-block/magic-number sample), one client class instead of two, no `examplemod.*` lang keys, `neoforge.mods.toml` and `build.gradle` cleared of template comment blocks, real README. `TEMPLATE_LICENSE.txt` is deliberately kept: it's the MDK's own MIT notice and the gradle scaffolding is still template-derived.
+
+**`.github/workflows/build.yml` runs `./gradlew build` on every push.** That is a free compile check — after pushing, the repo's Actions tab says whether the code actually compiles. Use it to verify work written without a local compiler.
+
 Textures are placeholder programmer art throughout. Next: v0.3 (Trim Saw + Faceting Station, FE capability + their own recipe types), star garnet / Bruneau jasper content, or data-driven jewelry enchantments.
