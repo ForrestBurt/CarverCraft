@@ -51,6 +51,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.TUMBLED_JASPER.get());
                         output.accept(ModItems.JASPER_SLAB.get());
                         output.accept(ModItems.JASPER_CABOCHON.get());
+                        output.accept(ModItems.ROUGH_BRUNEAU_JASPER.get());
+                        output.accept(ModItems.TUMBLED_BRUNEAU_JASPER.get());
+                        output.accept(ModItems.BRUNEAU_JASPER_SLAB.get());
+                        output.accept(ModItems.BRUNEAU_JASPER_CABOCHON.get());
                         output.accept(ModItems.ROUGH_CARNELIAN.get());
                         output.accept(ModItems.TUMBLED_CARNELIAN.get());
                         output.accept(ModItems.CARNELIAN_SLAB.get());
@@ -87,6 +91,7 @@ public class ModCreativeTabs {
                         // Trinkets: tumbled stones in a silver band
                         output.accept(ModItems.AGATE_TRINKET.get());
                         output.accept(ModItems.JASPER_TRINKET.get());
+                        output.accept(ModItems.BRUNEAU_JASPER_TRINKET.get());
                         output.accept(ModItems.CARNELIAN_TRINKET.get());
                         output.accept(ModItems.ROSE_QUARTZ_TRINKET.get());
                         output.accept(ModItems.MALACHITE_TRINKET.get());
@@ -95,6 +100,7 @@ public class ModCreativeTabs {
                         // Rings: cabochons in sterling, faceted gems in gold
                         output.accept(ModItems.AGATE_RING.get());
                         output.accept(ModItems.JASPER_RING.get());
+                        output.accept(ModItems.BRUNEAU_JASPER_RING.get());
                         output.accept(ModItems.CARNELIAN_RING.get());
                         output.accept(ModItems.ROSE_QUARTZ_RING.get());
                         output.accept(ModItems.MALACHITE_RING.get());

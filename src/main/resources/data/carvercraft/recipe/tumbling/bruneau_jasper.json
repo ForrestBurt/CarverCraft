@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_bruneau_jasper"
+  },
+  "result": {
+    "id": "carvercraft:tumbled_bruneau_jasper",
+    "count": 1
+  },
+  "time": 560,
+  "hardness": 7.0
+}

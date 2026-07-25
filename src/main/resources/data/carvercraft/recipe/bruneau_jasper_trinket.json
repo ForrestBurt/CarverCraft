@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:silver_band"
+    },
+    {
+      "item": "carvercraft:tumbled_bruneau_jasper"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:bruneau_jasper_trinket"
+  }
+}

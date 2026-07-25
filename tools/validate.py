@@ -230,6 +230,16 @@ def check_data(items, blocks):
         if rtype.startswith("carvercraft:") and rtype not in known_recipe_types:
             err(f"{path.relative_to(ROOT)}: recipe type '{rtype}' is not registered in ModRecipes")
 
+    # Every ring/trinket registered as a RingItem must be in the Curios ring tag,
+    # or it silently can't be equipped.
+    ring_names = set(re.findall(r'\bring\("([a-z0-9_]+)"', (JAVA / "registry/ModItems.java").read_text()))
+    curios_tag = DATA / "curios/tags/item/ring.json"
+    tagged = set()
+    if curios_tag.exists():
+        tagged = {v.split(":", 1)[1] for v in json.loads(curios_tag.read_text())["values"]}
+    for missing in sorted(ring_names - tagged):
+        err(f"ring item '{missing}' is not in data/curios/tags/item/ring.json — it can't be equipped")
+
     # Global loot modifiers: list and files must agree.
     glm = DATA / "neoforge/loot_modifiers/global_loot_modifiers.json"
     listed = set()

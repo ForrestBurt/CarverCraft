@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:sterling_silver_band"
+    },
+    {
+      "item": "carvercraft:bruneau_jasper_cabochon"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:bruneau_jasper_ring"
+  }
+}

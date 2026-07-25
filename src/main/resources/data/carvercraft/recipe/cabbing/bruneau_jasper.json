@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:cabbing",
+  "ingredient": {
+    "item": "carvercraft:bruneau_jasper_slab"
+  },
+  "result": {
+    "id": "carvercraft:bruneau_jasper_cabochon",
+    "count": 1
+  },
+  "time": 750,
+  "hardness": 7.0
+}

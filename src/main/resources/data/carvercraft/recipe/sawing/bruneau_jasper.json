@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:sawing",
+  "ingredient": {
+    "item": "carvercraft:rough_bruneau_jasper"
+  },
+  "result": {
+    "id": "carvercraft:bruneau_jasper_slab",
+    "count": 1
+  },
+  "time": 580,
+  "hardness": 7.0
+}

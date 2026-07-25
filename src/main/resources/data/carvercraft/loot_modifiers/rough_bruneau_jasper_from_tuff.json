@@ -1,0 +1,11 @@
+{
+  "type": "carvercraft:stone_gem",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "minecraft:tuff"
+    }
+  ],
+  "item": "carvercraft:rough_bruneau_jasper",
+  "chance": 0.012
+}

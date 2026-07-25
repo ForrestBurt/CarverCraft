@@ -53,6 +53,12 @@ public class ModItems {
     public static final DeferredItem<Item> JASPER_SLAB = simple("jasper_slab");
     public static final DeferredItem<Item> TUMBLED_JASPER = simple("tumbled_jasper");
     public static final DeferredItem<Item> JASPER_CABOCHON = simple("jasper_cabochon");
+    // Bruneau jasper: picture jasper from the Bruneau canyon, an hour out of Boise.
+    // A distinct variety, not a recolor — its own chain and its own ring.
+    public static final DeferredItem<Item> ROUGH_BRUNEAU_JASPER = simple("rough_bruneau_jasper");
+    public static final DeferredItem<Item> BRUNEAU_JASPER_SLAB = simple("bruneau_jasper_slab");
+    public static final DeferredItem<Item> TUMBLED_BRUNEAU_JASPER = simple("tumbled_bruneau_jasper");
+    public static final DeferredItem<Item> BRUNEAU_JASPER_CABOCHON = simple("bruneau_jasper_cabochon");
     public static final DeferredItem<Item> ROUGH_CARNELIAN = simple("rough_carnelian");
     public static final DeferredItem<Item> CARNELIAN_SLAB = simple("carnelian_slab");
     public static final DeferredItem<Item> TUMBLED_CARNELIAN = simple("tumbled_carnelian");
@@ -92,6 +98,9 @@ public class ModItems {
             Bonus.of(Attributes.ARMOR, 1.0D));
     public static final DeferredItem<Item> JASPER_TRINKET = ring("jasper_trinket",
             Bonus.of(Attributes.MAX_HEALTH, 2.0D));
+    // The canyon stone softens the canyon's hazard: longer safe falls.
+    public static final DeferredItem<Item> BRUNEAU_JASPER_TRINKET = ring("bruneau_jasper_trinket",
+            Bonus.of(Attributes.SAFE_FALL_DISTANCE, 1.0D));
     public static final DeferredItem<Item> CARNELIAN_TRINKET = ring("carnelian_trinket",
             Bonus.of(Attributes.ATTACK_SPEED, 0.1D));
     public static final DeferredItem<Item> ROSE_QUARTZ_TRINKET = ring("rose_quartz_trinket",
@@ -106,6 +115,8 @@ public class ModItems {
             Bonus.of(Attributes.ARMOR, 2.0D));
     public static final DeferredItem<Item> JASPER_RING = ring("jasper_ring",
             Bonus.of(Attributes.MAX_HEALTH, 4.0D));
+    public static final DeferredItem<Item> BRUNEAU_JASPER_RING = ring("bruneau_jasper_ring",
+            Bonus.of(Attributes.SAFE_FALL_DISTANCE, 2.0D));
     public static final DeferredItem<Item> CARNELIAN_RING = ring("carnelian_ring",
             Bonus.of(Attributes.ATTACK_SPEED, 0.2D));
     public static final DeferredItem<Item> ROSE_QUARTZ_RING = ring("rose_quartz_ring",
