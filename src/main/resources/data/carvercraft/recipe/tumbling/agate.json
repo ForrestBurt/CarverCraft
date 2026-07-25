@@ -1,0 +1,11 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_agate"
+  },
+  "result": {
+    "id": "carvercraft:polished_agate",
+    "count": 1
+  },
+  "time": 400
+}

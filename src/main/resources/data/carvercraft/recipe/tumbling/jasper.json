@@ -1,0 +1,11 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_jasper"
+  },
+  "result": {
+    "id": "carvercraft:polished_jasper",
+    "count": 1
+  },
+  "time": 500
+}

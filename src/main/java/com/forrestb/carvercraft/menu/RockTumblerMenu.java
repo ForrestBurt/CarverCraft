@@ -49,7 +49,7 @@ public class RockTumblerMenu extends AbstractContainerMenu {
     // Client-side constructor: the MenuType hands us a buffer holding the block pos.
     public RockTumblerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
         this(containerId, playerInventory, getBlockEntity(playerInventory, buf.readBlockPos()),
-                new SimpleContainerData(LANES + 1));
+                new SimpleContainerData(LANES * 2));
     }
 
     // Server-side constructor: the block entity knows the real inventory and clocks.
@@ -86,7 +86,7 @@ public class RockTumblerMenu extends AbstractContainerMenu {
             return 0f;
         }
         int current = data.get(lane);
-        int total = data.get(LANES);
+        int total = data.get(LANES + lane);
         if (total <= 0 || current <= 0) {
             return 0f;
         }

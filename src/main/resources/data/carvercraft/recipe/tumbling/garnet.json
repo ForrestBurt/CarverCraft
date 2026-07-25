@@ -1,0 +1,11 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_garnet"
+  },
+  "result": {
+    "id": "carvercraft:polished_garnet",
+    "count": 1
+  },
+  "time": 600
+}

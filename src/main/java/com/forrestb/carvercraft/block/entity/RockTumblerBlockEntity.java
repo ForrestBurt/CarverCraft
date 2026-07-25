@@ -2,8 +2,9 @@ package com.forrestb.carvercraft.block.entity;
 
 import com.forrestb.carvercraft.block.RockTumblerBlock;
 import com.forrestb.carvercraft.menu.RockTumblerMenu;
+import com.forrestb.carvercraft.recipe.TumblingRecipe;
 import com.forrestb.carvercraft.registry.ModBlockEntities;
-import com.forrestb.carvercraft.registry.ModItems;
+import com.forrestb.carvercraft.registry.ModRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +19,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,46 +28,64 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * Four independent tumbling lanes. Each lane is furnace-shaped: input slot,
- * its own progress clock, output slot. Lanes do not batch together — drop a
- * gem in lane 2 and it starts its own timer without touching lane 1.
+ * its own progress clock, output slot. Lanes do not batch together.
+ *
+ * What a lane can polish, and how long it takes, is data now — see
+ * data/carvercraft/recipe/tumbling/. Adding a stone is a JSON file.
  *
  * Passive and unpowered by design: real tumbling takes about six weeks per
  * load, and the slow clock is the flavor.
- *
- * v0.3 TODO: convert the hardcoded rough->polished mapping into a JSON recipe type.
  */
 public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider {
     public static final int LANES = 4;
     public static final int SLOT_COUNT = LANES * 2;      // 0-3 inputs, 4-7 outputs
     public static final int OUTPUT_OFFSET = LANES;
-    public static final int TICKS_PER_GEM = 20 * 30;     // TESTING VALUE: 30s per gem
 
     private final ItemStackHandler inventory = new ItemStackHandler(SLOT_COUNT) {
         @Override
         protected void onContentsChanged(int slot) {
+            if (slot < OUTPUT_OFFSET) {
+                // Input changed: drop the cached recipe for that lane.
+                cachedInputItem[slot] = null;
+            }
             setChanged();
         }
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            // Only rough gems, and only in the input lanes.
-            return slot < OUTPUT_OFFSET && isTumblable(stack);
+            if (slot >= OUTPUT_OFFSET) {
+                return false; // outputs are take-only
+            }
+            if (level == null) {
+                return true; // can't check yet; let the recipe gate it on tick
+            }
+            return findRecipe(level, stack).isPresent();
         }
     };
 
     private final int[] progress = new int[LANES];
 
-    // Syncs the four lane clocks (plus the shared batch length) to the open screen.
+    // Per-lane resolved recipe, recomputed only when that lane's input item changes.
+    // A RecipeManager lookup every tick, per lane, per tumbler would be real cost.
+    private final Item[] cachedInputItem = new Item[LANES];
+    private final ItemStack[] cachedResult = new ItemStack[LANES];
+    private final int[] cachedTime = new int[LANES];
+
+    // Indices 0..LANES-1 are the lane clocks; LANES..2*LANES-1 are each lane's
+    // total time, which now varies per recipe.
     private final ContainerData data = new ContainerData() {
         @Override
         public int get(int index) {
             if (index >= 0 && index < LANES) {
                 return progress[index];
             }
-            if (index == LANES) {
-                return TICKS_PER_GEM;
+            if (index >= LANES && index < LANES * 2) {
+                int lane = index - LANES;
+                return cachedTime[lane] > 0 ? cachedTime[lane] : TumblingRecipe.DEFAULT_TIME;
             }
             return 0;
         }
@@ -73,12 +94,14 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
         public void set(int index, int value) {
             if (index >= 0 && index < LANES) {
                 progress[index] = value;
+            } else if (index >= LANES && index < LANES * 2) {
+                cachedTime[index - LANES] = value;
             }
         }
 
         @Override
         public int getCount() {
-            return LANES + 1;
+            return LANES * 2;
         }
     };
 
@@ -90,16 +113,39 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
         return inventory;
     }
 
-    @Nullable
-    public static Item polishedResult(Item rough) {
-        if (rough == ModItems.ROUGH_JASPER.get()) return ModItems.POLISHED_JASPER.get();
-        if (rough == ModItems.ROUGH_GARNET.get()) return ModItems.POLISHED_GARNET.get();
-        if (rough == ModItems.ROUGH_AGATE.get()) return ModItems.POLISHED_AGATE.get();
-        return null;
+    /** Ask the recipe manager what this stone tumbles into, if anything. */
+    public static Optional<RecipeHolder<TumblingRecipe>> findRecipe(Level level, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return Optional.empty();
+        }
+        return level.getRecipeManager()
+                .getRecipeFor(ModRecipes.TUMBLING_TYPE.get(), new SingleRecipeInput(stack), level);
     }
 
-    public static boolean isTumblable(ItemStack stack) {
-        return !stack.isEmpty() && polishedResult(stack.getItem()) != null;
+    /** Resolve and cache the recipe for one lane. Returns false if there's nothing to do. */
+    private boolean resolveLane(Level level, int lane) {
+        ItemStack input = inventory.getStackInSlot(lane);
+        if (input.isEmpty()) {
+            cachedInputItem[lane] = null;
+            cachedResult[lane] = null;
+            cachedTime[lane] = 0;
+            return false;
+        }
+        if (cachedInputItem[lane] == input.getItem() && cachedResult[lane] != null) {
+            return true; // cache hit
+        }
+        Optional<RecipeHolder<TumblingRecipe>> found = findRecipe(level, input);
+        if (found.isEmpty()) {
+            cachedInputItem[lane] = input.getItem();
+            cachedResult[lane] = null;
+            cachedTime[lane] = 0;
+            return false;
+        }
+        TumblingRecipe recipe = found.get().value();
+        cachedInputItem[lane] = input.getItem();
+        cachedResult[lane] = recipe.assemble(new SingleRecipeInput(input), level.registryAccess());
+        cachedTime[lane] = Math.max(1, recipe.time());
+        return true;
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, RockTumblerBlockEntity tumbler) {
@@ -107,15 +153,14 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
         boolean dirty = false;
 
         for (int lane = 0; lane < LANES; lane++) {
-            if (tumbler.canRun(lane)) {
+            if (tumbler.canRun(level, lane)) {
                 anyRunning = true;
                 tumbler.progress[lane]++;
-                if (tumbler.progress[lane] >= TICKS_PER_GEM) {
+                if (tumbler.progress[lane] >= tumbler.cachedTime[lane]) {
                     tumbler.finishLane(level, pos, lane);
                 }
                 dirty = true;
             } else if (tumbler.progress[lane] != 0) {
-                // Input pulled out or output backed up: reset that lane only.
                 tumbler.progress[lane] = 0;
                 dirty = true;
             }
@@ -125,34 +170,31 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
             tumbler.setChanged();
         }
 
-        // The drum grumbles while anything is turning.
         if (anyRunning && level.getGameTime() % 30 == 0) {
             level.playSound(null, pos, SoundEvents.GRAVEL_HIT, SoundSource.BLOCKS, 0.35F, 0.55F);
         }
 
-        // Keep the client-visible blockstate in step so particles fire.
         if (state.getValue(RockTumblerBlock.RUNNING) != anyRunning) {
             level.setBlock(pos, state.setValue(RockTumblerBlock.RUNNING, anyRunning), Block.UPDATE_ALL);
         }
     }
 
-    /** A lane runs when it holds a rough gem and its output slot can take the result. */
-    private boolean canRun(int lane) {
-        ItemStack input = inventory.getStackInSlot(lane);
-        Item result = polishedResult(input.getItem());
-        if (result == null) {
+    /** A lane runs when it has a matching recipe and its output can accept the result. */
+    private boolean canRun(Level level, int lane) {
+        if (!resolveLane(level, lane)) {
             return false;
         }
+        ItemStack result = cachedResult[lane];
         ItemStack output = inventory.getStackInSlot(OUTPUT_OFFSET + lane);
         if (output.isEmpty()) {
             return true;
         }
-        return output.is(result) && output.getCount() < output.getMaxStackSize();
+        return ItemStack.isSameItemSameComponents(output, result)
+                && output.getCount() + result.getCount() <= output.getMaxStackSize();
     }
 
     private void finishLane(Level level, BlockPos pos, int lane) {
-        ItemStack input = inventory.getStackInSlot(lane);
-        Item result = polishedResult(input.getItem());
+        ItemStack result = cachedResult[lane];
         if (result == null) {
             progress[lane] = 0;
             return;
@@ -161,26 +203,18 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
         int outSlot = OUTPUT_OFFSET + lane;
         ItemStack output = inventory.getStackInSlot(outSlot);
         if (output.isEmpty()) {
-            inventory.setStackInSlot(outSlot, new ItemStack(result, 1));
+            inventory.setStackInSlot(outSlot, result.copy());
         } else {
-            output.grow(1);
+            output.grow(result.getCount());
             inventory.setStackInSlot(outSlot, output);
         }
 
+        ItemStack input = inventory.getStackInSlot(lane);
         input.shrink(1);
         inventory.setStackInSlot(lane, input.isEmpty() ? ItemStack.EMPTY : input);
 
         progress[lane] = 0;
         level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.6F, 1.0F);
-    }
-
-    public boolean isAnyLaneRunning() {
-        for (int lane = 0; lane < LANES; lane++) {
-            if (canRun(lane)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /** Dump contents into the world (used when the block is broken). */
@@ -227,6 +261,7 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
         int[] saved = tag.getIntArray("LaneProgress");
         for (int lane = 0; lane < LANES; lane++) {
             progress[lane] = lane < saved.length ? saved[lane] : 0;
+            cachedInputItem[lane] = null; // force a fresh recipe lookup after load
         }
     }
 }

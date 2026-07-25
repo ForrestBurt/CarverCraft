@@ -8,6 +8,7 @@ import com.forrestb.carvercraft.registry.ModCreativeTabs;
 import com.forrestb.carvercraft.registry.ModItems;
 import com.forrestb.carvercraft.registry.ModLootModifiers;
 import com.forrestb.carvercraft.registry.ModMenus;
+import com.forrestb.carvercraft.registry.ModRecipes;
 import com.mojang.logging.LogUtils;
 
 import net.neoforged.bus.api.IEventBus;
@@ -30,6 +31,8 @@ public class CarverCraft {
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
+        ModRecipes.RECIPE_TYPES.register(modEventBus);
+        ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
