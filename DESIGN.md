@@ -121,11 +121,17 @@ the best ring in the mod.
 
 ## Bands and jewelry
 
-| Band | Takes | Makes |
-|---|---|---|
-| Silver | tumbled stones | trinket — weak |
-| Sterling Silver | cabochons | ring — solid |
-| Gold | faceted gems | ring — strongest |
+| Band | Takes | Makes | Durability |
+|---|---|---|---|
+| Silver | tumbled stones | trinket — weak | 150 |
+| Sterling Silver | cabochons | ring — solid | 250 |
+| Gold | faceted gems | ring — strongest | 350 |
+
+Jewelry wears like armor: every equipped piece takes durability when its wearer takes
+a hit armor would care about (armor's own formula, max(1, damage/4)), and damage that
+bypasses armor — falls included — spares it. Durability follows the band because
+that's what breaks on a real ring: the setting, not the stone. Unbreaking and Mending
+apply, and a broken ring takes its bonus with it.
 
 Opaque and transparent stones are disjoint sets, so a stone's ring is unambiguous:
 jasper's comes from a cabochon, sapphire's from a faceted gem.

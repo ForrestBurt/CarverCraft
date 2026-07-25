@@ -102,6 +102,15 @@ enchantment effects only in vanilla equipment slots, so `RingItem` reads its own
 Brilliance level and scales the modifiers it already reported. Its Multimap signature
 is unchanged.
 
+**Jewelry wears like armor.** Durability follows the band, not the stone: trinkets 150,
+sterling rings 250, gold rings 350. `JewelryWearHandler` (game bus,
+`LivingDamageEvent.Post`) applies armor's wear formula — max(1, damage/4) — to every
+equipped RingItem when the wearer takes armor-affecting damage. Damage tagged
+`bypasses_armor` spares jewelry, deliberately: falls don't grind away the Bruneau
+ring that made the fall safe. Rings sit in minecraft's `enchantable/durability` item
+tag, so Unbreaking and Mending work; breaking plays the item-break sound and the
+bonus dies with the ring. Creative wearers are exempt, like armor.
+
 Design decisions to hold:
 - **Never facet an opaque stone or cab a transparent one.** That is the whole point.
 - **There is no slab in the faceting path.** Slabbing is a cabbing workflow — you slice a

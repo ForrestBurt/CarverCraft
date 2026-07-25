@@ -16,7 +16,7 @@ Find rough stones in the world, tumble them smooth, silversmith them into rings,
 
 **Twelve stones, honestly paired.** Agate from basalt, jasper from andesite, garnet from granite, corundum from deepslate — every stone drops from a geologically plausible host, and opaque stones are cabbed while transparent ones are faceted, never the reverse. The two Idaho signatures: **star garnet**, the state gem and the mod's endgame, and **Bruneau jasper**, the picture jasper from the Bruneau canyon.
 
-**Rings.** A band plus a finished stone makes jewelry, worn in a Curios ring slot: tumbled stone in silver makes a weak trinket, a cabochon in sterling makes a solid ring, a faceted gem in gold makes the strongest tier. Each stone grants an attribute while worn — jasper heals, garnet hits, sapphire stands firm, Bruneau jasper softens a canyon fall. The **Brilliance** enchantment (I–III, enchanting table) grows any ring's effect by 15% per level.
+**Rings.** A band plus a finished stone makes jewelry, worn in a Curios ring slot: tumbled stone in silver makes a weak trinket, a cabochon in sterling makes a solid ring, a faceted gem in gold makes the strongest tier. Each stone grants an attribute while worn — jasper heals, garnet hits, sapphire stands firm, Bruneau jasper softens a canyon fall. The **Brilliance** enchantment (I–III, enchanting table) grows any ring's effect by 15% per level. Jewelry wears like armor when you take hits — the band's durability, not the stone's — and Unbreaking and Mending both apply.
 
 ## Adding a stone
 

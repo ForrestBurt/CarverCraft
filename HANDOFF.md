@@ -127,7 +127,8 @@ These all cost real debugging to find. Several look like bugs and are not.
    `CLAUDE.md`.
 2. **Play-test the whole chain** end to end: the four lapidary machines (now with grit
    and polish in the consumable slot), the Alloyer melting the three alloys, the
-   diamond ring, Bruneau jasper from tuff, and Brilliance at the enchanting table.
+   diamond ring, Bruneau jasper from tuff, Brilliance at the enchanting table, and
+   jewelry durability — take hits until a trinket breaks, confirm falls don't wear it.
 3. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
    and two slurry chemicals. A project of its own, not a few recipe files.
 4. **More jewelry enchantments** on the Brilliance pattern: datapack JSON first, code
