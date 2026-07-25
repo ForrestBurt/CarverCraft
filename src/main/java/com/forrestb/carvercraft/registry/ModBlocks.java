@@ -1,0 +1,35 @@
+package com.forrestb.carvercraft.registry;
+
+import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.block.RockTumblerBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
+
+public class ModBlocks {
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CarverCraft.MODID);
+
+    public static final DeferredBlock<Block> SILVER_ORE = BLOCKS.registerSimpleBlock("silver_ore",
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.0F, 3.0F));
+
+    public static final DeferredBlock<Block> DEEPSLATE_SILVER_ORE = BLOCKS.registerSimpleBlock("deepslate_silver_ore",
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.DEEPSLATE)
+                    .requiresCorrectToolForDrops()
+                    .strength(4.5F, 3.0F)
+                    .sound(SoundType.DEEPSLATE));
+
+    public static final DeferredBlock<RockTumblerBlock> ROCK_TUMBLER = BLOCKS.registerBlock("rock_tumbler",
+            RockTumblerBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(2.5F)
+                    .sound(SoundType.METAL));
+}

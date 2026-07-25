@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "carvercraft:silver_ore",
+    "carvercraft:deepslate_silver_ore",
+    "carvercraft:rock_tumbler"
+  ]
+}
