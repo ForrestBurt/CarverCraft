@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:sawing",
+  "ingredient": {
+    "item": "carvercraft:rough_ruby"
+  },
+  "result": {
+    "id": "carvercraft:ruby_preform",
+    "count": 1
+  },
+  "time": 800,
+  "hardness": 9.0
+}

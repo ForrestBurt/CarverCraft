@@ -1,9 +1,8 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
-import com.forrestb.carvercraft.menu.RockTumblerMenu;
+import com.forrestb.carvercraft.menu.LapidaryMenu;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -14,7 +13,11 @@ public class ModMenus {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, CarverCraft.MODID);
 
-    public static final Supplier<MenuType<RockTumblerMenu>> ROCK_TUMBLER =
-            MENUS.register("rock_tumbler", () ->
-                    IMenuTypeExtension.create(RockTumblerMenu::new));
+    private static Supplier<MenuType<LapidaryMenu>> machine(String name) {
+        return MENUS.register(name, () -> IMenuTypeExtension.create(LapidaryMenu::new));
+    }
+
+    public static final Supplier<MenuType<LapidaryMenu>> ROCK_TUMBLER = machine("rock_tumbler");
+    public static final Supplier<MenuType<LapidaryMenu>> TRIM_SAW = machine("trim_saw");
+    public static final Supplier<MenuType<LapidaryMenu>> FACETING_STATION = machine("faceting_station");
 }

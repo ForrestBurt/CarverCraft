@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_malachite"
+  },
+  "result": {
+    "id": "carvercraft:polished_malachite",
+    "count": 1
+  },
+  "time": 300,
+  "hardness": 4.0
+}

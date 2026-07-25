@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "carvercraft:ruby_preform"
+  },
+  "result": {
+    "id": "carvercraft:ruby",
+    "count": 1
+  },
+  "time": 1100,
+  "hardness": 9.0
+}

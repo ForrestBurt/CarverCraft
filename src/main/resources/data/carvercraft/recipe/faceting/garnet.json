@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "carvercraft:garnet_preform"
+  },
+  "result": {
+    "id": "carvercraft:faceted_garnet",
+    "count": 1
+  },
+  "time": 700,
+  "hardness": 7.5
+}

@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "carvercraft:peridot_preform"
+  },
+  "result": {
+    "id": "carvercraft:faceted_peridot",
+    "count": 1
+  },
+  "time": 650,
+  "hardness": 7.0
+}

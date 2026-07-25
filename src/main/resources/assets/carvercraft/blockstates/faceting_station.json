@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "carvercraft:block/faceting_station"
+    },
+    "lit=true": {
+      "model": "carvercraft:block/faceting_station"
+    }
+  }
+}

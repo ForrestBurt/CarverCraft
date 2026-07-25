@@ -1,6 +1,6 @@
 package com.forrestb.carvercraft;
 
-import com.forrestb.carvercraft.client.screen.RockTumblerScreen;
+import com.forrestb.carvercraft.client.screen.LapidaryScreen;
 import com.forrestb.carvercraft.registry.ModMenus;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,6 +16,9 @@ public class CarverCraftClient {
 
     @SubscribeEvent
     static void onRegisterScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.ROCK_TUMBLER.get(), RockTumblerScreen::new);
+        // All three machines share one screen class; the texture comes from the block entity.
+        event.register(ModMenus.ROCK_TUMBLER.get(), LapidaryScreen::new);
+        event.register(ModMenus.TRIM_SAW.get(), LapidaryScreen::new);
+        event.register(ModMenus.FACETING_STATION.get(), LapidaryScreen::new);
     }
 }

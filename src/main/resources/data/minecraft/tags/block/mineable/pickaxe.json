@@ -3,6 +3,8 @@
   "values": [
     "carvercraft:silver_ore",
     "carvercraft:deepslate_silver_ore",
-    "carvercraft:rock_tumbler"
+    "carvercraft:rock_tumbler",
+    "carvercraft:trim_saw",
+    "carvercraft:faceting_station"
   ]
 }

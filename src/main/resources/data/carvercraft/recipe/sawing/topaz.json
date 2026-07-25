@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:sawing",
+  "ingredient": {
+    "item": "carvercraft:rough_topaz"
+  },
+  "result": {
+    "id": "carvercraft:topaz_preform",
+    "count": 1
+  },
+  "time": 600,
+  "hardness": 8.0
+}

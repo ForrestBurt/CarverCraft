@@ -1,0 +1,11 @@
+{
+  "type": "carvercraft:stone_gem",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "minecraft:deepslate"
+    }
+  ],
+  "item": "carvercraft:rough_topaz",
+  "chance": 0.006
+}

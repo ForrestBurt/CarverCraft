@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_rose_quartz"
+  },
+  "result": {
+    "id": "carvercraft:polished_rose_quartz",
+    "count": 1
+  },
+  "time": 420,
+  "hardness": 7.0
+}

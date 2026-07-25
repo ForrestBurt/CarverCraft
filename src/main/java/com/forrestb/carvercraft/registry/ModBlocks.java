@@ -1,7 +1,9 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.block.FacetingStationBlock;
 import com.forrestb.carvercraft.block.RockTumblerBlock;
+import com.forrestb.carvercraft.block.TrimSawBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -31,5 +33,21 @@ public class ModBlocks {
                     .mapColor(MapColor.METAL)
                     .requiresCorrectToolForDrops()
                     .strength(2.5F)
+                    .sound(SoundType.METAL));
+
+    public static final DeferredBlock<TrimSawBlock> TRIM_SAW = BLOCKS.registerBlock("trim_saw",
+            TrimSawBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.0F)
+                    .sound(SoundType.METAL));
+
+    public static final DeferredBlock<FacetingStationBlock> FACETING_STATION = BLOCKS.registerBlock("faceting_station",
+            FacetingStationBlock::new,
+            BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(3.5F)
                     .sound(SoundType.METAL));
 }

@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "carvercraft:topaz_preform"
+  },
+  "result": {
+    "id": "carvercraft:faceted_topaz",
+    "count": 1
+  },
+  "time": 800,
+  "hardness": 8.0
+}

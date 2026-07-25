@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:sawing",
+  "ingredient": {
+    "item": "carvercraft:rough_garnet"
+  },
+  "result": {
+    "id": "carvercraft:garnet_preform",
+    "count": 1
+  },
+  "time": 500,
+  "hardness": 7.5
+}

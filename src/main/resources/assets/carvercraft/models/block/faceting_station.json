@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "carvercraft:block/faceting_station_top",
+    "side": "carvercraft:block/faceting_station_side",
+    "bottom": "carvercraft:block/rock_tumbler_bottom"
+  }
+}

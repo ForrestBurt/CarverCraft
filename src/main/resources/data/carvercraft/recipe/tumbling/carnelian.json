@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_carnelian"
+  },
+  "result": {
+    "id": "carvercraft:polished_carnelian",
+    "count": 1
+  },
+  "time": 450,
+  "hardness": 7.0
+}

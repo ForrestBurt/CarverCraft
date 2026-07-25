@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "carvercraft:sapphire_preform"
+  },
+  "result": {
+    "id": "carvercraft:faceted_sapphire",
+    "count": 1
+  },
+  "time": 1100,
+  "hardness": 9.0
+}

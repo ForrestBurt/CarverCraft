@@ -1,8 +1,6 @@
 package com.forrestb.carvercraft.menu;
 
-import com.forrestb.carvercraft.block.entity.RockTumblerBlockEntity;
-import com.forrestb.carvercraft.registry.ModBlocks;
-import com.forrestb.carvercraft.registry.ModMenus;
+import com.forrestb.carvercraft.block.entity.AbstractLapidaryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -10,27 +8,37 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
-public class RockTumblerMenu extends AbstractContainerMenu {
+/**
+ * One menu class for every lapidary machine. The machines share a layout, so the only
+ * thing that varies is which MenuType they were opened under — and the block entity
+ * already knows that.
+ */
+public class LapidaryMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final ContainerData data;
-    public final RockTumblerBlockEntity blockEntity;
+    public final AbstractLapidaryBlockEntity blockEntity;
 
-    // Layout — shared with the screen so the two can never drift apart.
-    public static final int LANES = RockTumblerBlockEntity.LANES;
+    public static final int LANES = AbstractLapidaryBlockEntity.LANES;
     public static final int[] ROW_Y = {16, 34, 52, 70};
     public static final int INPUT_X = 44;
     public static final int OUTPUT_X = 98;
     public static final int ARROW_X = 69;
     public static final int ARROW_W = 22;
     public static final int ARROW_H = 16;
+    // Energy gauge, drawn only when the machine actually has a buffer.
+    public static final int ENERGY_X = 12;
+    public static final int ENERGY_Y = 16;
+    public static final int ENERGY_W = 12;
+    public static final int ENERGY_H = 72;
 
-    private static final int MACHINE_SLOTS = RockTumblerBlockEntity.SLOT_COUNT; // 8
+    private static final int MACHINE_SLOTS = AbstractLapidaryBlockEntity.SLOT_COUNT;
     private static final int PLAYER_START = MACHINE_SLOTS;
     private static final int PLAYER_END = MACHINE_SLOTS + 36;
 
@@ -46,38 +54,42 @@ public class RockTumblerMenu extends AbstractContainerMenu {
         }
     }
 
-    // Client-side constructor: the MenuType hands us a buffer holding the block pos.
-    public RockTumblerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        this(containerId, playerInventory, getBlockEntity(playerInventory, buf.readBlockPos()),
-                new SimpleContainerData(LANES * 2));
+    /** Client-side: the buffer holds the block pos, and the block entity knows its own type. */
+    public LapidaryMenu(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
+        // readBlockPos() must happen exactly once — hence the delegation through a
+        // private constructor rather than resolving inline twice.
+        this(containerId, playerInventory, resolve(playerInventory, buf.readBlockPos()));
     }
 
-    // Server-side constructor: the block entity knows the real inventory and clocks.
-    public RockTumblerMenu(int containerId, Inventory playerInventory, RockTumblerBlockEntity blockEntity, ContainerData data) {
-        super(ModMenus.ROCK_TUMBLER.get(), containerId);
+    private LapidaryMenu(int containerId, Inventory playerInventory, AbstractLapidaryBlockEntity blockEntity) {
+        this(blockEntity.menuType(), containerId, playerInventory, blockEntity, null);
+    }
+
+    public LapidaryMenu(MenuType<LapidaryMenu> type, int containerId, Inventory playerInventory,
+                        AbstractLapidaryBlockEntity blockEntity, ContainerData data) {
+        super(type, containerId);
         this.blockEntity = blockEntity;
         this.access = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
-        this.data = data;
+        this.data = data != null ? data : new SimpleContainerData(AbstractLapidaryBlockEntity.DATA_COUNT);
 
         IItemHandler handler = blockEntity.getInventory();
-        // Inputs first (indices 0-3), then outputs (4-7), matching the handler layout.
         for (int lane = 0; lane < LANES; lane++) {
             addSlot(new SlotItemHandler(handler, lane, INPUT_X, ROW_Y[lane]));
         }
         for (int lane = 0; lane < LANES; lane++) {
-            addSlot(new OutputSlot(handler, RockTumblerBlockEntity.OUTPUT_OFFSET + lane, OUTPUT_X, ROW_Y[lane]));
+            addSlot(new OutputSlot(handler, AbstractLapidaryBlockEntity.OUTPUT_OFFSET + lane, OUTPUT_X, ROW_Y[lane]));
         }
 
         addPlayerInventory(playerInventory);
-        addDataSlots(data);
+        addDataSlots(this.data);
     }
 
-    private static RockTumblerBlockEntity getBlockEntity(Inventory playerInventory, BlockPos pos) {
+    private static AbstractLapidaryBlockEntity resolve(Inventory playerInventory, BlockPos pos) {
         var be = playerInventory.player.level().getBlockEntity(pos);
-        if (be instanceof RockTumblerBlockEntity tumbler) {
-            return tumbler;
+        if (be instanceof AbstractLapidaryBlockEntity machine) {
+            return machine;
         }
-        throw new IllegalStateException("Block entity is not a RockTumblerBlockEntity at " + pos);
+        throw new IllegalStateException("No lapidary machine at " + pos);
     }
 
     /** 0.0 to 1.0 progress for one lane's arrow. */
@@ -91,6 +103,26 @@ public class RockTumblerMenu extends AbstractContainerMenu {
             return 0f;
         }
         return Math.min(1f, (float) current / (float) total);
+    }
+
+    public boolean hasEnergy() {
+        return data.get(AbstractLapidaryBlockEntity.DATA_CAPACITY) > 0;
+    }
+
+    public float getEnergyFraction() {
+        int capacity = data.get(AbstractLapidaryBlockEntity.DATA_CAPACITY);
+        if (capacity <= 0) {
+            return 0f;
+        }
+        return Math.min(1f, (float) data.get(AbstractLapidaryBlockEntity.DATA_ENERGY) / (float) capacity);
+    }
+
+    public int getEnergyStored() {
+        return data.get(AbstractLapidaryBlockEntity.DATA_ENERGY);
+    }
+
+    public int getEnergyCapacity() {
+        return data.get(AbstractLapidaryBlockEntity.DATA_CAPACITY);
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
@@ -112,13 +144,11 @@ public class RockTumblerMenu extends AbstractContainerMenu {
             ItemStack raw = slot.getItem();
             quickMoved = raw.copy();
             if (index < MACHINE_SLOTS) {
-                // Out of the machine (input or output) into the player's inventory.
                 if (!moveItemStackTo(raw, PLAYER_START, PLAYER_END, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickCraft(raw, quickMoved);
             } else {
-                // From the player into the input lanes only — never into outputs.
                 if (!moveItemStackTo(raw, 0, LANES, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -138,6 +168,6 @@ public class RockTumblerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(access, player, ModBlocks.ROCK_TUMBLER.get());
+        return stillValid(access, player, blockEntity.getBlockState().getBlock());
     }
 }

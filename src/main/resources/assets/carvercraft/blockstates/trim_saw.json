@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "carvercraft:block/trim_saw"
+    },
+    "lit=true": {
+      "model": "carvercraft:block/trim_saw"
+    }
+  }
+}

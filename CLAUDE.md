@@ -34,22 +34,53 @@ A gem pipeline from geology to magic: find and tumble rough gems → cut them �
 Experienced infrastructure engineer (Linux/HPC, strong git/CLI), newer to Java, Gradle, and Minecraft modding specifically. When a Java-ecosystem or Minecraft-specific idiom is load-bearing (capabilities, client/server siding, registries, the event bus), briefly explain the why. Skip explanations of general engineering concepts.
 
 ## Current state
-**v0.1 and v0.2 complete and verified in-game.**
 
-- Silver ore + worldgen + smelting; rough gems from andesite/granite/basalt via a global loot modifier.
-- **Rock Tumbler**: four independent lanes, each furnace-shaped (input slot -> horizontal progress arrow -> output slot) on its own clock. Output slots are take-only; a lane stalls if its output is full or mismatched. Particles fire off a RUNNING blockstate (vanilla LIT) the ticker flips. GUI is 176x190.
-- **Curios rings**: two ring slots via datapack, items bound through the vanilla tag `data/curios/tags/item/ring.json`. `RingItem implements ICurioItem` returning a `Multimap<Holder<Attribute>, AttributeModifier>` — confirmed correct for 1.21.1 (Curios only moved to `ItemAttributeModifiers` in 1.21.4+). Silver band + jasper (+4 max health), garnet (+1 attack damage), agate (+2 armor), ruby (+1 luck).
-- **Tumbling is data-driven** (this pass, not yet compiled): custom `RecipeType` + `RecipeSerializer` using vanilla `SingleRecipeInput`, recipes at `data/carvercraft/recipe/tumbling/`. Each recipe carries its own `time`, so harder stones tumble longer — times track Mohs hardness (agate 400t, jasper 500t, garnet 600t). The old hardcoded `polishedResult()` if-chain is gone. Recipes are resolved once per lane and cached on the input item, since a RecipeManager lookup every tick per lane per tumbler would be real cost. ContainerData now carries 4 lane clocks + 4 per-lane totals.
+See DESIGN.md for the full tier tree. Short version: **Metallurgy's structure — a broad
+material roster arranged into tiers gated by machines — applied to lapidary, with Mohs
+hardness as the tier axis and every material real.**
 
-Design notes worth keeping:
-- The tumbler was originally a single 2x2 batch with a circular progress ring. The ring had two bugs (bottom-up reveal instead of a sweep; it overlapped the 4th slot) and batching was the wrong model. **Do not reintroduce the ring or batch processing.**
-- `loadAdditional` force-resizes the item handler to 8 slots so tumblers saved by the old 4-slot build don't shrink it and blow up lane indexing.
-- Adding a stone now takes: one item registration in ModItems, a texture, a model, a lang line, and one recipe JSON. No machine code changes. The Trim Saw and Faceting Station should copy this recipe pattern rather than inventing their own.
+**Verified in-game (v0.1/v0.2):** silver ore + worldgen + smelting; rough stones from host
+rock via global loot modifiers; the Rock Tumbler as four independent lanes; Curios rings
+with attribute modifiers. `RingItem implements ICurioItem` returning a
+`Multimap<Holder<Attribute>, AttributeModifier>` is confirmed correct for 1.21.1.
 
-TESTING VALUES to dial back before release: silver count=40/size=12/band -48..80 (release: 6/8/-48..32). Tumbling times are also short for testing.
+**Written this pass, NOT yet compiled** — the largest single change so far:
+- `LapidaryRecipe` interface + one generic `LapidaryRecipeSerializer`; three types
+  (`tumbling`, `sawing`, `faceting`). Every recipe carries `time` and `hardness`.
+- `AbstractLapidaryBlockEntity` holds all lane/tick/recipe-cache/energy/menu logic.
+  A new machine is now a ~50-line subclass declaring its recipe type, hardness cap,
+  and FE cost. `LapidaryMachineBlock` and one shared `LapidaryMenu`/`LapidaryScreen`
+  do the same for blocks and UI — the screen picks its texture off the block entity.
+- **Trim Saw** (20 FE/t, 20k buffer) and **Faceting Station** (40 FE/t, 40k buffer),
+  both exposing `Capabilities.EnergyStorage.BLOCK` and `Capabilities.ItemHandler.BLOCK`,
+  so Mekanism/IE cables and hoppers work with no glue code.
+- Roster: 11 stones. Opaque (agate, jasper, carnelian, rose quartz, malachite) tumble
+  rough→polished. Transparent (garnet, peridot, topaz, sapphire, ruby, star garnet) go
+  rough→preform→faceted. 13 rings, silver band for tumbled stones and gold for faceted.
+- Alloys as plain crafting for now: sterling silver, electrum, rose gold.
 
-Project hygiene: the NeoForge MDK example scaffolding has been stripped — no `Config.java` (the dirt-block/magic-number sample), one client class instead of two, no `examplemod.*` lang keys, `neoforge.mods.toml` and `build.gradle` cleared of template comment blocks, real README. `TEMPLATE_LICENSE.txt` is deliberately kept: it's the MDK's own MIT notice and the gradle scaffolding is still template-derived.
+Design decisions to hold:
+- **The tumbler is the only hardness gate (7.0).** The saw and faceting station both run
+  to 10 because a diamond blade cuts anything — their gate is power plus a second machine.
+  An earlier draft capped the saw at 8, which made corundum unobtainable.
+- Garnet moved from the tumbler path to the faceted path (7.5 is above the tumbler cap),
+  so `polished_garnet` is gone and the garnet ring takes `faceted_garnet`.
+- The original `ruby` item is preserved as the faceted end of the ruby chain rather than
+  deleted — rough_ruby → ruby_preform → ruby.
+- Star garnet is the endgame: Idaho's state gem, asterism from rutile inclusions, the only
+  ring carrying two attribute modifiers, and the rarest drop in the mod.
+- **Do not reintroduce** the circular progress ring or batch processing.
 
-**`.github/workflows/build.yml` runs `./gradlew build` on every push.** That is a free compile check — after pushing, the repo's Actions tab says whether the code actually compiles. Use it to verify work written without a local compiler.
+Project hygiene: MDK example scaffolding is stripped. `TEMPLATE_LICENSE.txt` is kept on
+purpose — it's the MDK's own MIT notice and the gradle scaffolding is template-derived.
 
-Textures are placeholder programmer art throughout. Next: v0.3 (Trim Saw + Faceting Station, FE capability + their own recipe types), star garnet / Bruneau jasper content, or data-driven jewelry enchantments.
+**`.github/workflows/build.yml` runs `./gradlew build` on every push.** That is a free
+compile check — after pushing, the Actions tab says whether the code compiles. This is
+the verification step for anything written without a local compiler.
+
+TESTING VALUES to dial back before release: silver count=40/size=12/band -48..80
+(release: 6/8/-48..32).
+
+Textures are placeholder programmer art throughout. Next: an Alloyer/Crucible machine so
+alloys stop being plain crafting, the cabochon path (slab→preform→cab), data-driven
+jewelry enchantments, and Bruneau jasper as a distinct jasper variety.

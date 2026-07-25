@@ -1,0 +1,11 @@
+{
+  "type": "carvercraft:stone_gem",
+  "conditions": [
+    {
+      "condition": "minecraft:block_state_property",
+      "block": "minecraft:copper_ore"
+    }
+  ],
+  "item": "carvercraft:rough_malachite",
+  "chance": 0.15
+}
