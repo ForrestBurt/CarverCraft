@@ -146,7 +146,9 @@ These all cost real debugging to find. Several look like bugs and are not.
    and leveling through trades, and the stall generating in a NEW world's villages.
    Newest: the hammer surviving crafts and dying at 256, wire -> band, electrum and
    rose gold rings actually LOOKING like their metal, and recipes appearing in the
-   recipe book as you pick up their ingredients.
+   recipe book as you pick up their ingredients, and the CarverCraft advancement tab
+   showing up with its branches intact (a broken parent silently orphans a branch —
+   check the tab looks like the tree in CLAUDE.md).
 3. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
    and two slurry chemicals. A project of its own, not a few recipe files.
 4. **More jewelry enchantments** on the Brilliance pattern: datapack JSON first, code
