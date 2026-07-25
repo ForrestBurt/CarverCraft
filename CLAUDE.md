@@ -129,6 +129,30 @@ the component for stack-sensitive enchantability (NeoForge's
 `getEnchantmentValue(ItemStack)` hook) and a tooltip line. Both bands craft from
 their alloy ingots in the ring pattern and only take gold-tier (faceted) stones.
 
+**The bench: hammer -> wire -> band.** `JewelerHammerItem` (256 uses) stays in the
+crafting grid via NeoForge's stack-sensitive `getCraftingRemainingItem(ItemStack)`,
+coming back one damage worse and returning EMPTY when spent. Chain is
+`hammer + ingot -> 2 wire` then `4 wire -> 1 band` (ring pattern, but on
+mod-specific stock). **This exists for recipe compatibility**: four ingots in the ring
+pattern is the most contested shape in modded Minecraft, and routing bands through
+`carvercraft:*_wire` makes collisions impossible. Do not "simplify" bands back to
+ingots. Net cost fell 4 ingots -> 2 per band to pay for the extra step.
+
+**Faceted rings render in two tinted layers.** layer0 is the band, normalised so
+multiplying by the metal tint reproduces the metal; layer1 is the stone, untinted.
+`RingItem.bandTint` supplies the colour and `CarverCraftClient` registers the
+`RegisterColorHandlersEvent.Item` handler for the nine faceted rings.
+**Normalisation is against each ramp's BRIGHTEST entry** — anything dimmer clamps the
+highlight to white and cannot recover it; `tools/gen_ring_layers.py` reports the gold
+round-trip error and it must stay 0. Trinkets and cabochon rings stay single-layer:
+they have no band variants.
+
+**Recipe book.** All 58 crafting recipes have unlock advancements under
+`data/carvercraft/advancement/recipes/`, keyed to their least common ingredient.
+Machine recipes are excluded on purpose — custom recipe types never show in the book.
+The validator enforces both directions, so a new crafting recipe without an
+advancement is an error, not an oversight.
+
 **Rarity and power (balance pass).** Rough drops run a 1-in-100 baseline: commons
 0.01, garnet 0.008, topaz 0.005, Bruneau 0.004, ruby/sapphire 0.003, star garnet
 0.0008; malachite 0.04 because copper ore is already finite. Every jewelry effect was

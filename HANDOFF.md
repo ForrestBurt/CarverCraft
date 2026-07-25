@@ -117,12 +117,19 @@ These all cost real debugging to find. Several look like bugs and are not.
    sheet silently mis-samples every coordinate.
 8. **Do not reintroduce** the circular progress ring (it mis-rendered and overlapped a slot)
    or batch processing (lanes are independent for good reasons).
-9. **`JewelerStallInjector` reflects into `StructureTemplatePool.templates` and
+9. **Bands come from wire, never from ingots.** The four-ingot ring pattern collides
+   with half of modded Minecraft. `hammer + ingot -> 2 wire`, `4 wire -> band`. The
+   extra step is the compatibility guarantee, not busywork.
+10. **Faceted ring band layers are normalised against their ramp's brightest colour.**
+   Normalise against the mid tone instead and the highlight clamps to white and can't
+   be recovered. `tools/gen_ring_layers.py` prints the gold round-trip error — it must
+   be 0.
+11. **`JewelerStallInjector` reflects into `StructureTemplatePool.templates` and
    `rawTemplates`.** There is no vanilla/NeoForge API for appending to another
    namespace's template pool; this is the established pattern. It fails soft (log,
    no stalls) if the field names drift. Don't "fix" it into overwriting minecraft's
    houses.json — that would fight every other village mod.
-10. **`TEMPLATE_LICENSE.txt` stays.** It's the MDK's own MIT notice and the gradle scaffolding
+12. **`TEMPLATE_LICENSE.txt` stays.** It's the MDK's own MIT notice and the gradle scaffolding
    is still template-derived.
 
 ## 8. Known-unfinished, roughly in priority order
@@ -137,6 +144,9 @@ These all cost real debugging to find. Several look like bugs and are not.
    Also new: electrum/rose gold ring variants (tooltip line, enchantability, max
    damage), the 1-in-100 drop rates, the jeweler villager claiming a cabbing machine
    and leveling through trades, and the stall generating in a NEW world's villages.
+   Newest: the hammer surviving crafts and dying at 256, wire -> band, electrum and
+   rose gold rings actually LOOKING like their metal, and recipes appearing in the
+   recipe book as you pick up their ingredients.
 3. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
    and two slurry chemicals. A project of its own, not a few recipe files.
 4. **More jewelry enchantments** on the Brilliance pattern: datapack JSON first, code

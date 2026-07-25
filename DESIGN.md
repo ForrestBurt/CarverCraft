@@ -119,6 +119,16 @@ inclusions, which is why it sits at 7.5 and is still the rarest thing in the mod
 Diamond, emerald, and amethyst go straight to the faceting machine. Faceted diamond is
 the best ring in the mod.
 
+## The bench
+
+Ingots don't become jewelry directly. A **jeweler's hammer** draws them into **wire**
+— one ingot makes two — and four lengths of wire bend into a band. The hammer stays on
+the bench, wearing a point per draw across 256 operations.
+
+This is flavor and infrastructure at once. Four ingots in a ring pattern is the most
+contested recipe shape in modded Minecraft; every CarverCraft band comes from wire this
+mod defines, so nothing here can ever collide with another mod's ring.
+
 ## Bands and jewelry
 
 | Band | Takes | Makes | Durability | Enchantability |
@@ -130,7 +140,9 @@ the best ring in the mod.
 | Rose Gold | faceted gems | same ring, wearer's setting | 320 | 26 |
 
 Electrum and rose gold set the *same* ring item — the band travels as a data
-component, so every stone still makes exactly one unambiguous ring. Durability and
+component, so every stone still makes exactly one unambiguous ring — but a faceted
+ring is drawn in two layers, so the metal is visible: pale green-gold electrum, warm
+pink rose gold, and gold exactly as it always looked. Durability and
 enchantability follow the true metals: soft fine silver, work-hardened sterling,
 noble-but-soft gold, eager electrum, and rose gold, the hardest gold there is.
 
