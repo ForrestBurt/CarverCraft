@@ -267,6 +267,32 @@ def collect_recipe_types():
     return set(re.findall(r'type\("([a-z0-9_]+)"\)', text))
 
 
+# ------------------------------------------------- 5. template expansion check
+
+def check_templates():
+    """Every ${token} in src/main/templates must be a key build.gradle expands.
+
+    A missing key fails generateModMetadata before javac even runs — this broke
+    every build for four commits and nobody noticed because nothing compiled the
+    project locally.
+    """
+    gradle = ROOT / "build.gradle"
+    if not gradle.exists():
+        return
+    m = re.search(r"replaceProperties\s*=\s*\[(.*?)\]", gradle.read_text(), re.DOTALL)
+    if not m:
+        warn("could not find replaceProperties in build.gradle — template check skipped")
+        return
+    keys = set(re.findall(r"([a-z_]+)\s*:", m.group(1)))
+    for template in sorted((ROOT / "src/main/templates").rglob("*")):
+        if not template.is_file():
+            continue
+        tokens = set(re.findall(r"\$\{([a-z_]+)\}", template.read_text()))
+        for missing in sorted(tokens - keys):
+            err(f"{template.relative_to(ROOT)}: uses ${{{missing}}} but build.gradle's "
+                f"replaceProperties doesn't define it — generateModMetadata will fail")
+
+
 # --------------------------------------------------------------------- report
 
 def main():
@@ -279,6 +305,7 @@ def main():
         err("failed to parse any registered items out of ModItems.java — validator regexes need updating")
     check_assets(items, blocks)
     check_data(items, blocks)
+    check_templates()
 
     for w in warnings:
         print(f"WARN  {w}")
