@@ -15,7 +15,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** Powered diamond-blade saw. Cuts rough down to a workable preform. */
+/** Diamond blade. Cuts rough down to a workable slab. */
 public class TrimSawBlockEntity extends AbstractLapidaryBlockEntity {
 
     public static final ResourceLocation GUI =

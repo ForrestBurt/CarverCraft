@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:tumbling",
+  "ingredient": {
+    "item": "carvercraft:rough_peridot"
+  },
+  "result": {
+    "id": "carvercraft:tumbled_peridot",
+    "count": 1
+  },
+  "time": 560,
+  "hardness": 7.0
+}

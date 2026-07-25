@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:silver_band"
+    },
+    {
+      "item": "carvercraft:tumbled_rose_quartz"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:rose_quartz_trinket"
+  }
+}

@@ -7,27 +7,29 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 /**
- * Exposes each machine's inventory and FE buffer to the outside world. This is the
- * whole reason a Mekanism cable or an Immersive Engineering wire can feed these
- * machines without either mod knowing the other exists.
+ * Exposes each machine's inventory and FE buffer. This is why a Mekanism cable or an
+ * Immersive Engineering wire can feed these machines with no glue code on either side.
  */
 @EventBusSubscriber(modid = CarverCraft.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModCapabilities {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        // Item handlers — lets hoppers and item pipes load and unload every machine.
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.ROCK_TUMBLER.get(), (be, side) -> be.getInventory());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.TRIM_SAW.get(), (be, side) -> be.getInventory());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
-                ModBlockEntities.FACETING_STATION.get(), (be, side) -> be.getInventory());
+                ModBlockEntities.CABBING_MACHINE.get(), (be, side) -> be.getInventory());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.FACETING_MACHINE.get(), (be, side) -> be.getInventory());
 
-        // Energy — only the powered machines have a buffer; the tumbler returns null.
+        // Energy — the tumbler is passive and returns null.
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
                 ModBlockEntities.TRIM_SAW.get(), (be, side) -> be.getEnergyStorage());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
-                ModBlockEntities.FACETING_STATION.get(), (be, side) -> be.getEnergyStorage());
+                ModBlockEntities.CABBING_MACHINE.get(), (be, side) -> be.getEnergyStorage());
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK,
+                ModBlockEntities.FACETING_MACHINE.get(), (be, side) -> be.getEnergyStorage());
     }
 }

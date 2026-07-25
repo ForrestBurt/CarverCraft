@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:gold_band"
+    },
+    {
+      "item": "carvercraft:faceted_diamond"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:diamond_ring"
+  }
+}

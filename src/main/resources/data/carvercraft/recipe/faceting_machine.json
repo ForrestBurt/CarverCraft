@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    },
+    "B": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "pattern": [
+    "DGD",
+    "GBG",
+    "SRS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:faceting_machine"
+  }
+}

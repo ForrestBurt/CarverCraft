@@ -3,10 +3,10 @@
   "category": "equipment",
   "ingredients": [
     {
-      "item": "carvercraft:silver_ring"
+      "item": "carvercraft:sterling_silver_band"
     },
     {
-      "item": "carvercraft:polished_malachite"
+      "item": "carvercraft:malachite_cabochon"
     }
   ],
   "result": {

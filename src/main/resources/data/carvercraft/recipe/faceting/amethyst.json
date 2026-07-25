@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "result": {
+    "id": "carvercraft:faceted_amethyst",
+    "count": 1
+  },
+  "time": 700,
+  "hardness": 7.0
+}

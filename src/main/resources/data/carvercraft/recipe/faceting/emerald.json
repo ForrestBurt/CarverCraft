@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:faceting",
+  "ingredient": {
+    "item": "minecraft:emerald"
+  },
+  "result": {
+    "id": "carvercraft:faceted_emerald",
+    "count": 1
+  },
+  "time": 900,
+  "hardness": 7.5
+}

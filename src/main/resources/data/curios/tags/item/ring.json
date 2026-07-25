@@ -1,18 +1,25 @@
 {
   "replace": false,
   "values": [
-    "carvercraft:silver_ring",
-    "carvercraft:gold_ring",
+    "carvercraft:agate_trinket",
     "carvercraft:agate_ring",
+    "carvercraft:jasper_trinket",
     "carvercraft:jasper_ring",
+    "carvercraft:carnelian_trinket",
     "carvercraft:carnelian_ring",
+    "carvercraft:rose_quartz_trinket",
     "carvercraft:rose_quartz_ring",
+    "carvercraft:malachite_trinket",
     "carvercraft:malachite_ring",
-    "carvercraft:garnet_ring",
+    "carvercraft:peridot_trinket",
     "carvercraft:peridot_ring",
+    "carvercraft:garnet_ring",
     "carvercraft:topaz_ring",
-    "carvercraft:sapphire_ring",
     "carvercraft:ruby_ring",
-    "carvercraft:star_garnet_ring"
+    "carvercraft:sapphire_ring",
+    "carvercraft:star_garnet_ring",
+    "carvercraft:diamond_ring",
+    "carvercraft:emerald_ring",
+    "carvercraft:amethyst_ring"
   ]
 }

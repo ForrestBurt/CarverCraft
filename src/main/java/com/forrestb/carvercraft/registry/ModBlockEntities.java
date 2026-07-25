@@ -1,9 +1,10 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
-import com.forrestb.carvercraft.block.entity.FacetingStationBlockEntity;
 import com.forrestb.carvercraft.block.entity.RockTumblerBlockEntity;
 import com.forrestb.carvercraft.block.entity.TrimSawBlockEntity;
+import com.forrestb.carvercraft.block.entity.CabbingMachineBlockEntity;
+import com.forrestb.carvercraft.block.entity.FacetingMachineBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -22,7 +23,12 @@ public class ModBlockEntities {
             BLOCK_ENTITY_TYPES.register("trim_saw", () ->
                     BlockEntityType.Builder.of(TrimSawBlockEntity::new, ModBlocks.TRIM_SAW.get()).build(null));
 
-    public static final Supplier<BlockEntityType<FacetingStationBlockEntity>> FACETING_STATION =
-            BLOCK_ENTITY_TYPES.register("faceting_station", () ->
-                    BlockEntityType.Builder.of(FacetingStationBlockEntity::new, ModBlocks.FACETING_STATION.get()).build(null));
+    public static final Supplier<BlockEntityType<CabbingMachineBlockEntity>> CABBING_MACHINE =
+            BLOCK_ENTITY_TYPES.register("cabbing_machine", () ->
+                    BlockEntityType.Builder.of(CabbingMachineBlockEntity::new, ModBlocks.CABBING_MACHINE.get()).build(null));
+
+    public static final Supplier<BlockEntityType<FacetingMachineBlockEntity>> FACETING_MACHINE =
+            BLOCK_ENTITY_TYPES.register("faceting_machine", () ->
+                    BlockEntityType.Builder.of(FacetingMachineBlockEntity::new, ModBlocks.FACETING_MACHINE.get()).build(null));
+
 }

@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:cabbing",
+  "ingredient": {
+    "item": "carvercraft:rose_quartz_slab"
+  },
+  "result": {
+    "id": "carvercraft:rose_quartz_cabochon",
+    "count": 1
+  },
+  "time": 750,
+  "hardness": 7.0
+}

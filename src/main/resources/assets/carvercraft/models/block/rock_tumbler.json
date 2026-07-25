@@ -3,6 +3,6 @@
   "textures": {
     "top": "carvercraft:block/rock_tumbler_top",
     "side": "carvercraft:block/rock_tumbler_side",
-    "bottom": "carvercraft:block/rock_tumbler_bottom"
+    "bottom": "carvercraft:block/machine_bottom"
   }
 }

@@ -3,10 +3,10 @@
   "category": "equipment",
   "ingredients": [
     {
-      "item": "carvercraft:silver_ring"
+      "item": "carvercraft:sterling_silver_band"
     },
     {
-      "item": "carvercraft:polished_jasper"
+      "item": "carvercraft:jasper_cabochon"
     }
   ],
   "result": {

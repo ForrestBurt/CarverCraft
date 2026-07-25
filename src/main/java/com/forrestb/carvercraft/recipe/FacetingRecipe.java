@@ -6,7 +6,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
-/** A preform cut into a finished faceted gem. */
 public record FacetingRecipe(Ingredient input, ItemStack result, int time, float hardness) implements LapidaryRecipe {
 
     @Override

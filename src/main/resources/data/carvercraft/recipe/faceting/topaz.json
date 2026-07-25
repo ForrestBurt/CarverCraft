@@ -1,12 +1,12 @@
 {
   "type": "carvercraft:faceting",
   "ingredient": {
-    "item": "carvercraft:topaz_preform"
+    "item": "carvercraft:topaz_slab"
   },
   "result": {
     "id": "carvercraft:faceted_topaz",
     "count": 1
   },
-  "time": 800,
+  "time": 1160,
   "hardness": 8.0
 }

@@ -19,5 +19,6 @@ public class ModMenus {
 
     public static final Supplier<MenuType<LapidaryMenu>> ROCK_TUMBLER = machine("rock_tumbler");
     public static final Supplier<MenuType<LapidaryMenu>> TRIM_SAW = machine("trim_saw");
-    public static final Supplier<MenuType<LapidaryMenu>> FACETING_STATION = machine("faceting_station");
+    public static final Supplier<MenuType<LapidaryMenu>> CABBING_MACHINE = machine("cabbing_machine");
+    public static final Supplier<MenuType<LapidaryMenu>> FACETING_MACHINE = machine("faceting_machine");
 }

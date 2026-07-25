@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:silver_band"
+    },
+    {
+      "item": "carvercraft:tumbled_malachite"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:malachite_trinket"
+  }
+}

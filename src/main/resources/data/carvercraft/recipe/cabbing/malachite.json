@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:cabbing",
+  "ingredient": {
+    "item": "carvercraft:malachite_slab"
+  },
+  "result": {
+    "id": "carvercraft:malachite_cabochon",
+    "count": 1
+  },
+  "time": 600,
+  "hardness": 4.0
+}

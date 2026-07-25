@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_sapphire"
   },
   "result": {
-    "id": "carvercraft:sapphire_preform",
+    "id": "carvercraft:sapphire_slab",
     "count": 1
   },
-  "time": 800,
+  "time": 660,
   "hardness": 9.0
 }

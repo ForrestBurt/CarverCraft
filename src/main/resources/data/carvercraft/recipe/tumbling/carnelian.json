@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_carnelian"
   },
   "result": {
-    "id": "carvercraft:polished_carnelian",
+    "id": "carvercraft:tumbled_carnelian",
     "count": 1
   },
-  "time": 450,
+  "time": 560,
   "hardness": 7.0
 }

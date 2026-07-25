@@ -3,6 +3,6 @@
   "textures": {
     "top": "carvercraft:block/trim_saw_top",
     "side": "carvercraft:block/trim_saw_side",
-    "bottom": "carvercraft:block/rock_tumbler_bottom"
+    "bottom": "carvercraft:block/machine_bottom"
   }
 }

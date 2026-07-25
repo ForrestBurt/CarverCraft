@@ -35,52 +35,54 @@ Experienced infrastructure engineer (Linux/HPC, strong git/CLI), newer to Java, 
 
 ## Current state
 
-See DESIGN.md for the full tier tree. Short version: **Metallurgy's structure — a broad
-material roster arranged into tiers gated by machines — applied to lapidary, with Mohs
-hardness as the tier axis and every material real.**
+See DESIGN.md for the full tier tree. **The tier axis is finish quality, not hardness** —
+the same jasper can leave a tumbler as a baroque pebble or a cabbing machine as a domed,
+sanded cabochon, and those are not the same object. This came from the developer, who cabs
+rocks; the earlier hardness-tier draft was wrong and was replaced.
 
-**Verified in-game (v0.1/v0.2):** silver ore + worldgen + smelting; rough stones from host
-rock via global loot modifiers; the Rock Tumbler as four independent lanes; Curios rings
-with attribute modifiers. `RingItem implements ICurioItem` returning a
-`Multimap<Holder<Attribute>, AttributeModifier>` is confirmed correct for 1.21.1.
+**Four machines, three finishes:**
 
-**Written this pass, NOT yet compiled** — the largest single change so far:
-- `LapidaryRecipe` interface + one generic `LapidaryRecipeSerializer`; three types
-  (`tumbling`, `sawing`, `faceting`). Every recipe carries `time` and `hardness`.
-- `AbstractLapidaryBlockEntity` holds all lane/tick/recipe-cache/energy/menu logic.
-  A new machine is now a ~50-line subclass declaring its recipe type, hardness cap,
-  and FE cost. `LapidaryMachineBlock` and one shared `LapidaryMenu`/`LapidaryScreen`
-  do the same for blocks and UI — the screen picks its texture off the block entity.
-- **Trim Saw** (20 FE/t, 20k buffer) and **Faceting Station** (40 FE/t, 40k buffer),
-  both exposing `Capabilities.EnergyStorage.BLOCK` and `Capabilities.ItemHandler.BLOCK`,
-  so Mekanism/IE cables and hoppers work with no glue code.
-- Roster: 11 stones. Opaque (agate, jasper, carnelian, rose quartz, malachite) tumble
-  rough→polished. Transparent (garnet, peridot, topaz, sapphire, ruby, star garnet) go
-  rough→preform→faceted. 13 rings, silver band for tumbled stones and gold for faceted.
-- Alloys as plain crafting for now: sterling silver, electrum, rose gold.
+| Machine | Power | Max hardness | Transform |
+|---|---|---|---|
+| Rock Tumbler | none | 7.0 | rough -> tumbled |
+| Trim Saw | 20 FE/t | 10.0 | rough -> slab |
+| Cabbing Machine | 30 FE/t | 10.0 | slab -> cabochon (opaque) |
+| Faceting Machine | 60 FE/t | 10.0 | slab -> faceted gem (transparent) |
+
+Tumbled -> trinket (silver band, weak). Cabochon -> ring (sterling band). Faceted -> ring
+(gold band, strongest). Opaque and transparent stone sets are disjoint, so `X_ring` is
+unambiguous. The faceting machine is the only one that takes vanilla diamond, emerald,
+and amethyst, and faceted diamond is the best ring in the mod.
+
+**Verified in-game:** silver ore/worldgen/smelting, rough stones from host rock via global
+loot modifiers, four-lane machine GUI, Curios rings. `RingItem implements ICurioItem`
+returning `Multimap<Holder<Attribute>, AttributeModifier>` is correct for 1.21.1.
+
+**Not yet compiled:** the four-machine refactor. `AbstractLapidaryBlockEntity` holds all
+lane/tick/recipe-cache/energy/menu logic, so a machine is a ~50-line subclass declaring
+its recipe type, hardness cap, and FE cost. `LapidaryMachineBlock`, one `LapidaryMenu`,
+one `LapidaryScreen` (texture read off the block entity). Four recipe types share one
+generic `LapidaryRecipeSerializer`. All machines expose ItemHandler; powered ones expose
+EnergyStorage, so Mekanism/IE cables and hoppers work with no glue code.
 
 Design decisions to hold:
-- **The tumbler is the only hardness gate (7.0).** The saw and faceting station both run
-  to 10 because a diamond blade cuts anything — their gate is power plus a second machine.
-  An earlier draft capped the saw at 8, which made corundum unobtainable.
-- Garnet moved from the tumbler path to the faceted path (7.5 is above the tumbler cap),
-  so `polished_garnet` is gone and the garnet ring takes `faceted_garnet`.
-- The original `ruby` item is preserved as the faceted end of the ruby chain rather than
-  deleted — rough_ruby → ruby_preform → ruby.
-- Star garnet is the endgame: Idaho's state gem, asterism from rutile inclusions, the only
-  ring carrying two attribute modifiers, and the rarest drop in the mod.
+- **Never facet an opaque stone or cab a transparent one.** That is the whole point.
+- The tumbler is the only hardness gate (7.0). Everything downstream runs to 10 because a
+  diamond blade cuts anything; those gates are cost and power. An earlier draft capped the
+  saw at 8, which made corundum unobtainable.
+- Only stones at or below 7.0 can be tumbled: agate, jasper, carnelian, rose quartz,
+  malachite, peridot. Garnet, topaz, ruby, sapphire, and star garnet cannot.
+- The original `ruby` item is preserved as the faceted end of the ruby chain.
+- Star garnet is the endgame: Idaho's state gem, drawn with its asterism, rarest drop,
+  only ring with two modifiers.
 - **Do not reintroduce** the circular progress ring or batch processing.
 
-Project hygiene: MDK example scaffolding is stripped. `TEMPLATE_LICENSE.txt` is kept on
-purpose — it's the MDK's own MIT notice and the gradle scaffolding is template-derived.
+Project hygiene: MDK example scaffolding stripped. `TEMPLATE_LICENSE.txt` kept on purpose.
 
-**`.github/workflows/build.yml` runs `./gradlew build` on every push.** That is a free
-compile check — after pushing, the Actions tab says whether the code compiles. This is
-the verification step for anything written without a local compiler.
+**`.github/workflows/build.yml` runs `./gradlew build` on every push** — a free compile
+check. This is the verification step for anything written without a local compiler.
 
-TESTING VALUES to dial back before release: silver count=40/size=12/band -48..80
-(release: 6/8/-48..32).
+TESTING VALUES to dial back: silver count=40/size=12/band -48..80 (release: 6/8/-48..32).
 
-Textures are placeholder programmer art throughout. Next: an Alloyer/Crucible machine so
-alloys stop being plain crafting, the cabochon path (slab→preform→cab), data-driven
-jewelry enchantments, and Bruneau jasper as a distinct jasper variety.
+Textures are placeholder programmer art. Next: an Alloyer so alloys stop being plain
+crafting, grit/polish as consumables, data-driven jewelry enchantments, Bruneau jasper.

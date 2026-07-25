@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:gold_band"
+    },
+    {
+      "item": "carvercraft:faceted_amethyst"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:amethyst_ring"
+  }
+}

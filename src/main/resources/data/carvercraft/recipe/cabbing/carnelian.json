@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:cabbing",
+  "ingredient": {
+    "item": "carvercraft:carnelian_slab"
+  },
+  "result": {
+    "id": "carvercraft:carnelian_cabochon",
+    "count": 1
+  },
+  "time": 750,
+  "hardness": 7.0
+}

@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:sawing",
+  "ingredient": {
+    "item": "carvercraft:rough_carnelian"
+  },
+  "result": {
+    "id": "carvercraft:carnelian_slab",
+    "count": 1
+  },
+  "time": 580,
+  "hardness": 7.0
+}

@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_topaz"
   },
   "result": {
-    "id": "carvercraft:topaz_preform",
+    "id": "carvercraft:topaz_slab",
     "count": 1
   },
-  "time": 600,
+  "time": 620,
   "hardness": 8.0
 }

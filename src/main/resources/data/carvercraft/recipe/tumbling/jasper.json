@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_jasper"
   },
   "result": {
-    "id": "carvercraft:polished_jasper",
+    "id": "carvercraft:tumbled_jasper",
     "count": 1
   },
-  "time": 500,
+  "time": 560,
   "hardness": 7.0
 }

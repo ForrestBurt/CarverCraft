@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_peridot"
   },
   "result": {
-    "id": "carvercraft:peridot_preform",
+    "id": "carvercraft:peridot_slab",
     "count": 1
   },
-  "time": 450,
+  "time": 580,
   "hardness": 7.0
 }

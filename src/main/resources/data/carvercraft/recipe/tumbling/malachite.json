@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_malachite"
   },
   "result": {
-    "id": "carvercraft:polished_malachite",
+    "id": "carvercraft:tumbled_malachite",
     "count": 1
   },
-  "time": 300,
+  "time": 470,
   "hardness": 4.0
 }

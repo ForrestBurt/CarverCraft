@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_agate"
   },
   "result": {
-    "id": "carvercraft:polished_agate",
+    "id": "carvercraft:tumbled_agate",
     "count": 1
   },
-  "time": 400,
+  "time": 560,
   "hardness": 7.0
 }

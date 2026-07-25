@@ -7,11 +7,11 @@
     "carvercraft:rough_rose_quartz_from_granite",
     "carvercraft:rough_malachite_from_copper_ore",
     "carvercraft:rough_malachite_from_deepslate_copper_ore",
-    "carvercraft:rough_garnet_from_granite",
     "carvercraft:rough_peridot_from_basalt",
+    "carvercraft:rough_garnet_from_granite",
     "carvercraft:rough_topaz_from_deepslate",
-    "carvercraft:rough_sapphire_from_deepslate",
     "carvercraft:rough_ruby_from_deepslate",
+    "carvercraft:rough_sapphire_from_deepslate",
     "carvercraft:rough_star_garnet_from_deepslate"
   ]
 }

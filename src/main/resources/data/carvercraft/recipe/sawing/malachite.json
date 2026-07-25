@@ -1,0 +1,12 @@
+{
+  "type": "carvercraft:sawing",
+  "ingredient": {
+    "item": "carvercraft:rough_malachite"
+  },
+  "result": {
+    "id": "carvercraft:malachite_slab",
+    "count": 1
+  },
+  "time": 460,
+  "hardness": 4.0
+}

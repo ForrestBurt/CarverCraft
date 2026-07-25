@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "carvercraft:block/cabbing_machine_top",
+    "side": "carvercraft:block/cabbing_machine_side",
+    "bottom": "carvercraft:block/machine_bottom"
+  }
+}

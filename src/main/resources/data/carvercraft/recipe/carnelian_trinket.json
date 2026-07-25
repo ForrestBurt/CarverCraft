@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "carvercraft:silver_band"
+    },
+    {
+      "item": "carvercraft:tumbled_carnelian"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "carvercraft:carnelian_trinket"
+  }
+}

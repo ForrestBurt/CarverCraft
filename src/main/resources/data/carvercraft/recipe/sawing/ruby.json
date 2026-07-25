@@ -4,9 +4,9 @@
     "item": "carvercraft:rough_ruby"
   },
   "result": {
-    "id": "carvercraft:ruby_preform",
+    "id": "carvercraft:ruby_slab",
     "count": 1
   },
-  "time": 800,
+  "time": 660,
   "hardness": 9.0
 }

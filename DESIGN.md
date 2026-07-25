@@ -1,104 +1,117 @@
 # CarverCraft — Material & Tier Design
 
-The organizing idea, borrowed from Metallurgy: **a broad roster of materials, arranged
-into tiers, gated by processing machines.** Where Metallurgy invented forty fantasy
-metals, every material here is real, and the tier axis is real too — **Mohs hardness**.
+The organizing idea, borrowed from Metallurgy: **a broad roster of materials arranged
+into tiers, gated by machines.** Where Metallurgy invented forty fantasy metals, every
+material here is real — and so is every process.
 
-Harder stone needs harder abrasive and better equipment. That isn't a balance knob,
-it's how the craft actually works.
+The tier axis is **finish quality**, not hardness. That's how the craft actually works:
+the same piece of jasper can come out of a tumbler as a baroque pebble or off a cabbing
+machine as a domed, sanded, polished cabochon, and those are not the same object.
 
 ---
 
-## The two paths
+## The three finishes
 
-Real lapidary splits along stone transparency, and so does this mod.
-
-**Opaque stones get tumbled.** Chalcedony, jasper, malachite. Rough rock goes in a
-barrel with grit and comes out smooth. No cutting required.
-
-```
-rough stone --[Rock Tumbler]--> polished stone
-```
-
-**Transparent stones get cut.** You saw a preform off the rough, then facet it.
-Tumbling a sapphire would be a waste of a sapphire.
+**Tumbled — the cheap tier.** Rough rock goes in a barrel with grit and comes out
+smooth and rounded. No sawing, no shaping, no skill, no power. Weeks of waiting for a
+baroque pebble. Makes trinkets.
 
 ```
-rough stone --[Trim Saw]--> preform --[Faceting Station]--> faceted gem
+rough stone --[Rock Tumbler]--> tumbled stone --> trinket
 ```
 
-## The machines are the tiers
+**Cabbed — the working tier.** Saw a slab, grind it to a domed preform, sand it up
+through the grits, polish. This is what you do with opaque stone: jasper, agate,
+malachite. A cabochon is a finished piece of jewelry stock.
+
+```
+rough stone --[Trim Saw]--> slab --[Cabbing Machine]--> cabochon --> ring
+```
+
+**Faceted — the precision tier.** Transparent gems only. Cut against an index wheel
+so the facets return light instead of scattering it. The most expensive machine and
+the best gear, and it's the only thing that will do anything worthwhile with a diamond.
+
+```
+rough gem --[Trim Saw]--> slab --[Faceting Machine]--> faceted gem --> ring
+```
+
+You would never facet jasper. It's opaque — there's nothing for the facets to do.
+You would never cab a diamond either; you'd be throwing away most of its value.
+
+## The machines
 
 | Machine | Power | Max hardness | Transform |
 |---|---|---|---|
-| **Rock Tumbler** | none (passive) | 7.0 | rough → polished |
-| **Trim Saw** | FE | 10.0 | rough → preform |
-| **Faceting Station** | FE | 10.0 | preform → faceted |
+| **Rock Tumbler** | none | 7.0 | rough → tumbled |
+| **Trim Saw** | 20 FE/t | 10.0 | rough → slab |
+| **Cabbing Machine** | 30 FE/t | 10.0 | slab → cabochon |
+| **Faceting Machine** | 60 FE/t | 10.0 | slab → faceted gem |
 
-The tumbler is deliberately the free entry tier — a rubber barrel and silicon carbide
-grit. It tops out at quartz hardness because that's roughly where cheap abrasive stops
-being useful, and it is the mod's real hardness gate: you genuinely cannot tumble a
-sapphire.
+The tumbler is the only hardness gate, and it's a real one: silicon carbide grit in a
+rubber barrel tops out around quartz. You genuinely cannot tumble a sapphire. Everything
+downstream of the trim saw runs to 10 because a diamond blade cuts anything — those
+gates are cost and power, not hardness.
 
-The saw and the faceting station both run to 10, because a diamond blade cuts anything.
-Their gate is power and a second machine, not hardness. Recipes still carry a hardness
-value so a future hand-tool tier (or a harder abrasive progression) has something to
-read.
+The faceting machine is deliberately the expensive one. It is also the only machine
+that accepts vanilla diamonds, emeralds, and amethyst.
 
 ## Stone roster
 
-### Opaque — tumbler path
+### Opaque — sawn and cabbed
 
-| Stone | Mohs | Found in | Ring effect |
-|---|---|---|---|
-| Agate | 7.0 | basalt | +2 armor |
-| Jasper | 7.0 | andesite | +4 max health |
-| Carnelian | 7.0 | tuff | +1 attack speed |
-| Rose Quartz | 7.0 | granite | regeneration-adjacent |
-| Malachite | 4.0 | copper ore | +mining speed |
+| Stone | Mohs | Found in | Tumbles? | Ring effect |
+|---|---|---|---|---|
+| Agate | 7.0 | basalt | yes | +2 armor |
+| Jasper | 7.0 | andesite | yes | +4 max health |
+| Carnelian | 7.0 | tuff | yes | +attack speed |
+| Rose Quartz | 7.0 | granite | yes | +4 absorption |
+| Malachite | 4.0 | copper ore | yes | +2 armor toughness |
 
-Malachite is a copper carbonate that forms in oxidized copper deposits, so it drops
-from copper ore rather than a stone type. Softest thing on the list by a wide margin.
+### Transparent — sawn and faceted
 
-### Transparent — saw and facet path
+| Stone | Mohs | Found in | Tumbles? | Ring effect |
+|---|---|---|---|---|
+| Peridot | 7.0 | basalt | yes | +10% movement speed |
+| Garnet (almandine) | 7.5 | granite | no | +1.5 attack damage |
+| Topaz | 8.0 | deepslate | no | +1 luck |
+| Ruby (corundum) | 9.0 | deepslate | no | +2.5 attack damage |
+| Sapphire (corundum) | 9.0 | deepslate | no | +knockback resistance |
+| **Star Garnet** | 7.5 | deepslate, rare | no | the endgame stone |
 
-| Stone | Mohs | Found in | Ring effect |
-|---|---|---|---|
-| Garnet (almandine) | 7.5 | granite | +1 attack damage |
-| Peridot (olivine) | 7.0 | basalt | +movement speed |
-| Topaz | 8.0 | deepslate | +luck |
-| Ruby (corundum) | 9.0 | deepslate | +2 attack damage |
-| Sapphire (corundum) | 9.0 | deepslate | +knockback resistance |
-| **Star Garnet** | 7.5 | deepslate, rare | the endgame stone |
+**Star garnet** is the one that matters. Idaho's state gem, found in commercial quantity
+in exactly two places on Earth — Idaho and India. The asterism comes from rutile
+inclusions, which is why it sits at 7.5 and is still the rarest thing in the mod.
 
-**Star garnet** is the one that matters. Idaho's state gem, and it is found in
-commercial quantity in exactly two places on Earth — Idaho and India. The asterism
-comes from rutile inclusions, not hardness, which is why it sits at 7.5 and is still
-the rarest thing in the mod. It should be hard to find and worth the trip.
+### Vanilla gems — faceting only
 
-## Metals and alloys
+Diamond, emerald, and amethyst go straight to the faceting machine. Faceted diamond is
+the best ring in the mod.
 
-The Metallurgy alloy system, except the alloys are ones a jeweler actually uses.
+## Bands and jewelry
 
-| Alloy | Recipe | Real? |
+| Band | Takes | Makes |
 |---|---|---|
-| Sterling Silver | 7 silver + 1 copper | yes — 92.5% silver is the standard |
-| Electrum | silver + gold | yes — naturally occurring, used since antiquity |
-| Rose Gold | 3 gold + 1 copper | yes — copper is what makes it pink |
+| Silver | tumbled stones | trinket — weak |
+| Sterling Silver | cabochons | ring — solid |
+| Gold | faceted gems | ring — strongest |
 
-## Band tiers
+Opaque and transparent stones are disjoint sets, so a stone's ring is unambiguous:
+jasper's comes from a cabochon, sapphire's from a faceted gem.
 
-The band scales what the stone is worth, which keeps the combination count sane —
-one band tier per processing tier rather than every metal against every stone.
+## Alloys
 
-| Band | Takes | Effect |
-|---|---|---|
-| Silver | polished (tumbled) stones | base |
-| Gold | faceted gems | amplified |
+Real jeweller's alloys at roughly real ratios.
+
+| Alloy | Recipe |
+|---|---|
+| Sterling Silver | 7 silver + 1 copper |
+| Electrum | silver + gold |
+| Rose Gold | 3 gold + 1 copper |
 
 ## Not yet built
 
-- Cabochon path: slab → preform → cab, the workflow between tumbling and faceting
-- An Alloyer/Crucible machine (alloys are plain crafting recipes for now)
+- An Alloyer/Crucible so alloys stop being plain crafting
+- Grit and polishing compound as consumables
 - Data-driven jewelry enchantments
 - Bruneau jasper as a distinct jasper variety

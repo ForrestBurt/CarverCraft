@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "carvercraft:block/cabbing_machine"
+    },
+    "lit=true": {
+      "model": "carvercraft:block/cabbing_machine"
+    }
+  }
+}

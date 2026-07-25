@@ -15,7 +15,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** Passive barrel tumbler. Silicon carbide grit tops out around quartz. */
+/** Barrel of grit. No cutting, no power, no skill — a baroque pebble in six weeks. */
 public class RockTumblerBlockEntity extends AbstractLapidaryBlockEntity {
 
     public static final ResourceLocation GUI =
