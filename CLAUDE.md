@@ -102,14 +102,50 @@ enchantment effects only in vanilla equipment slots, so `RingItem` reads its own
 Brilliance level and scales the modifiers it already reported. Its Multimap signature
 is unchanged.
 
-**Jewelry wears like armor.** Durability follows the band, not the stone: trinkets 150,
-sterling rings 250, gold rings 350. `JewelryWearHandler` (game bus,
-`LivingDamageEvent.Post`) applies armor's wear formula — max(1, damage/4) — to every
-equipped RingItem when the wearer takes armor-affecting damage. Damage tagged
-`bypasses_armor` spares jewelry, deliberately: falls don't grind away the Bruneau
-ring that made the fall safe. Rings sit in minecraft's `enchantable/durability` item
-tag, so Unbreaking and Mending work; breaking plays the item-break sound and the
-bonus dies with the ring. Creative wearers are exempt, like armor.
+**Jewelry wears like armor.** `JewelryWearHandler` (game bus, `LivingDamageEvent.Post`)
+applies armor's wear formula — max(1, damage/4) — to every equipped RingItem when the
+wearer takes armor-affecting damage. Damage tagged `bypasses_armor` spares jewelry,
+deliberately: falls don't grind away the Bruneau ring that made the fall safe. Rings
+sit in minecraft's `enchantable/durability` item tag, so Unbreaking and Mending work;
+breaking plays the item-break sound and the bonus dies with the ring. Creative wearers
+are exempt, like armor.
+
+**Durability and enchantability track the real metals**, not the tier ladder:
+
+| Band | Durability | Enchantability | How |
+|---|---|---|---|
+| Silver (trinkets) | 120 | 15 | item tier |
+| Sterling (cabochon rings) | 280 | 18 | item tier |
+| Gold (faceted rings) | 160 | 22 | item tier |
+| Electrum | 180 | 32 | `carvercraft:band` component |
+| Rose Gold | 320 | 26 | `carvercraft:band` component |
+
+Fine silver is soft wire, sterling is work-hardened, pure gold is noble but soft;
+electrum is the enchanter's metal and rose gold really is the hardest gold alloy.
+**Electrum and rose gold are NOT new ring items** — the one-ring-per-stone rule holds.
+They ride as a `carvercraft:band` data component set by the crafting recipe's result
+(band item + faceted gem), which also sets `minecraft:max_damage`. `RingItem` reads
+the component for stack-sensitive enchantability (NeoForge's
+`getEnchantmentValue(ItemStack)` hook) and a tooltip line. Both bands craft from
+their alloy ingots in the ring pattern and only take gold-tier (faceted) stones.
+
+**Rarity and power (balance pass).** Rough drops run a 1-in-100 baseline: commons
+0.01, garnet 0.008, topaz 0.005, Bruneau 0.004, ruby/sapphire 0.003, star garnet
+0.0008; malachite 0.04 because copper ore is already finite. Every jewelry effect was
+halved at the same time (jasper trinket +1 health, ring +2, etc.) — a stone should be
+a find, not an armor set.
+
+**The village jeweler.** Profession whose job site POI is the cabbing machine; trades
+climb the mod's own economy (buy rough/tumbled/cabbed, sell grit/polish/bands; master
+rank sells electrum bands and corundum rough). **No trade sells star garnet, at any
+rank, ever** — Idaho's stone is found, not bought. A 7×5×7 jeweler's stall
+(`data/carvercraft/structure/village/jeweler_stall.nbt`, generated and round-trip
+verified by `tools/gen_jeweler_stall.py`) joins all five village biomes' houses pools
+at weight 3 via runtime injection (`JewelerStallInjector`): vanilla has no datapack
+hook for appending to another namespace's pool, so it reflects into
+`StructureTemplatePool.templates`/`rawTemplates` at ServerAboutToStart. If those
+field names ever drift, it logs and stands down — never crash a server start over a
+market stall.
 
 Design decisions to hold:
 - **Never facet an opaque stone or cab a transparent one.** That is the whole point.

@@ -117,7 +117,12 @@ These all cost real debugging to find. Several look like bugs and are not.
    sheet silently mis-samples every coordinate.
 8. **Do not reintroduce** the circular progress ring (it mis-rendered and overlapped a slot)
    or batch processing (lanes are independent for good reasons).
-9. **`TEMPLATE_LICENSE.txt` stays.** It's the MDK's own MIT notice and the gradle scaffolding
+9. **`JewelerStallInjector` reflects into `StructureTemplatePool.templates` and
+   `rawTemplates`.** There is no vanilla/NeoForge API for appending to another
+   namespace's template pool; this is the established pattern. It fails soft (log,
+   no stalls) if the field names drift. Don't "fix" it into overwriting minecraft's
+   houses.json — that would fight every other village mod.
+10. **`TEMPLATE_LICENSE.txt` stays.** It's the MDK's own MIT notice and the gradle scaffolding
    is still template-derived.
 
 ## 8. Known-unfinished, roughly in priority order
@@ -129,6 +134,9 @@ These all cost real debugging to find. Several look like bugs and are not.
    and polish in the consumable slot), the Alloyer melting the three alloys, the
    diamond ring, Bruneau jasper from tuff, Brilliance at the enchanting table, and
    jewelry durability — take hits until a trinket breaks, confirm falls don't wear it.
+   Also new: electrum/rose gold ring variants (tooltip line, enchantability, max
+   damage), the 1-in-100 drop rates, the jeweler villager claiming a cabbing machine
+   and leveling through trades, and the stall generating in a NEW world's villages.
 3. **Mekanism 5x ore processing for silver** — needs dust, dirty dust, clump, shard, crystal,
    and two slurry chemicals. A project of its own, not a few recipe files.
 4. **More jewelry enchantments** on the Brilliance pattern: datapack JSON first, code

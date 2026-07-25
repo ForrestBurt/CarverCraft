@@ -86,12 +86,12 @@ mid-cycle.
 
 | Stone | Mohs | Found in | Tumbles? | Ring effect |
 |---|---|---|---|---|
-| Agate | 7.0 | basalt | yes | +2 armor |
-| Jasper | 7.0 | andesite | yes | +4 max health |
-| **Bruneau Jasper** | 7.0 | tuff, rare | yes | +2 safe fall distance |
+| Agate | 7.0 | basalt | yes | +1 armor |
+| Jasper | 7.0 | andesite | yes | +2 max health |
+| **Bruneau Jasper** | 7.0 | tuff, rare | yes | +1 safe fall distance |
 | Carnelian | 7.0 | tuff | yes | +attack speed |
-| Rose Quartz | 7.0 | granite | yes | +4 absorption |
-| Malachite | 4.0 | copper ore | yes | +2 armor toughness |
+| Rose Quartz | 7.0 | granite | yes | +2 absorption |
+| Malachite | 4.0 | copper ore | yes | +1 armor toughness |
 
 **Bruneau jasper** is the mod's second Idaho signature: picture jasper from the Bruneau
 river canyon, porcelain tan with landscape banding. It forms in rhyolitic volcanics, so
@@ -103,10 +103,10 @@ to the star garnet.
 
 | Stone | Mohs | Found in | Tumbles? | Ring effect |
 |---|---|---|---|---|
-| Peridot | 7.0 | basalt | yes | +10% movement speed |
-| Garnet (almandine) | 7.5 | granite | no | +1.5 attack damage |
-| Topaz | 8.0 | deepslate | no | +1 luck |
-| Ruby (corundum) | 9.0 | deepslate | no | +2.5 attack damage |
+| Peridot | 7.0 | basalt | yes | +5% movement speed |
+| Garnet (almandine) | 7.5 | granite | no | +0.75 attack damage |
+| Topaz | 8.0 | deepslate | no | +0.5 luck |
+| Ruby (corundum) | 9.0 | deepslate | no | +1.25 attack damage |
 | Sapphire (corundum) | 9.0 | deepslate | no | +knockback resistance |
 | **Star Garnet** | 7.5 | deepslate, rare | no | the endgame stone |
 
@@ -121,11 +121,18 @@ the best ring in the mod.
 
 ## Bands and jewelry
 
-| Band | Takes | Makes | Durability |
-|---|---|---|---|
-| Silver | tumbled stones | trinket — weak | 150 |
-| Sterling Silver | cabochons | ring — solid | 250 |
-| Gold | faceted gems | ring — strongest | 350 |
+| Band | Takes | Makes | Durability | Enchantability |
+|---|---|---|---|---|
+| Silver | tumbled stones | trinket — weak | 120 | 15 |
+| Sterling Silver | cabochons | ring — solid | 280 | 18 |
+| Gold | faceted gems | ring — strongest | 160 | 22 |
+| Electrum | faceted gems | same ring, enchanter's setting | 180 | 32 |
+| Rose Gold | faceted gems | same ring, wearer's setting | 320 | 26 |
+
+Electrum and rose gold set the *same* ring item — the band travels as a data
+component, so every stone still makes exactly one unambiguous ring. Durability and
+enchantability follow the true metals: soft fine silver, work-hardened sterling,
+noble-but-soft gold, eager electrum, and rose gold, the hardest gold there is.
 
 Jewelry wears like armor: every equipped piece takes durability when its wearer takes
 a hit armor would care about (armor's own formula, max(1, damage/4)), and damage that
@@ -147,6 +154,21 @@ melts fine.
 | Sterling Silver | 7 silver + 1 copper → 8 |
 | Electrum | 1 silver + 1 gold → 2 |
 | Rose Gold | 3 gold + 1 copper → 4 |
+
+## Rarity
+
+Rough is a find: commons drop at 1-in-100 from their host rock, thinning to 0.008
+(garnet), 0.005 (topaz), 0.004 (Bruneau), 0.003 (corundum), 0.0008 (star garnet).
+Malachite runs 0.04 because copper ore is itself finite. Effects were halved in the
+same pass — the power is in having earned the stone.
+
+## The village jeweler
+
+A profession whose job site is the cabbing machine, with trades that climb the mod's
+own ladder: rough and grit at novice, polish and silver at apprentice, sterling at
+journeyman, gold and rose gold at expert, electrum and corundum rough at master. No
+rank sells a star garnet, ever. A small open-front stall (cabbing machine, tumbler,
+stock chest) generates in all five village biomes.
 
 ## Enchantments
 
