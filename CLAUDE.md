@@ -32,3 +32,6 @@ A gem pipeline from geology to magic: find and tumble rough gems â†’ cut them â†
 
 ## Developer context
 Experienced infrastructure engineer (Linux/HPC, strong git/CLI), newer to Java, Gradle, and Minecraft modding specifically. When a Java-ecosystem or Minecraft-specific idiom is load-bearing (capabilities, client/server siding, registries, the event bus), briefly explain the why. Skip explanations of general engineering concepts.
+
+## Current state
+v0.1 implemented (silver ore + worldgen + smelting, rough gem drops from andesite/granite/basalt via GLM, Rock Tumbler with passive tumbling, polished gems). Not yet compile-verified in CI; textures are placeholder programmer art. Next: v0.2 (Curios + rings).
