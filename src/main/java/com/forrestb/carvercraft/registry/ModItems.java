@@ -1,6 +1,7 @@
 package com.forrestb.carvercraft.registry;
 
 import com.forrestb.carvercraft.CarverCraft;
+import com.forrestb.carvercraft.item.ConsumableItem;
 import com.forrestb.carvercraft.item.RingItem;
 import com.forrestb.carvercraft.item.RingItem.Bonus;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -32,6 +33,15 @@ public class ModItems {
     public static final DeferredItem<Item> SILVER_BAND = simple("silver_band");
     public static final DeferredItem<Item> STERLING_SILVER_BAND = simple("sterling_silver_band");
     public static final DeferredItem<Item> GOLD_BAND = simple("gold_band");
+
+    // --- Shop supplies -------------------------------------------------------
+    // Silicon carbide grit: sand and coal, the Acheson process in a crafting grid.
+    // The tumbler charges one per lane cycle.
+    public static final DeferredItem<Item> SILICON_CARBIDE_GRIT = ITEMS.register("silicon_carbide_grit",
+            () -> new ConsumableItem(new Item.Properties(), "item.carvercraft.silicon_carbide_grit.tooltip"));
+    // Jeweler's rouge — red iron oxide. The cabbing machine's final-stage polish.
+    public static final DeferredItem<Item> POLISHING_COMPOUND = ITEMS.register("polishing_compound",
+            () -> new ConsumableItem(new Item.Properties(), "item.carvercraft.polishing_compound.tooltip"));
 
 
     // --- Opaque stones: rough -> slab -> cabochon (and optionally tumbled) ---

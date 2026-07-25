@@ -44,8 +44,11 @@ import java.util.Optional;
  */
 public abstract class AbstractLapidaryBlockEntity extends BlockEntity implements MenuProvider {
     public static final int LANES = 4;
-    public static final int SLOT_COUNT = LANES * 2;   // 0-3 inputs, 4-7 outputs
     public static final int OUTPUT_OFFSET = LANES;
+    // 0-3 inputs, 4-7 outputs, 8 the shared consumable slot (grit, polish).
+    // Machines that declare no consumable never expose slot 8 in their menu.
+    public static final int CONSUMABLE_SLOT = LANES * 2;
+    public static final int SLOT_COUNT = LANES * 2 + 1;
 
     // ContainerData layout: [0..3] lane clocks, [4..7] lane totals, [8] energy, [9] capacity.
     public static final int DATA_ENERGY = LANES * 2;
@@ -63,6 +66,10 @@ public abstract class AbstractLapidaryBlockEntity extends BlockEntity implements
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
+            if (slot == CONSUMABLE_SLOT) {
+                Item required = consumableItem();
+                return required != null && stack.is(required);
+            }
             if (slot >= OUTPUT_OFFSET) {
                 return false; // outputs are take-only
             }
@@ -144,6 +151,26 @@ public abstract class AbstractLapidaryBlockEntity extends BlockEntity implements
 
     protected abstract Component defaultName();
 
+    /**
+     * The item one lane burns through per cycle (grit for the tumbler, polish for
+     * the cabbing machine), or null for machines whose process consumes nothing.
+     * Consumption happens when a lane's clock leaves zero — the grit goes in the
+     * barrel at the start of the tumble, not at the end.
+     */
+    @Nullable
+    protected Item consumableItem() {
+        return null;
+    }
+
+    public final boolean usesConsumable() {
+        return consumableItem() != null;
+    }
+
+    private boolean hasConsumable() {
+        Item required = consumableItem();
+        return required != null && inventory.getStackInSlot(CONSUMABLE_SLOT).is(required);
+    }
+
     protected SoundEvent workingSound() {
         return SoundEvents.GRAVEL_HIT;
     }
@@ -214,6 +241,13 @@ public abstract class AbstractLapidaryBlockEntity extends BlockEntity implements
                     // Powered machine with an empty buffer: the lane holds where it is.
                     continue;
                 }
+                if (machine.progress[lane] == 0 && machine.usesConsumable()) {
+                    // The cycle begins: charge the barrel. canRun just verified supply.
+                    ItemStack supply = machine.inventory.getStackInSlot(CONSUMABLE_SLOT);
+                    supply.shrink(1);
+                    machine.inventory.setStackInSlot(CONSUMABLE_SLOT,
+                            supply.isEmpty() ? ItemStack.EMPTY : supply);
+                }
                 anyRunning = true;
                 machine.progress[lane]++;
                 if (machine.progress[lane] >= machine.cachedTime[lane]) {
@@ -241,6 +275,11 @@ public abstract class AbstractLapidaryBlockEntity extends BlockEntity implements
 
     private boolean canRun(Level level, int lane) {
         if (!resolveLane(level, lane)) {
+            return false;
+        }
+        // A lane about to start needs supply in the consumable slot; a lane already
+        // past zero has its grit in the barrel and runs the cycle out.
+        if (progress[lane] == 0 && usesConsumable() && !hasConsumable()) {
             return false;
         }
         ItemStack result = cachedResult[lane];
@@ -312,8 +351,9 @@ public abstract class AbstractLapidaryBlockEntity extends BlockEntity implements
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
-        // Machines saved by an older build could shrink the handler; force the current size
-        // so lane indexing stays in bounds.
+        // Machines saved by an older build could size the handler differently (8 slots
+        // before the consumable slot existed); force the current size so lane indexing
+        // stays in bounds. Growing 8 -> 9 just leaves the consumable slot empty.
         if (inventory.getSlots() != SLOT_COUNT) {
             inventory.setSize(SLOT_COUNT);
         }

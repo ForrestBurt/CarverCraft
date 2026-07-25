@@ -38,6 +38,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.STERLING_SILVER_BAND.get());
                         output.accept(ModItems.GOLD_BAND.get());
 
+                        // Shop supplies
+                        output.accept(ModItems.SILICON_CARBIDE_GRIT.get());
+                        output.accept(ModItems.POLISHING_COMPOUND.get());
+
                         // Opaque stones: rough -> tumbled -> slab -> cabochon
                         output.accept(ModItems.ROUGH_AGATE.get());
                         output.accept(ModItems.TUMBLED_AGATE.get());

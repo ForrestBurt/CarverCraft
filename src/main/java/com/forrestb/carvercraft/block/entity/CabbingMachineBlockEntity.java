@@ -4,6 +4,7 @@ import com.forrestb.carvercraft.CarverCraft;
 import com.forrestb.carvercraft.menu.LapidaryMenu;
 import com.forrestb.carvercraft.recipe.LapidaryRecipe;
 import com.forrestb.carvercraft.registry.ModBlockEntities;
+import com.forrestb.carvercraft.registry.ModItems;
 import com.forrestb.carvercraft.registry.ModMenus;
 import com.forrestb.carvercraft.registry.ModRecipes;
 import net.minecraft.core.BlockPos;
@@ -12,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -63,5 +65,11 @@ public class CabbingMachineBlockEntity extends AbstractLapidaryBlockEntity {
     @Override
     protected SoundEvent workingSound() {
         return SoundEvents.GRINDSTONE_USE;
+    }
+
+    /** The final sanding stages need rouge: one polishing compound per cabochon. */
+    @Override
+    protected Item consumableItem() {
+        return ModItems.POLISHING_COMPOUND.get();
     }
 }

@@ -37,10 +37,14 @@ public class LapidaryMenu extends AbstractContainerMenu {
     public static final int ENERGY_Y = 16;
     public static final int ENERGY_W = 12;
     public static final int ENERGY_H = 72;
+    // Shared consumable slot (grit, polish), right of the lanes, on machines that use one.
+    public static final int CONSUMABLE_X = 134;
+    public static final int CONSUMABLE_Y = 52;
 
-    private static final int MACHINE_SLOTS = AbstractLapidaryBlockEntity.SLOT_COUNT;
-    private static final int PLAYER_START = MACHINE_SLOTS;
-    private static final int PLAYER_END = MACHINE_SLOTS + 36;
+    // 8 lane slots, plus the consumable slot on machines that declare one.
+    private final int machineSlots;
+    private final int playerStart;
+    private final int playerEnd;
 
     /** Output slots hand items out but never take them from the player. */
     private static class OutputSlot extends SlotItemHandler {
@@ -79,6 +83,13 @@ public class LapidaryMenu extends AbstractContainerMenu {
         for (int lane = 0; lane < LANES; lane++) {
             addSlot(new OutputSlot(handler, AbstractLapidaryBlockEntity.OUTPUT_OFFSET + lane, OUTPUT_X, ROW_Y[lane]));
         }
+        if (blockEntity.usesConsumable()) {
+            addSlot(new SlotItemHandler(handler, AbstractLapidaryBlockEntity.CONSUMABLE_SLOT,
+                    CONSUMABLE_X, CONSUMABLE_Y));
+        }
+        this.machineSlots = LANES * 2 + (blockEntity.usesConsumable() ? 1 : 0);
+        this.playerStart = machineSlots;
+        this.playerEnd = machineSlots + 36;
 
         addPlayerInventory(playerInventory);
         addDataSlots(this.data);
@@ -143,13 +154,19 @@ public class LapidaryMenu extends AbstractContainerMenu {
         if (slot != null && slot.hasItem()) {
             ItemStack raw = slot.getItem();
             quickMoved = raw.copy();
-            if (index < MACHINE_SLOTS) {
-                if (!moveItemStackTo(raw, PLAYER_START, PLAYER_END, true)) {
+            if (index < machineSlots) {
+                if (!moveItemStackTo(raw, playerStart, playerEnd, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickCraft(raw, quickMoved);
             } else {
-                if (!moveItemStackTo(raw, 0, LANES, false)) {
+                // Lanes first; anything they refuse may still be the machine's
+                // consumable (the slots themselves police what they accept).
+                boolean moved = moveItemStackTo(raw, 0, LANES, false);
+                if (!moved && blockEntity.usesConsumable()) {
+                    moved = moveItemStackTo(raw, machineSlots - 1, machineSlots, false);
+                }
+                if (!moved) {
                     return ItemStack.EMPTY;
                 }
             }
