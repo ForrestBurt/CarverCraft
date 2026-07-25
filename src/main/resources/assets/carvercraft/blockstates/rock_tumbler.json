@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "lit=false": {
+      "model": "carvercraft:block/rock_tumbler"
+    },
+    "lit=true": {
       "model": "carvercraft:block/rock_tumbler"
     }
   }

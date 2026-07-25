@@ -1,5 +1,6 @@
 package com.forrestb.carvercraft.block.entity;
 
+import com.forrestb.carvercraft.block.RockTumblerBlock;
 import com.forrestb.carvercraft.menu.RockTumblerMenu;
 import com.forrestb.carvercraft.registry.ModBlockEntities;
 import com.forrestb.carvercraft.registry.ModItems;
@@ -18,6 +19,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -91,16 +93,25 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, RockTumblerBlockEntity tumbler) {
+        boolean wasRunning = state.getValue(RockTumblerBlock.RUNNING);
+
         if (!tumbler.hasRoughGems()) {
             if (tumbler.progress != 0) {
                 tumbler.progress = 0;
                 tumbler.setChanged();
             }
+            if (wasRunning) {
+                setRunningState(level, pos, state, false);
+            }
             return;
         }
+
         tumbler.progress++;
+        if (!wasRunning) {
+            setRunningState(level, pos, state, true);
+        }
         if (tumbler.progress % 20 == 0) {
-            tumbler.setChanged(); // periodic save; keeps the data slot moving for observers
+            tumbler.setChanged(); // periodic save
         }
         // The drum grumbles as it turns.
         if (tumbler.progress % 30 == 0) {
@@ -108,6 +119,16 @@ public class RockTumblerBlockEntity extends BlockEntity implements MenuProvider 
         }
         if (tumbler.progress >= TICKS_PER_BATCH) {
             tumbler.finishBatch(level, pos);
+            // finishBatch clears progress; drop the running flag if nothing else is loaded.
+            if (!tumbler.hasRoughGems()) {
+                setRunningState(level, pos, tumbler.getBlockState(), false);
+            }
+        }
+    }
+
+    private static void setRunningState(Level level, BlockPos pos, BlockState state, boolean running) {
+        if (state.getValue(RockTumblerBlock.RUNNING) != running) {
+            level.setBlock(pos, state.setValue(RockTumblerBlock.RUNNING, running), Block.UPDATE_ALL);
         }
     }
 

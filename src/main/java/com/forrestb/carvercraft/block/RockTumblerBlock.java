@@ -16,19 +16,32 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class RockTumblerBlock extends BaseEntityBlock {
     public static final MapCodec<RockTumblerBlock> CODEC = simpleCodec(RockTumblerBlock::new);
 
+    // Reuse vanilla's LIT property so the client knows when the drum is turning.
+    // Block states sync to the client automatically, which fixes the particle problem.
+    public static final BooleanProperty RUNNING = BlockStateProperties.LIT;
+
     public RockTumblerBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(RUNNING, Boolean.FALSE));
     }
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
+        builder.add(RUNNING);
     }
 
     @Override
@@ -57,19 +70,28 @@ public class RockTumblerBlock extends BaseEntityBlock {
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    // Ambient particles: a little dust puffing off the drum while it runs.
+    // Ambient particles while the drum runs. Reads the block state (client-synced),
+    // not the block entity, so it now actually fires on the client.
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (level.getBlockEntity(pos) instanceof RockTumblerBlockEntity tumbler && tumbler.isRunning()) {
-            if (random.nextInt(3) == 0) {
-                double px = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.6;
-                double py = pos.getY() + 0.55 + random.nextDouble() * 0.2;
-                double pz = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.6;
-                level.addParticle(ParticleTypes.POOF, px, py, pz, 0.0, 0.02, 0.0);
-                if (random.nextInt(2) == 0) {
-                    level.addParticle(ParticleTypes.CRIT, px, py, pz, 0.0, 0.0, 0.0);
-                }
-            }
+        if (!state.getValue(RUNNING)) {
+            return;
+        }
+        double cx = pos.getX() + 0.5;
+        double cy = pos.getY();
+        double cz = pos.getZ() + 0.5;
+        // Dust puffing off the top.
+        if (random.nextInt(2) == 0) {
+            double px = cx + (random.nextDouble() - 0.5) * 0.5;
+            double pz = cz + (random.nextDouble() - 0.5) * 0.5;
+            level.addParticle(ParticleTypes.POOF, px, cy + 0.9 + random.nextDouble() * 0.15, pz,
+                    0.0, 0.015, 0.0);
+        }
+        // Occasional spark from the grinding.
+        if (random.nextInt(6) == 0) {
+            double px = cx + (random.nextDouble() - 0.5) * 0.4;
+            double pz = cz + (random.nextDouble() - 0.5) * 0.4;
+            level.addParticle(ParticleTypes.CRIT, px, cy + 0.6, pz, 0.0, 0.0, 0.0);
         }
     }
 }

@@ -12,18 +12,21 @@ public class RockTumblerScreen extends AbstractContainerScreen<RockTumblerMenu> 
     private static final ResourceLocation TEXTURE =
             ResourceLocation.fromNamespaceAndPath(CarverCraft.MODID, "textures/gui/rock_tumbler.png");
 
-    // The rotating-arrow sprite (a circular progress ring) lives in the same texture sheet.
-    private static final int ARROW_U = 176;
-    private static final int ARROW_V = 0;
-    private static final int ARROW_SIZE = 24;
-    private static final int ARROW_X = 99;
-    private static final int ARROW_Y = 34;
+    private static final int RING_SIZE = 24;
+    // Where the ring sits on the panel.
+    private static final int RING_X = 99;
+    private static final int RING_Y = 34;
+
+    // 16 pre-rendered fill frames baked into the sheet, laid out in a 3-wide grid.
+    private static final int FRAMES = 16;
+    private static final int FRAME_ORIGIN_U = 176;
+    private static final int FRAME_ORIGIN_V = 24;
+    private static final int FRAME_COLS = 3;
 
     public RockTumblerScreen(RockTumblerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
-        // Keep the title over the slots and the inventory label where players expect them.
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
@@ -33,18 +36,13 @@ public class RockTumblerScreen extends AbstractContainerScreen<RockTumblerMenu> 
         int y = (height - imageHeight) / 2;
         guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
-        // Draw the progress ring, cropped to the current fraction (fills clockwise via height reveal).
         float fraction = menu.getProgressFraction();
         if (fraction > 0f) {
-            int filled = Math.max(1, (int) (ARROW_SIZE * fraction));
-            guiGraphics.blit(
-                    TEXTURE,
-                    x + ARROW_X,
-                    y + ARROW_Y + (ARROW_SIZE - filled),
-                    ARROW_U,
-                    ARROW_V + (ARROW_SIZE - filled),
-                    ARROW_SIZE,
-                    filled);
+            // Pick the frame whose fill best matches the current fraction.
+            int frame = Math.min(FRAMES - 1, Math.max(0, Math.round(fraction * FRAMES) - 1));
+            int u = FRAME_ORIGIN_U + (frame % FRAME_COLS) * RING_SIZE;
+            int v = FRAME_ORIGIN_V + (frame / FRAME_COLS) * RING_SIZE;
+            guiGraphics.blit(TEXTURE, x + RING_X, y + RING_Y, u, v, RING_SIZE, RING_SIZE);
         }
     }
 
