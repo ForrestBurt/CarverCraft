@@ -8,6 +8,7 @@ import com.forrestb.carvercraft.registry.ModItems;
 import com.forrestb.carvercraft.registry.ModLootModifiers;
 import com.forrestb.carvercraft.registry.ModMenus;
 import com.forrestb.carvercraft.registry.ModRecipes;
+import com.forrestb.carvercraft.registry.ModVillagers;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -29,5 +30,7 @@ public class CarverCraft {
         ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
         ModLootModifiers.LOOT_MODIFIER_SERIALIZERS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModVillagers.POI_TYPES.register(modEventBus);
+        ModVillagers.PROFESSIONS.register(modEventBus);
     }
 }

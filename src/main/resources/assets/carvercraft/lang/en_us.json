@@ -87,5 +87,6 @@
   "block.carvercraft.creative_charger": "Creative Charger",
   "enchantment.carvercraft.brilliance": "Brilliance",
   "tooltip.carvercraft.band.electrum": "Set in electrum — eager to take enchantment, quick to wear",
-  "tooltip.carvercraft.band.rose_gold": "Set in rose gold — the hardest gold there is"
+  "tooltip.carvercraft.band.rose_gold": "Set in rose gold — the hardest gold there is",
+  "entity.minecraft.villager.carvercraft.jeweler": "Jeweler"
 }
